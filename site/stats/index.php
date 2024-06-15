@@ -140,7 +140,9 @@ function formatNumber($value) {
         <div class="contract-section">
             <h2 id="contract-heading">Contract 2</h2>
 		<a id="external-link2" href='#' target="_blank"><img src="/images/external-link.png" width="15px" alt="External Link Icon"> Etherscan</a> <a id="moreinfo" href="/docs/index.php/#contract-2" target="_blank">More info</a>
-
+            <div class="info-container" id="timeUntilWithdrawalHalving">
+                Time Left: Loading...
+            </div>
             <div class="info-container" id="contract2TimeLeft">
                 Time Left: Loading...
             </div>
