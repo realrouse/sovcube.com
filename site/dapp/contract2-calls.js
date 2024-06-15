@@ -52,7 +52,7 @@ async function getContract2TimelockedTokens(account) {
 
 let timeLeftInSeconds, incomingAccountLockTimeInSeconds;
           try {
-            timeLeftInSeconds = await contract2.methods.getTimeLeftRegularAccount().call();
+            timeLeftInSeconds = await contract2.methods.getGlobalTimeLeftRegularAccount().call();
         } catch (error) {
            // console.error("Time Left Error:", error.message);
 	

@@ -145,7 +145,7 @@ const lockYears = Number(lockTimeLeftInSeconds) / Number(secondsInYear); // Conv
             var weeks = timelocked / 100;
             var years = weeks / 52;
 
-	    const lockTimeLeftInSeconds = await contract2.methods.getTimeLeftRegularAccount().call();
+	    const lockTimeLeftInSeconds = await contract2.methods.getGlobalTimeLeftRegularAccount().call();
 const secondsInYear = BigInt(365 * 24 * 60 * 60); // Approximate seconds in a year
 // const lockYears = lockTimeLeftInSeconds / secondsInYear;
 const lockYears = Number(lockTimeLeftInSeconds) / Number(secondsInYear); // Convert to number
@@ -172,7 +172,7 @@ const lockYears = Number(lockTimeLeftInSeconds) / Number(secondsInYear); // Conv
 
                 document.getElementById('timelockedtokens2').textContent = timelocked + " BSOV will be timelocked. " + burnt + " BSOV will be burnt.";
         try {
-            const lockTimeLeftInSeconds = await contract2.methods.getTimeLeftRegularAccount().call();
+            const lockTimeLeftInSeconds = await contract2.methods.getGlobalTimeLeftRegularAccount().call();
             const secondsInYear = BigInt(365 * 24 * 60 * 60); // Approximate seconds in a year
             const lockYears = Number(lockTimeLeftInSeconds) / Number(secondsInYear); // Convert to number
 
@@ -235,6 +235,7 @@ const lockYears = Number(lockTimeLeftInSeconds) / Number(secondsInYear); // Conv
     </div>
 </div>
 -->
+<!--
 <div id="radio-container-account" class="radio-container-account">
     <div class="radio-buttons-account">
         <input type="radio" id="regular-account" name="account-type" value="regular" checked>
@@ -247,6 +248,43 @@ const lockYears = Number(lockTimeLeftInSeconds) / Number(secondsInYear); // Conv
     <div id="withdrawableNowRegularAccount" class="withdrawable-now">Max withdrawable now: Loading</div>
     <div id="withdrawableNowIncomingAccount" class="withdrawable-now">Max withdrawable now: Loading</div>
 </div>
+-->
+
+<!--
+<div id="radio-container-account" class="radio-container-account">
+    <div class="radio-buttons-account">
+        <input type="radio" id="regular-account" name="account-type" value="regular" checked>
+        <label for="regular-account" data-toggle="tooltip" title="" data-original-title="Selecting this option will attempt to withdraw timelocked tokens from the regular account">Regular Account</label>
+    </div>
+    <div class="radio-buttons-account">
+        <input type="radio" id="incoming-account" name="account-type" value="incoming">
+        <label for="incoming-account" data-toggle="tooltip" title="" data-original-title="Selecting this option will attempt to withdraw timelocked tokens from the incoming account">Incoming Account</label>
+    </div>
+    <div id="withdrawableNowRegularAccount" class="withdrawable-now">Max withdrawable now: Loading</div>
+    <div id="withdrawableNowIncomingAccount" class="withdrawable-now">Max withdrawable now: Loading</div>
+
+    <div id="timeLeftRegularAccount" class="withdrawable-now">Time left until next withdrawal: Loading</div>
+    <div id="timeLeftIncomingAccount" class="withdrawable-now">Time left until next withdrawal: Loading</div>
+</div>
+-->
+
+<div id="radio-container-account" class="radio-container-account">
+    <div class="radio-buttons-account column-content">
+        <input type="radio" id="regular-account" name="account-type" value="regular" checked>
+        <label for="regular-account" data-toggle="tooltip" title="" data-original-title="Selecting this option will attempt to withdraw timelocked tokens from the regular account">Regular Account</label>
+        <div id="withdrawableNowRegularAccount" class="withdrawable-now">Max withdrawable now: Loading</div>
+        <div id="timeLeftRegularAccount" class="withdrawable-now">Time left until next withdrawal: Loading</div>
+    </div>
+    <div class="radio-buttons-account column-content">
+        <input type="radio" id="incoming-account" name="account-type" value="incoming">
+        <label for="incoming-account" data-toggle="tooltip" title="" data-original-title="Selecting this option will attempt to withdraw timelocked tokens from the incoming account">Incoming Account</label>
+        <div id="withdrawableNowIncomingAccount" class="withdrawable-now">Max withdrawable now: Loading</div>
+        <div id="timeLeftIncomingAccount" class="withdrawable-now">Time left until next withdrawal: Loading</div>
+    </div>
+</div>
+
+
+
 
 
 
@@ -254,7 +292,8 @@ const lockYears = Number(lockTimeLeftInSeconds) / Number(secondsInYear); // Conv
 	    <textarea id="sendLockedAmounts" spellcheck="false"  placeholder="Enter BSOV amounts (one amount per line)"></textarea>
           <!-- Contract 2 - Timelock, Withdraw, and Send Locked Tokens Buttons -->
 <button class="button" id="timelock2Button">Timelock Now</button>
-<button class="button" id="withdraw2Button">Withdraw Now</button>
+<button class="button" id="withdraw2Button">Withdraw from Selected Account</button>
+<button class="button" id="withdrawAll2Button">Withdraw All</button>
 <button class="button" id="sendLocked2Button">Send Locked Tokens Now</button>
 
 
