@@ -420,7 +420,28 @@ https://SovCube.com
         }
 
 
-// Get-functions to retrieve essential data about users.
+// Get-functions to retrieve essential data about users and stats.
+
+	// Get the timestamp of the next withdrawal halving
+        function getTimestampOfNextWithdrawalHalving() public view returns (uint256) {
+            
+            if (block.timestamp < globalLockExpirationDateRegularAccount) {
+                return 0; // Global lock expiration has not been reached
+            }
+            
+            if (withdrawalHalvingEra > maxWithdrawalHalvingEras) {
+                return 0; // All halving eras have been completed
+            }
+            
+            uint256 nextHalvingTimestamp = lastWithdrawalHalving + withdrawalHalvingEraDuration;
+            
+            if (block.timestamp >= nextHalvingTimestamp) {
+                return block.timestamp; // The next halving can be performed immediately
+            }
+            
+            return nextHalvingTimestamp; // Return the timestamp of the next halving
+        }
+
         function getUnlockedForWithdrawalRegularAccount(address user) public view returns (uint) {
             uint balance = balanceRegularAccount[user];
             if (balance == 0) {
