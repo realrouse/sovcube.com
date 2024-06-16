@@ -203,7 +203,7 @@ const lockYears = Number(lockTimeLeftInSeconds) / Number(secondsInYear); // Conv
     function calculateWithdrawalTime(amount, initialLockTimeLeftInDays, currentHalvingEra) {
         const withdrawalHalvingPeriod = 1500; // days
         const initialWithdrawalRate = 100; // tokens per week
-        const halvingLimit = 4; // Maximum number of halvings
+        const halvingLimit = 5; // Maximum number of halvings
         const daysPerWeek = 7; // 7 days in a week
 
         let remainingTokens = amount;

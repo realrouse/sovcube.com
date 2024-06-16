@@ -380,7 +380,7 @@ To send timelocked tokens to several different addresses with several different 
 <section id="Withdrawalhalving">
     <h2>Withdrawal Halving</h2>
     <p>
-        After the first Global Lock Time of 1000 days is over, the countdown starts for the Withdrawal Halvings. Every 1000 days the weekly withdrawal rate will halve, starting from 100 BSOV per week, halving to 50 per week, and so on; until a maximum of 10 halvings. The total process will take about 30 years from contract deployment, and will end up at 0.1953125 BSOV.
+        After the first Global Lock Time of 1000 days is over, the countdown starts for the Withdrawal Halvings. Every 1500 days the weekly withdrawal rate will halve, starting from 100 BSOV per week, halving to 50 per week, and so on; until a maximum of 5 halvings. The total process will take about 30 years from contract deployment, and will end up at 6.25 BSOV weekly withdrawal rate.
    </p>
 </section>
 

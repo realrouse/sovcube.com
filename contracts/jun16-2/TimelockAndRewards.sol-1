@@ -409,7 +409,7 @@ https://SovCube.com
 // After the Global globalLockExpirationDateRegularAccount is over, then start 1500 day countdown to halve the weekly periodWithdrawalAmount
         function newWithdrawalHalving() public {
             require(block.timestamp >= globalLockExpirationDateRegularAccount, "Global lock expiration has not been reached");
-            require(withdrawalHalvingEra < maxWithdrawalHalvingEras, "Max halving eras reached");
+            require(withdrawalHalvingEra <= maxWithdrawalHalvingEras, "Max halving eras reached");
             require(block.timestamp >= lastWithdrawalHalving + withdrawalHalvingEraDuration, "Halving era duration has not elapsed");
 
             periodWithdrawalAmount /= 2; // Halve the withdrawal amount
@@ -427,7 +427,7 @@ https://SovCube.com
                 return 0; // Global lock expiration has not been reached
             }
             
-            if (withdrawalHalvingEra >= maxWithdrawalHalvingEras) {
+            if (withdrawalHalvingEra > maxWithdrawalHalvingEras) {
                 return 0; // All halving eras have been completed
             }
             
