@@ -159,7 +159,7 @@ const lockYears = Number(lockTimeLeftInSeconds) / Number(secondsInYear); // Conv
         document.getElementById('amount2').addEventListener('input', updateText);
 
 </script>-->
-
+<!--
 <script>
     // Function to update the text
     async function updateText() {
@@ -196,6 +196,95 @@ const lockYears = Number(lockTimeLeftInSeconds) / Number(secondsInYear); // Conv
     // Event listener for changes in the input field
     document.getElementById('amount2').addEventListener('input', updateText);
 </script>
+-->
+
+<script>
+    // Function to calculate the total withdrawal time considering halving periods
+    function calculateWithdrawalTime(amount, initialLockTimeLeftInDays, currentHalvingEra) {
+        const withdrawalHalvingPeriod = 1500; // days
+        const initialWithdrawalRate = 100; // tokens per week
+        const halvingLimit = 4; // Maximum number of halvings
+        const daysPerWeek = 7; // 7 days in a week
+
+        let remainingTokens = amount;
+        let currentRate = initialWithdrawalRate / (2 ** (currentHalvingEra - 1)); // Set initial rate based on current halving era
+        let daysPassed = 0; // Start with the remaining lock time
+
+        for (let halvingEra = currentHalvingEra; halvingEra <= halvingLimit; halvingEra++) {
+            const weeksInCurrentEra = withdrawalHalvingPeriod / daysPerWeek;
+            let tokensWithdrawnInCurrentEra = weeksInCurrentEra * currentRate;
+
+            if (tokensWithdrawnInCurrentEra >= remainingTokens) {
+                daysPassed += (remainingTokens / currentRate) * daysPerWeek;
+                remainingTokens = 0;
+                break;
+            } else {
+                remainingTokens -= tokensWithdrawnInCurrentEra;
+                daysPassed += withdrawalHalvingPeriod;
+                currentRate /= 2; // Halve the rate for the next era
+            }
+        }
+
+        if (remainingTokens > 0) {
+            // Handle any remaining tokens after the maximum number of halvings
+            const remainingWeeks = remainingTokens / currentRate;
+            daysPassed += remainingWeeks * daysPerWeek;
+        }
+
+        return daysPassed;
+    }
+
+    // Function to update the text
+    async function updateText() {
+        var amount = parseFloat(document.getElementById('amount2').value);
+        if (isNaN(amount) || amount <= 0) {
+            document.getElementById('timelockedtokens2').textContent = "Invalid amount.";
+            document.getElementById('withdrawaltime2').textContent = "";
+            return;
+        }
+
+        var timelocked = amount * 0.99; // 1% burn
+        var burnt = amount * 0.01;
+
+        document.getElementById('timelockedtokens2').textContent = timelocked + " BSOV will be timelocked. " + burnt + " BSOV will be burnt.";
+
+        try {
+            const lockTimeLeftInSeconds = await contract2.methods.getGlobalTimeLeftRegularAccount().call();
+            const timestampOfNextHalving = await contract2.methods.getTimestampOfNextWithdrawalHalving().call();
+            const halvingEra = await contract2.methods.withdrawalHalvingEra().call();
+
+            const initialLockTimeLeftInDays = Number(lockTimeLeftInSeconds) / (24 * 60 * 60); // Convert seconds to days, explicitly converting BigInt to Number
+            const daysPassed = calculateWithdrawalTime(timelocked, initialLockTimeLeftInDays, Number(halvingEra));
+	    const years = daysPassed / 365;
+	    const initialLockTimeLeftInYears = (initialLockTimeLeftInDays / 365);
+
+            let halvingDate = new Date(Number(timestampOfNextHalving) * 1000);
+            let halvingMessage = `Next withdrawal halving is on ${halvingDate.toDateString()} (Era: ${halvingEra}).`;
+
+            const currentRate = 100 / (2 ** (Number(halvingEra) - 1)); // Calculate the current withdrawal rate based on the halving era
+            const withdrawalRateMessage = `Current withdrawal rate is ${currentRate.toFixed(6)} tokens/week.`;
+
+            if (lockTimeLeftInSeconds > 0) {
+                document.getElementById('withdrawaltime2').textContent = `Initial Lock for ${initialLockTimeLeftInYears.toFixed(2)} years. Withdrawals continue for approximately ${years.toFixed(2)} years, considering Withdrawal Halving Eras.`;
+            } else {
+                document.getElementById('withdrawaltime2').textContent = `Initial Lock for ${initialLockTimeLeftInYears.toFixed(2)} years. Withdrawals continue for approximately ${years.toFixed(2)} years, considering Withdrawal Halving Eras.`;
+            }
+        } catch (error) {
+            if (error.message.includes("Tokens are unlocked")) {
+                const halvingEra = await contract2.methods.withdrawalHalvingEra().call();
+                const daysPassed = calculateWithdrawalTime(timelocked, 0, Number(halvingEra)); // No initial lock time left, explicitly converting BigInt to Number
+                const years = daysPassed / 365;
+                document.getElementById('withdrawaltime2').textContent = "Lock Time: " + years.toFixed(2) + " years considering halving periods.";
+            } else {
+                document.getElementById('withdrawaltime2').textContent = "Error fetching data";
+            }
+        }
+    }
+
+    // Event listener for changes in the input field
+    document.getElementById('amount2').addEventListener('input', updateText);
+</script>
+
 
 <!--
 <div class="checkbox-container">		
