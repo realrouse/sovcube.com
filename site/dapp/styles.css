@@ -1,5 +1,13 @@
 /*styles.css*/
 
+#withdraw2Button {
+font-size:8pt;
+}
+
+#timeLeftRegularAccount, #timeLeftIncomingAccount {
+font-size:9pt;
+}
+
 .withdrawable-now {
 align-items:center;
 justify-content: center;
@@ -10,7 +18,7 @@ justify-content: center;
     flex-wrap: wrap;
     justify-content: center; /* Centers the radio buttons horizontally */
     align-items: center; /* Aligns the radio buttons vertically */
-    margin: 20px auto; /* Adds vertical spacing and centers the container */
+    margin: 15px auto; /* Adds vertical spacing and centers the container */
     max-width: 85%; /* Ensures the container doesn't grow too wide */
 }
 /*
@@ -32,8 +40,8 @@ justify-content: center;
     justify-content: center;
     flex: 1 1 calc(45% - 20px); /* Ensures each column takes up roughly 50% of the container width minus margin */
     max-width: calc(45% - 20px); /* Ensures columns don't grow larger than 50% of the container width minus margin */
-    margin: 10px; /* Adds space between columns */
-    padding: 10px; /* Adds padding inside the columns */
+    margin: 5px; /* Adds space between columns */
+    padding: 8px; /* Adds padding inside the columns */
     border-radius: 10px; /* Adds rounded corners */
     background-color: #34363A; /* Very dark blue background */
     color: white; /* Ensures the text is readable on the dark background */
@@ -43,7 +51,7 @@ justify-content: center;
 
 .radio-buttons-account,
 .withdrawable-now {
-    margin: 10px; /* Adds a 5px margin around each element */
+    margin: 5px; /* Adds a 5px margin around each element */
 }
 
 .radio-buttons-account input[type="radio"] {
@@ -51,7 +59,7 @@ justify-content: center;
 }
 
 .radio-buttons-account label {
-    font-size: 10pt;
+    font-size: 8pt;
     color: white; /* Label color */
     cursor: pointer;
     padding: 10px 20px;
@@ -150,7 +158,7 @@ color:yellow;
 
 .contract-info-style {
     background-color: rgba(0,0,0,0.2);
-    padding: 10px;
+    padding: 8px;
     border-radius: 10px;
     margin: 0px;
     min-width: 300px;
@@ -194,7 +202,7 @@ border: 1px solid orange; /* Thick blue border */
 
 .contract-info-style p{
 margin:0;
-font-size:10pt;
+font-size:9pt;
 }
 
 .contract-info-style h3 { 
@@ -351,8 +359,8 @@ display: block;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 10pt;
-    font-weight: bold;
+    font-size: 8pt;
+   /* font-weight: bold;*/
     transition-duration: 0.4s;
     -webkit-animation: fadeIn 0.5s;
     animation: fadeIn 0.5s;
@@ -483,6 +491,7 @@ font-size:9pt;
     animation: fadeIn 0.5s;
 
 }
+
 
 #contractSelect {
     font-size: 15pt;
@@ -698,4 +707,5 @@ width:100%;
 }
 
 }
+
 

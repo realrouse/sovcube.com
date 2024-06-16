@@ -49,11 +49,10 @@
 
 <p id="contract1Explanation">
   Contract 1: Timelock & Withdraw <a href="https://bsovtoken.com" target="_blank">BSOV Tokens</a>. 
-  <br><a href="/docs/index.php/#smart-contract" target="_blank">Contract Info</a>
+  <br><a href="/docs/index.php/#contract-1" target="_blank">Contract Info</a>
 </p>
 <p id="contract2Explanation">
-  Contract 2: Timelock, Receive Rewards, Withdraw & Send Timelocked <a href="https://bsovtoken.com" target="_blank">BSOV Tokens</a>. 
-  <br><a href="/docs/index.php/#smart-contract" target="_blank">Contract Info</a>
+  <a href="https://bsovtoken.com" target="_blank">BSOV Token</a> Info - <a href="/docs/index.php/#contract-2" target="_blank">Contract 2</a> Info.
 </p>
 
 <script>

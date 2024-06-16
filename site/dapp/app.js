@@ -206,7 +206,7 @@ document.getElementById(`fieldContainer`).style.display = 'none';
         contractInfoContainer.style.display = 'none';
 	contractSelect.style.display = 'block';
 	document.getElementById(`fieldContainer`).style.display = 'block';
-	document.getElementById(`radio-container-account`).style.display = 'none';
+//	document.getElementById(`radio-container-account`).style.display = 'none';
 //	document.getElementById(`account-checkbox`).style.display = 'none';
   //      document.getElementById(`account-checkbox-label`).style.display = 'none';
 document.getElementById('contract-explanation').style.display = 'block';	
@@ -904,7 +904,7 @@ function resetContractUI() {
 //document.getElementById('contract-explanation').style.display = 'none';
 	document.getElementById('errorMessage').innerText = '';
 	document.getElementById(`clearError`).style.display = 'none';
-document.getElementById(`radio-container-account`).style.display = 'none';
+ document.getElementById(`radio-container-account`).style.display = 'none';
 //	document.getElementById(`account-checkbox`).style.display = 'none';
  //       document.getElementById(`account-checkbox-label`).style.display = 'none';
             document.getElementById('timelockedtokens1').style.display = 'none';
