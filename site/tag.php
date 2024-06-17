@@ -8,7 +8,7 @@
     <p style="color:orange; text-align:center;">
         The new <b>Contract 2</b> is currently under final testing, and will be released shortly!
         In the meantime you can: | 
-        <a href="http://sovcube.localhost/docs/index.php">Read up the Docs & Help</a> |
+        <a href="http://sovcube.com/docs/index.php">Read up the Docs & Help</a> |
         <a href="https://t.me/SovCube">Join our Telegram</a> |
         <a href="https://x.com/SovCube">Follow us on Twitter</a> |
         <a href="https://bsovtoken.com">Check out BSOV Token</a>
