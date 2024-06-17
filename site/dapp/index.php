@@ -34,8 +34,8 @@
         <div class="contract-selection" style="display: none;">
             <select id="contractSelect" class="contractSelect">
 		<option value="select">Select Contract &#x21B4</option>
-                <option value="contract1" style="color:gray;">Contract 1 (old)</option>
-                <option value="contract2">Contract 2 &#127873; (new!)</option>
+                <option value="contract1" >Contract 1 (old)</option>
+                <option value="contract2" disabled style="color:gray;">Contract 2 &#127873; (new!)</option>
             </select>
         </div>
 
@@ -50,6 +50,7 @@
 <p id="contract1Explanation">
   Contract 1: Timelock & Withdraw <a href="https://bsovtoken.com" target="_blank">BSOV Tokens</a>. 
   <br><a href="/docs/index.php/#contract-1" target="_blank">Contract Info</a>
+<br><p style="color:orange; text-align:center;">Looking for Timelock Rewards? Then wait for <b>Contract 2</b> to go live!</p>
 </p>
 <p id="contract2Explanation">
   <a href="https://bsovtoken.com" target="_blank">BSOV Token</a> Info - <a href="/docs/index.php/#contract-2" target="_blank">Contract 2</a> Info.
