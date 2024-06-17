@@ -6,3 +6,4 @@ site/account/trash
 site/config.php
 node_modules
 contracts/trash
+site/tag.php

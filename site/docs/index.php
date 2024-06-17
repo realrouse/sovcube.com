@@ -24,6 +24,13 @@
 <!--<script src="/dapp/connect.js"> </script>-->
 <script src="/dapp/config.js"></script>
 <?php  include $_SERVER['DOCUMENT_ROOT'] . '/tag.php';  
+
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+
 ?>
 
 </head>
