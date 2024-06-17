@@ -92,8 +92,8 @@ async function fetchRewardsReserveInfo(account) {
     }
 
 
-        const eligibleTokens = await contract2.methods.currentUserRewardsAmount(account).call();
-        return eligibleTokens;
+//        const eligibleTokens = await contract2.methods.getBalanceUntakenIncomingAccount(account).call();
+ //       return eligibleTokens;
 	
 }	
 
@@ -113,7 +113,7 @@ async function fetchContract2Info(account) {
     // console.log("Fetching Contract 2 info for account:", account);
     try {
         const { timelockedTokens, incomingAccountBalance, untakenIncomingTokens, timeLeftInSeconds, incomingAccountLockTimeInSeconds, nextWithdrawal2IncomingInSeconds, nextWithdrawal2RegularInSeconds } = await getContract2TimelockedTokens(account);
-        const eligibleTokens = await fetchRewardsReserveInfo(account);
+       // const eligibleTokens = await fetchRewardsReserveInfo(account);
 
         const formattedTokens = (Number(timelockedTokens) / 100000000).toFixed(2);
         const formattedIncomingAccountBalance = (Number(incomingAccountBalance) / 100000000).toFixed(2);
@@ -129,16 +129,16 @@ const formattedNextWithdrawal2Regular = formatTimeLeft(Number(nextWithdrawal2Reg
 
         const formattedTimeLeft = formatTimeLeft(Number(timeLeftInSeconds));
         const formattedIncomingAccountLockTime = formatTimeLeft(Number(incomingAccountLockTimeInSeconds));
-        const formattedEligibleTokens = (Number(eligibleTokens) / 100000000).toFixed(2);
+        //const formattedEligibleTokens = (Number(eligibleTokens) / 100000000).toFixed(2);
 
-        updateContract2Details(formattedTokens, formattedIncomingAccountBalance, formattedUntakenIncomingTokens, formattedTimeLeft, formattedIncomingAccountLockTime, '16 September 2026', 100, formattedEligibleTokens, timeLeftInSeconds, incomingAccountLockTimeInSeconds, formattedNextWithdrawal2Regular, nextWithdrawal2RegularInSeconds, nextWithdrawal2IncomingInSeconds, formattedNextWithdrawal2Incoming);
+        updateContract2Details(formattedTokens, formattedIncomingAccountBalance, formattedUntakenIncomingTokens, formattedTimeLeft, formattedIncomingAccountLockTime, '16 September 2026', 100, timeLeftInSeconds, incomingAccountLockTimeInSeconds, formattedNextWithdrawal2Regular, nextWithdrawal2RegularInSeconds, nextWithdrawal2IncomingInSeconds, formattedNextWithdrawal2Incoming);
     } catch (error) {
         console.error("Error in fetching Contract 2 info:", error);
     }
 }
 
 
-function updateContract2Details(tokensLocked, incomingAccountBalance, untakenIncomingTokens, formattedTimeLeft, formattedIncomingAccountLockTime, unlockTime, withdrawRate, formattedEligibleTokens, timeLeftInSeconds, incomingAccountLockTimeInSeconds, formattedNextWithdrawal2Regular, nextWithdrawal2RegularInSeconds, nextWithdrawal2IncomingInSeconds, formattedNextWithdrawal2Incoming) {
+function updateContract2Details(tokensLocked, incomingAccountBalance, untakenIncomingTokens, formattedTimeLeft, formattedIncomingAccountLockTime, unlockTime, withdrawRate, timeLeftInSeconds, incomingAccountLockTimeInSeconds, formattedNextWithdrawal2Regular, nextWithdrawal2RegularInSeconds, nextWithdrawal2IncomingInSeconds, formattedNextWithdrawal2Incoming) {
     const infoElement = document.getElementById('contract2DynamicInfo');
     const template = document.getElementById('contract2Template').innerHTML;
 
@@ -221,7 +221,7 @@ nextWithdrawal2RegularOutput = `<span id="nextWithdrawal2Regular" style="font-si
 				.replace('${incomingAccountLockTimeOutput}', incomingAccountLockTimeOutput)
                                 .replace('${nextWithdrawal2RegularOutput}', nextWithdrawal2RegularOutput)
 				.replace('${nextWithdrawal2IncomingOutput}', nextWithdrawal2IncomingOutput)
-				.replace('${formattedEligibleTokens}', formattedEligibleTokens)
+			//	.replace('${formattedEligibleTokens}', formattedEligibleTokens)
 				.replace('${untakenIncomingTokens}', untakenIncomingTokens);
 	// Update the HTML content of the target element
     infoElement.innerHTML = updatedHtml;

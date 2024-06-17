@@ -152,7 +152,7 @@ async function fetchAndUpdateProgressBar() {
     }
 
     try {
-        const totalTimelocked = await contract2.methods.totalCurrentlyTimelocked().call();
+        const totalTimelocked = await contract2.methods.totalCumulativeTimelocked().call();
         const totalEligibleAmount = await contract2.methods.totalRewardsEarned().call();
         
         updateProgressBar(totalTimelocked, totalEligibleAmount);

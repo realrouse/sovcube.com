@@ -8,12 +8,14 @@ if (typeof window.ethereum !== 'undefined') {
 }
 
 
-let rewardsReserve; // Define rewardsReserve in a broader scope
+//let rewardsReserve; // Define rewardsReserve in a broader scope
 
 // Function to initialize the rewardsReserve contract
+/*
 function initRewardsReserveContract(abi, contractAddress) {
     rewardsReserve = new web3.eth.Contract(abi, contractAddress);
 }
+*/
 
 // Function to load the contract ABI
 function loadABI(file, callback) {

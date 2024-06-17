@@ -47,21 +47,19 @@
        
    <li><a href="#features">dApp Features</a>
 <ul>        <li><a href="#time-locking">Time-Locking Tokens</a></li>
-	<li><a href="#locktime">Lock Time</a></li>
+	<li><a href="#locktime">Global Lock Time</a></li>
 	<li><a href="#regularaccount">Regular Account</a></li>
-	<li><a href="#incomingaccount">Incoming Tokens Account</a></li>
+	<li><a href="#incomingaccount">Incoming Account</a></li>
 	<li><a href="#withdrawal">Withdrawal Process</a></li>
-	<li><a href="#unclaimed">Unclaimed Timelock Rewards</a></li>
-	<li><a href="#claimrewards">Claim Timelock Rewards</a></li>
-	<li><a href="#acceptincoming">Accept Incoming Tokens</a></li>
+	<li><a href="#acceptincoming">Accept Untaken Incoming Tokens</a></li>
 	<li><a href="#sendlocked">Send Locked Tokens</a></li>
+	<li><a href="#withdrawalhalving">Withdrawal Halving</a></li>
   </ul>
 </li>
 	<li><a href="#smart-contract">Smart Contract Details</a>
 <ul>
                 <li><a href="#contract-1">Contract 1</a></li>
 		<li><a href="#contract-2">Contract 2</a></li>
-		<li><a href="#rewardreserve">Rewards Reserve Contract</a></li>
             </ul>
 </li>
         <li><a href="#faqs">FAQs</a></li>
@@ -303,32 +301,32 @@ you now have everything you need to interact with SovCube.</p>
 	The "Timelock Tokens" function allows users to lock a specified amount of tokens for a period set by the contract.
 If the user timelocks their tokens, the tokens will be locked until the Lock Time has expired. The Lock Time is determined by when the contract was deployed, and the lock time parameter in the contract.
 </p><p>
-This means that since e.g. Contract 2 has a 1000 day Lock Time and was deployed 15th of February, the timelocked tokens for all users are unlocked 1000 days from the 15th of February.
+This means that since e.g. Contract 2 has a 1000 day Lock Time and was deployed 17th of June, 2024, the timelocked tokens for all users are unlocked 1000 days from the 17th of June.
     </p>
 <p>To receive Timelock Rewards, you will need to timelock tokens into <strong>Contract 2</strong>.</p> 
-<p>There are no incentives to timelock your tokens into Contract 1.</p>
+<p>There are no incentives to timelock your tokens into Contract 1, since it is an old contract and people have timelocked their tokens voluntarily to show their commitment.</p>
 </section>
 
 <section id="locktime">
-<h2>Lock Time</h2>
+<h2>Global Lock Time</h2>
 <p>
-Lock Time is a global variable that applies to all users, and is set on the day of the deployment of the contract.
-It means that all the users have to wait until the Lock Time expires before they can start withdrawing their tokens, following the weekly withdrawal rate.
+The Global Lock Time is a global variable that applies to all users, and is set on the day of the deployment of the contract. The reason for the Global Lock Time is to enforce a long holding period in the first stages of the SovCube journey.
+It means that all the users have to wait until the Global Lock Time expires before they can start withdrawing their tokens, following the weekly withdrawal rate.
 </p>
 </section>
 
 <section id="regularaccount">
     <h2>Regular Account</h2>
     <p>
-        The "Regular Account" is where the user-initiated timelocked balance ends up, so whenever you use the "Timelock" function, the tokens end up here. They are locked until the contracts' Lock Time has expired, and can only be withdrawn according to the weekly withdrawal rate set by the contract.
+        The "Regular Account" is where the user-initiated timelocked balance ends up, so whenever you use the "Timelock" button, the tokens end up here. They are locked until the contracts' Lock Time has expired, and can only be withdrawn following the weekly withdrawal rate set by the contract.
     </p>
 </section>
 
 <section id="incomingaccount">
-    <h2>Incoming Tokens Account</h2>
+    <h2>Incoming Account</h2>
     <p>
-        The "Incoming Tokens Account" is where all claimed Timelock Rewards and timelocked tokens that were sent by other users end up. If users send you tokens through the "Send Locked Tokens" function, they end up here, and after you click Accept Incoming Tokens button, they end up here.
-</p><p>Note that when accepting incoming tokens, the Lock Time of the Timelocked Tokens in the "Incoming Tokens Account" is reset to 1000 days, regardless of how much time you have left on it.
+        The "Incoming Account" is where all "Rewards" and "Sent Locked Tokens" end up. If users send you tokens through the "Send Locked Tokens" function, they end up here, and after you click "Accept Untaken Incoming Tokens"  button, they end up here.
+</p><p>Note that when accepting incoming tokens, the Lock Time of the Timelocked Tokens in the "Incoming Tokens Account" is reset to 1000 days, regardless of how much time you have left on it. You have to be absolutely sure that you want to reset the Lock Time, so take care when you Accept Untaken Incoming Tokens.
    </p>
 </section>
 
@@ -337,41 +335,26 @@ It means that all the users have to wait until the Lock Time expires before they
 <section id="withdrawal">
     <h2>Withdrawal Process</h2>
     <p>
-	The "Withdrawal Process" enables users to retrieve their locked tokens after the Lock Time has expired.
- This function provides a seamless way to unlock and access the previously timelocked tokens, making them available for further use or transfer.</p>
+	The "Withdrawal Process" enables users to retrieve their locked tokens after the Global Lock Time has expired.
+ This function provides a seamless way to unlock and access the previously timelocked tokens, making them available for further use, trade or transfer.</p>
 <h3>Withdrawal Rate:</h3>
 When the Lock Time has expired, the users can begin withdrawing their tokens, but they do have to follow the weekly Withdrawal Rate.
-For example, if you timelock 10,000 tokens in Contract 2, which has a 100 tokens/week withdrawal rate; it will take 100 weeks to withdraw all those tokens, providing that you withdraw once every week.
+For example, if you timelock 10,000 tokens in Contract 2, which has a 100 tokens/week withdrawal rate; it will take a minimum of 100 weeks to withdraw all those tokens, providing that you withdraw regularly.
 <p>
 <strong>Contract 1</strong> has a weekly withdrawal rate of 1000 tokens.
     </p>
 <p>
-<strong>Contract 2</strong> has a weekly withdrawal rate of 100 tokens, and also has an additional account called "Incoming Tokens Account", that shares the same weekly withdrawal rate as the Regular Account.
+<strong>Contract 2</strong> has a weekly withdrawal rate of 100 tokens, and also has an additional account called "Incoming Account", that shares the same weekly withdrawal rate as the Regular Account.
 </p>
 </section>
 
-<section id="unclaimed">
-    <h2>Unclaimed Timelock Rewards</h2>
-    <p>
-	"Unclaimed Timelock Rewards" is a balance that represents rewards that users have earned but have not yet claimed.
- You gain tokens to this balance whenever you timelock tokens with Contract 2. To claim tokens from this balance, you will need to press the "Claim Timelock Rewards" button.
-    </p>
-</section>
-
-<section id="claimrewards">
-    <h2>Claim Timelock Rewards</h2>
-    <p>
-	The "Claim Timelock Rewards" button allows users to retrieve and claim rewards from the "Unclaimed Timelock Rewards" balance, that are earned through timelocking tokens in Contract 2.
-After you click this button, the balance of "Unclaimed Timelock Rewards" will be transferred to the "Incoming Tokens" balance.
-    </p>
-</section>
 
 <section id="acceptincoming">
-    <h2>Accept Incoming Tokens</h2>
+    <h2>Accept Untaken Incoming Tokens</h2>
     <p>
-	"Accept Incoming Tokens" is a button that refers to the process of receiving tokens after claiming the Timelock Rewards or if you have been sent timelocked tokens from  other users who used the "Send Locked Tokens" function.
-</p><p>After clicking "Accept Incoming Tokens" button, the balance in "Incoming Tokens" will be transferred to the "Timelocked Tokens" balance in the "Incoming Tokens Account".
-</p><p>After the tokens have been transferred, the Lock Time of the "Incoming Tokens Account" will reset to the initial 1000 days, regardless of how much time you have left of your Lock Time in the Incoming Tokens Account. 
+	"Accept Untaken Incoming Tokens" is a function that refers to the process of receiving tokens after claiming the Timelock Rewards or if you have been sent timelocked tokens from  other users who used the "Send Locked Tokens" function.
+</p><p>After clicking "Accept Untaken Incoming Tokens" button, the balance of "Untaken Incoming Tokens" will be transferred to the "Timelocked Tokens" balance of the "Incoming Account".
+</p><p>After the tokens have been transferred, the Lock Time of the "Incoming Account" will reset to the initial 1000 days, regardless of how much time you have left of your Lock Time in the Incoming Tokens Account. This means that you should be absolute sure when using this function.
     </p>
 </section>
 
@@ -379,7 +362,7 @@ After you click this button, the balance of "Unclaimed Timelock Rewards" will be
 <section id="sendlocked">
     <h2>Send Locked Tokens</h2>
     <p>
-	"Send Locked Tokens" allows users to transfer tokens that they have already timelocked in their regular account. The locked tokens are sent to the "Incoming Tokens" balance of the recipient users you send it to.
+	"Send Locked Tokens" allows users to transfer tokens that they have already timelocked in their regular account. The locked tokens are sent to the "Untaken Incoming Tokens" balance of the recipient users you send it to.
 They can only access these tokens after clicking the "Accept Incoming Tokens" button, and after they have waited the initial 1000 days that are set after accepting.
 <p>
 You may send timelocked tokens to several different addresses, and several different amounts in a single transaction.
@@ -393,6 +376,15 @@ To send timelocked tokens to several different addresses with several different 
 
     </p>
 </section>
+
+<section id="Withdrawalhalving">
+    <h2>Withdrawal Halving</h2>
+    <p>
+        After the first Global Lock Time of 1000 days is over, the countdown starts for the Withdrawal Halvings. Every 1500 days the weekly withdrawal rate will halve, starting from 100 BSOV per week, halving to 50 per week, and so on; until a maximum of 5 halvings. The total process will take about 30 years from contract deployment, and will end up at 6.25 BSOV weekly withdrawal rate.
+   </p>
+</section>
+
+
 </section>
 
     <!-- Smart Contract Details -->
@@ -478,32 +470,6 @@ Contract 2 has a weekly withdrawal rate of 100 tokens per week, but also had an 
     </table>
 </section>
 
-<section id="rewardreserve" class="table-section">
-    <h2>Rewards Reserve Contract Details</h2>
-<p>The Rewards Reserve Contract is a contract that interacts with Contract 2 and acts as a reserve for the Timelock Rewards. 300,000 BSOV Tokens have been deposited by the creator of SovCube, and these tokens are designated for the users of SovCube. This contract fetches the amount of tokens that have been timelocked in Contract 2, and calculates how many Timelock Rewards should be sent to the users.</p>
-    <table class="contract-table">
-        <tbody>
-            <tr>
-                <th>Function</th>
-                <td>Distribute BSOV Tokens to the users who timelock tokens in Contract 2, calculating the correct amount corresponding to the current tier.</td>
-            </tr>
-            <tr>
-                <th>Contract Address</th>
-                <td><a id="rewardsReserveLink" href="#" target="_blank"></a></td>
-            </tr>
-            <tr>
-                <th>Deploy Date</th>
-                <td>15th of February 2024</td>
-            </tr>
-           
-            <tr>
-                <th>Total BSOV Rewards Distributed</th>
-                <td>[web3 call]</td>
-            </tr>
-        
-        </tbody>
-    </table>
-</section>
 
     </section>
 <script>

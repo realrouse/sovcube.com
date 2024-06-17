@@ -129,23 +129,23 @@ document.getElementById('clearError').addEventListener('click', function() {
 </div>
 		                  <div class="contract-info-style" id="incomingAccountContainer">
 				  <div id="incomingTokensAccount">
-				          <h3>Incoming Tokens Account</h3>
+				          <h3>Incoming Account</h3>
         <p><b>Your Timelocked Tokens:</b><br><span id="yourTokensText">${incomingAccountBalance} BSOV</span></p>
 	<p style="margin-top:10px;"><b>Lock Time:</b><br><span id="incomingUnlockTime">${incomingAccountLockTimeOutput}</span></p>
 	<p style="margin-top:10px;"><b>Time to next withdrawal:</b><br><span id="nextWithdrawal2Incoming">${nextWithdrawal2IncomingOutput}</span></p>
-        <p style="margin-top:10px;"><b>Incoming Tokens:</b><br><span id="unclaimedTokens">${untakenIncomingTokens} BSOV</span></p>
+        <p style="margin-top:10px;"><b>Untaken Incoming Tokens:</b><br><span id="unclaimedTokens">${untakenIncomingTokens} BSOV</span></p>
 	</div>
                 </div>
 
 		</div>
 
-		              <div class="contract-info-style" id="rewardsAccountContainer">
+		             <!-- <div class="contract-info-style" id="rewardsAccountContainer">
 			      <div id="rewardsAccount">
 			      	<h3 style="color:orange; border-bottom:1px solid orange;">Your Rewards</h3>
 	<p><b>Unclaimed Timelock Rewards:</b><br><span id="yourTokensText" style="color:yellow;">${formattedEligibleTokens} BSOV</span></p>
               </div>
                 </div>
-
+-->
 
             </div>
         </div>

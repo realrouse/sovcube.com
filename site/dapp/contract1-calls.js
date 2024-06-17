@@ -85,7 +85,7 @@ if (timeLeftInSeconds > 0) {
 <div id="regularAccount1">
             <h3>Regular Account</h3>
             <p><b>Your Timelocked Tokens:</b><br><span id="yourTokensTextRegular">${tokensLocked} BSOV</span></p>
-            <p><b>Lock Time:</b><br><span id="regularUnlockTime">${formattedTimeLeft}</span></p>
+            <p><b>Global Lock Time:<br><span id="regularUnlockTime">${formattedTimeLeft}</span></p>
         </div>
     </div>
 </div>
@@ -101,7 +101,7 @@ if (timeLeftInSeconds === 0) {
 <div id="regularAccount1">
             <h3>Regular Account</h3>
             <p><b>Your Timelocked Tokens:</b><br><span id="yourTokensTextRegular">${tokensLocked} BSOV</span></p>
-            <p><b>Lock Time:</b><br><span id="regularUnlockTime" style="color:green;">Unlocked!</span></p>
+            <p><b>Global Lock Time:<br><span id="regularUnlockTime" style="color:green;">Unlocked!</span></p>
         </div>
     </div>
 </div>

@@ -409,7 +409,7 @@ https://SovCube.com
 // After the Global globalLockExpirationDateRegularAccount is over, then start 1500 day countdown to halve the weekly periodWithdrawalAmount
         function newWithdrawalHalving() public {
             require(block.timestamp >= globalLockExpirationDateRegularAccount, "Global lock expiration has not been reached");
-            require(withdrawalHalvingEra < maxWithdrawalHalvingEras, "Max halving eras reached");
+            require(withdrawalHalvingEra <= maxWithdrawalHalvingEras, "Max halving eras reached");
             require(block.timestamp >= lastWithdrawalHalving + withdrawalHalvingEraDuration, "Halving era duration has not elapsed");
 
             periodWithdrawalAmount /= 2; // Halve the withdrawal amount
@@ -417,21 +417,17 @@ https://SovCube.com
             withdrawalHalvingEra += 1; // Increment the halving era
             emit NewWithdrawalHalving (withdrawalHalvingEra, block.timestamp);
         }
-//
-//
-// Get-functions to retrieve essential data about users and stats.
-//
-//
 
-// Get the timestamp of the next withdrawal halving
+// Get-functions to retrieve essential data about users and stats.
+
+	// Get the timestamp of the next withdrawal halving
         function getTimestampOfNextWithdrawalHalving() public view returns (uint256) {
+            
             if (block.timestamp < globalLockExpirationDateRegularAccount) {
-                // Global lock expiration has not been reached
-                // Return the timestamp when the global lock will expire plus the first halving duration
-                return globalLockExpirationDateRegularAccount + withdrawalHalvingEraDuration;
+                return 0; // Global lock expiration has not been reached
             }
             
-            if (withdrawalHalvingEra >= maxWithdrawalHalvingEras) {
+            if (withdrawalHalvingEra > maxWithdrawalHalvingEras) {
                 return 0; // All halving eras have been completed
             }
             
@@ -444,8 +440,6 @@ https://SovCube.com
             return nextHalvingTimestamp; // Return the timestamp of the next halving
         }
 
-
-// Get the amount of tokens unlocked for withdrawal to Regular Account
         function getUnlockedForWithdrawalRegularAccount(address user) public view returns (uint) {
             uint balance = balanceRegularAccount[user];
             if (balance == 0) {
@@ -455,7 +449,6 @@ https://SovCube.com
             return balance < maxWithdrawable ? balance : maxWithdrawable;
         }
 
-// Get the amount of tokens unlocked for withdrawal to Incoming Account
         function getUnlockedForWithdrawalIncomingAccount(address user) public view returns (uint) {
             uint balance = balanceIncomingAccount[user];
             if (balance == 0) {
@@ -465,32 +458,26 @@ https://SovCube.com
             return balance < maxWithdrawable ? balance : maxWithdrawable;
         }
 
-// Get amount of tokens timelocked in Regular Account
         function getBalanceRegularAccount(address _addr) public view returns (uint256 _balance) {
             return balanceRegularAccount[_addr];
         }
 
-// Get amount of pending tokens in the Untaken Incoming Tokens Account
         function getBalanceUntakenIncomingAccount(address _user) public view returns (uint256) {
             return balanceUntakenIncomingAccount[_user];
         }
 
-// Get amount of timelocked tokens in the Incoming Account
         function getBalanceIncomingAccount(address _addr) public view returns (uint256 _balance) {
             return balanceIncomingAccount[_addr];
         }
 
-// Get the timestamp of the last withdrawal of Incoming Account
         function getLastWithdrawalIncomingAccount(address _addr) public view returns (uint256 _lastWithdrawalTime) {
             return lastWithdrawalIncomingAccount[_addr];
         }
 
-// Get the timestamp of the last withdrawal of Regular Account
         function getLastWithdrawalRegularAccount(address _addr) public view returns (uint256 _lastWithdrawal) {
             return lastWithdrawalRegularAccount[_addr];
         }
 
-// Get the timestamp of the next withdrawal, or accumulation of withdrawals to the Incoming Account
         function getNextWithdrawalIncomingAccount(address _addr) public view returns (uint256 _nextWithdrawalTime) {
             uint lastWithdrawal = lastWithdrawalIncomingAccount[_addr];
             uint lockExpiration = lockExpirationForUserIncomingAccount[_addr];
@@ -515,7 +502,6 @@ https://SovCube.com
             }
         }
 
-// Get the timestamp of the next withdrawal, or accumulation of withdrawals to the Regular Account
         function getNextWithdrawalRegularAccount(address _addr) public view returns (uint256 _nextWithdrawalTime) {
             uint lastWithdrawal = lastWithdrawalRegularAccount[_addr];
             uint lockExpiration = globalLockExpirationDateRegularAccount;
@@ -540,13 +526,13 @@ https://SovCube.com
             }
         }
 
-// Get the time left until the Global Lock Time of all Regular Accounts expire.
+
+
         function getGlobalTimeLeftRegularAccount() public view returns (uint256 _timeLeft) {
             require(globalLockExpirationDateRegularAccount > block.timestamp, "Tokens are unlocked and ready for withdrawal");
             return globalLockExpirationDateRegularAccount - block.timestamp;
         }
 
-// Get the time left until the Lock Time of individual Incoming Accounts expire.
         function getTimeLeftIncomingAccount(address _addr) public view returns (uint256 _timeLeft) {
             if (lockExpirationForUserIncomingAccount[_addr] <= block.timestamp) {
                 return 0;

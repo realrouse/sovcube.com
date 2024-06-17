@@ -60,12 +60,12 @@
 <p>This progress bar above represents the total timelocked tokens from all users. The red markers indicate progress towards the next tier, achieved every time all our users timelock 150,000 BSOV tokens in total.</p>
 <div class="stats-container">
 <div id="totalTimelockedDisplayElement" class="stats-container">
-    <h3>Total Timelocked Tokens by Users:</h3>
+    <h3>Total Timelocked Tokens Eligible for Rewards:</h3>
     <p id="totalTimelockedAmount">Loading...</p>
 </div>
 
 <div id="totalRewardsSentDisplayElement" class="stats-container">
-    <h3>Total Rewards Sent to Users:</h3>
+    <h3>Total Rewards Earned by Users:</h3>
     <p id="totalRewardsSentAmount">Loading...</p>
 </div>
 

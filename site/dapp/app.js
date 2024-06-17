@@ -172,6 +172,7 @@ function updateUIOnConnection(account) {
     const contract2InfoHeader = document.querySelector('.contract2infoheader');
     const contract1DynamicInfo = document.getElementById('contract1DynamicInfo');
  //   const contract2DynamicInfo = document.getElementById('contract2DynamicInfo');
+        updateWithdrawableAmounts();
     const contractInfoContainer = document.getElementById('contractInfoContainer');
     const withdraw1 = document.getElementById('withdraw1');
     const withdraw2 = document.getElementById('withdraw2');
@@ -205,8 +206,9 @@ document.getElementById(`fieldContainer`).style.display = 'none';
         contractInfoContainer.style.display = 'none';
 	contractSelect.style.display = 'block';
 	document.getElementById(`fieldContainer`).style.display = 'block';
-	document.getElementById(`account-checkbox`).style.display = 'none';
-        document.getElementById(`account-checkbox-label`).style.display = 'none';
+//	document.getElementById(`radio-container-account`).style.display = 'none';
+//	document.getElementById(`account-checkbox`).style.display = 'none';
+  //      document.getElementById(`account-checkbox-label`).style.display = 'none';
 document.getElementById('contract-explanation').style.display = 'block';	
       //  document.getElementById('contract-selection').style.display = 'block';
         if (selectedContract === 'select') {
@@ -299,7 +301,9 @@ let intervalId; // Variable to store the interval ID
 
 // Function to start the interval
 function startInterval() {
-    intervalId = setInterval(updateTimelockRewardCalculation, 1000);
+    intervalId = setInterval(() => {
+        updateTimelockRewardCalculation();
+    }, 1000);
 }
 
 // Function to stop the interval
@@ -327,7 +331,9 @@ startInterval();
             document.getElementById('withdrawaltime2').style.display = 'block';
 document.getElementById('timelockRewardCalculation').style.display = 'block';
         } else if (radio.value === 'withdraw') {
-		stopInterval();
+		document.getElementById('withdrawableNowRegularAccount').style.display = 'block';
+		document.getElementById('withdrawableNowIncomingAccount').style.display = 'block';
+		updateWithdrawableAmounts();
             document.getElementById('amount2').style.display = 'block';
 	                document.getElementById('timelockedtokens2').style.display = 'none';
 		document.getElementById('advanceTierMessage').style.display = 'none';
@@ -335,8 +341,10 @@ document.getElementById('timelockRewardCalculation').style.display = 'block';
             document.getElementById('withdrawaltime2').style.display = 'none';
 document.getElementById('timelockRewardCalculation').style.display = 'none';
             document.getElementById('withdraw2Button').style.display = 'block';
-		        document.getElementById(`account-checkbox`).style.display = 'block';
-        document.getElementById(`account-checkbox-label`).style.display = 'block';
+		document.getElementById('withdrawAll2Button').style.display = 'block';
+document.getElementById(`radio-container-account`).style.display = 'flex';
+		        //document.getElementById(`account-checkbox`).style.display = 'block';
+        //document.getElementById(`account-checkbox-label`).style.display = 'block';
         } else if (radio.value === 'sendlocked') {
 		stopInterval();
             document.getElementById('ethAddresses').style.display = 'block';
@@ -405,6 +413,141 @@ return;
     markTimelockedTokensForSend(addresses, amounts);
 });
 }
+
+
+/*
+async function updateWithdrawableAmounts() {
+    try {
+        const account = await web3.eth.getAccounts()[0]; // Assuming you get the account from web3
+
+        const withdrawableNowRegularAccount = await window.contract2.methods.getUnlockedForWithdrawalRegularAccount(account).call();
+        const withdrawableNowIncomingAccount = await window.contract2.methods.getUnlockedForWithdrawalIncomingAccount(account).call();
+
+        document.getElementById('withdrawableNowRegularAccount').innerText = `Max withdrawable now: ${withdrawableNowRegularAccount} BSOV`;
+        document.getElementById('withdrawableNowIncomingAccount').innerText = `Max withdrawable now: ${withdrawableNowIncomingAccount} BSOV`;
+    } catch (error) {
+        console.error('Error fetching withdrawable amounts:', error);
+    }
+}
+*/
+
+
+/*
+async function updateWithdrawableAmounts() {
+    try {
+        const accounts = await web3.eth.getAccounts();
+        const account = accounts[0]; // Ensure an account is available
+
+        if (!account) {
+            throw new Error('No account found');
+        }
+
+        console.log('Fetching withdrawable amounts for account:', account);
+
+        // Ensure contract2 is initialized
+        if (!window.contract2) {
+            throw new Error('Contract 2 is not initialized');
+        }
+
+        // Fetch withdrawable amounts
+        const withdrawableNowRegularAccount = await window.contract2.methods.getUnlockedForWithdrawalRegularAccount(account).call();
+        const withdrawableNowIncomingAccount = await window.contract2.methods.getUnlockedForWithdrawalIncomingAccount(account).call();
+
+        // Convert BigInt amounts to BSOV with 8 decimal places
+        const withdrawableNowRegularAccountFormatted = formatBSOVAmount(withdrawableNowRegularAccount);
+        const withdrawableNowIncomingAccountFormatted = formatBSOVAmount(withdrawableNowIncomingAccount);
+
+        console.log('Withdrawable amounts fetched successfully:', {
+            withdrawableNowRegularAccountFormatted,
+            withdrawableNowIncomingAccountFormatted
+        });
+
+        document.getElementById('withdrawableNowRegularAccount').innerText = `Max withdrawable now: ${withdrawableNowRegularAccountFormatted} BSOV`;
+        document.getElementById('withdrawableNowIncomingAccount').innerText = `Max withdrawable now: ${withdrawableNowIncomingAccountFormatted} BSOV`;
+    } catch (error) {
+        console.error('Error fetching withdrawable amounts:', error.message);
+        document.getElementById('errorMessage').innerText = `Error fetching withdrawable amounts: ${error.message}`;
+    }
+}
+
+function formatBSOVAmount(amount) {
+    const bsovAmount = Number(BigInt(amount) / BigInt(100000000)); // Convert to BSOV by dividing by 10^8
+    return new Intl.NumberFormat('en-US', { maximumFractionDigits: 2 }).format(bsovAmount);
+}
+*/
+
+
+async function updateWithdrawableAmounts() {
+    try {
+        const accounts = await web3.eth.getAccounts();
+        const account = accounts[0]; // Ensure an account is available
+
+        if (!account) {
+            throw new Error('No account found');
+        }
+
+        console.log('Fetching withdrawable amounts and times for account:', account);
+
+        // Ensure contract2 is initialized
+        if (!window.contract2) {
+            throw new Error('Contract 2 is not initialized');
+        }
+
+        // Fetch withdrawable amounts
+        const withdrawableNowRegularAccount = await window.contract2.methods.getUnlockedForWithdrawalRegularAccount(account).call();
+        const withdrawableNowIncomingAccount = await window.contract2.methods.getUnlockedForWithdrawalIncomingAccount(account).call();
+
+        // Fetch next withdrawal timestamps
+        const nextWithdrawalRegularAccount = await window.contract2.methods.getNextWithdrawalRegularAccount(account).call();
+        const nextWithdrawalIncomingAccount = await window.contract2.methods.getNextWithdrawalIncomingAccount(account).call();
+
+        // Convert BigInt amounts to BSOV with 8 decimal places
+        const withdrawableNowRegularAccountFormatted = formatBSOVAmount(BigInt(withdrawableNowRegularAccount));
+        const withdrawableNowIncomingAccountFormatted = formatBSOVAmount(BigInt(withdrawableNowIncomingAccount));
+
+        // Calculate time left until next withdrawal
+        const timeLeftRegularAccount = calculateTimeLeft(BigInt(nextWithdrawalRegularAccount));
+        const timeLeftIncomingAccount = calculateTimeLeft(BigInt(nextWithdrawalIncomingAccount));
+
+        console.log('Withdrawable amounts and times fetched successfully:', {
+            withdrawableNowRegularAccountFormatted,
+            withdrawableNowIncomingAccountFormatted,
+            timeLeftRegularAccount,
+            timeLeftIncomingAccount
+        });
+
+        document.getElementById('withdrawableNowRegularAccount').innerText = `Max withdrawable now: ${withdrawableNowRegularAccountFormatted} BSOV`;
+        document.getElementById('timeLeftRegularAccount').innerHTML = `Time left until next withdrawal:<br>${timeLeftRegularAccount}`;
+        document.getElementById('withdrawableNowIncomingAccount').innerText = `Max withdrawable now: ${withdrawableNowIncomingAccountFormatted} BSOV`;
+        document.getElementById('timeLeftIncomingAccount').innerHTML = `Time left until next withdrawal:<br>${timeLeftIncomingAccount}`;
+    } catch (error) {
+        console.error('Error fetching withdrawable amounts:', error.message);
+        document.getElementById('errorMessage').innerText = `Error fetching withdrawable amounts: ${error.message}`;
+    }
+}
+
+function formatBSOVAmount(amount) {
+    const bsovAmount = Number(amount) / 100000000; // Convert to BSOV by dividing by 10^8
+    return new Intl.NumberFormat('en-US', { maximumFractionDigits: 2 }).format(bsovAmount);
+}
+
+function calculateTimeLeft(nextWithdrawalTimestamp) {
+    const now = BigInt(Math.floor(Date.now() / 1000)); // Current time in seconds as BigInt
+
+    if (nextWithdrawalTimestamp <= now) {
+        return "0 days, 0 hours, 0 min, 0 sec";
+    }
+
+    const timeLeft = nextWithdrawalTimestamp - now;
+
+    const days = Number(timeLeft / (24n * 3600n));
+    const hours = Number((timeLeft % (24n * 3600n)) / 3600n);
+    const minutes = Number((timeLeft % 3600n) / 60n);
+    const seconds = Number(timeLeft % 60n);
+
+    return `${days} days, ${hours} hours, ${minutes} min, ${seconds} sec`;
+}
+
 
 
 
@@ -578,7 +721,7 @@ async function withdrawTokensContract1(amount) {
     }
 }
 
-
+/*
 // Function to withdraw tokens from Contract 2
 async function withdrawTokensContract2(amount) {
     document.getElementById('errorMessage').innerText = '';
@@ -586,7 +729,9 @@ async function withdrawTokensContract2(amount) {
         console.error('Contract 2 is not initialized for withdrawal');
         return;
     }
-    const fromIncomingAccount = document.getElementById('account-checkbox').checked;
+//    const fromIncomingAccount = document.getElementById('account-checkbox').checked;
+const selectedAccountType = document.querySelector('input[name="account-type"]:checked').value;
+
     const transaction = window.contract2.methods.withdrawFromRegularAccount(amount);
     //const transaction = window.contract2.methods.withdraw(amount);
 
@@ -604,9 +749,76 @@ async function withdrawTokensContract2(amount) {
 }
     }
 }
+*/
 
+// Function to withdraw tokens from Contract 2
+async function withdrawTokensContract2(amount) {
+    document.getElementById('errorMessage').innerText = '';
+    if (!window.contract2) {
+        console.error('Contract 2 is not initialized for withdrawal');
+        return;
+    }
 
-// Function for marking timelocked tokens for send
+    // Determine which account type is selected
+    const selectedAccountType = document.querySelector('input[name="account-type"]:checked').value;
+
+    let transaction;
+    if (selectedAccountType === 'incoming') {
+        transaction = window.contract2.methods.withdrawFromIncomingAccount(amount);
+    } else {
+        transaction = window.contract2.methods.withdrawFromRegularAccount(amount);
+    }
+
+    try {
+        const receipt = await executeTransactionIfFeeIsAcceptable(transaction, [], selectedAccount);
+        console.log("Transaction receipt: ", receipt);
+    } catch (error) {
+        if (error.message.includes("HighFees")) {
+            document.getElementById('errorMessage').innerText = 'Absurdly high ETH fees detected. Something is wrong with the parameters you have specified, or you are trying to withdraw before the Lock Time has expired, or you are trying to withdraw/timelock too many tokens.';
+            document.getElementById('clearError').style.display = 'block';
+        } else {
+            console.error("Error in transaction: ", error);
+            document.getElementById('errorMessage').innerText = `${error.message}`;
+            document.getElementById('clearError').style.display = 'block';
+        }
+    }
+}
+
+// Event listener for the Contract 2 Withdraw All button
+const withdrawAll2Button = document.getElementById('withdrawAll2Button');
+if (withdrawAll2Button) {
+    withdrawAll2Button.addEventListener('click', function() {
+        withdrawAllTokensContract2();
+    });
+}
+
+// Function to withdraw all tokens from Contract 2
+async function withdrawAllTokensContract2() {
+    document.getElementById('errorMessage').innerText = '';
+    if (!window.contract2) {
+        console.error('Contract 2 is not initialized for withdrawal');
+        return;
+    }
+
+    let transaction = window.contract2.methods.withdrawAll();
+
+    try {
+        const receipt = await executeTransactionIfFeeIsAcceptable(transaction, [], selectedAccount);
+        console.log("Transaction receipt: ", receipt);
+    } catch (error) {
+        if (error.message.includes("HighFees")) {
+            document.getElementById('errorMessage').innerText = 'Absurdly high ETH fees detected. Something is wrong with the parameters you have specified, or you are trying to withdraw before the Lock Time has expired, or you are trying to withdraw/timelock too many tokens.';
+            document.getElementById('clearError').style.display = 'block';
+        } else {
+            console.error("Error in transaction: ", error);
+            document.getElementById('errorMessage').innerText = `${error.message}`;
+            document.getElementById('clearError').style.display = 'block';
+        }
+    }
+}
+
+/*
+// Function for sending locked tokens
 async function markTimelockedTokensForSend(addresses, amounts) {
     if (!window.contract2) {
         console.error('Contract 2 is not initialized for sending locked tokens');
@@ -634,6 +846,44 @@ async function markTimelockedTokensForSend(addresses, amounts) {
 	    document.getElementById('clearError').style.display = 'block';
 }
 }
+*/
+
+
+// Function for sending locked tokens
+async function markTimelockedTokensForSend(addresses, amounts) {
+    if (!window.contract2) {
+        console.error('Contract 2 is not initialized for sending locked tokens');
+        return;
+    }
+
+    // Validate Addresses and Amounts
+    const isValidAddresses = addresses.every(address => web3.utils.isAddress(address));
+    const isValidAmounts = amounts.every(amount => !isNaN(amount) && amount > 0);
+
+    if (!isValidAddresses || !isValidAmounts) {
+        document.getElementById('errorMessage').innerText = 'Please enter valid Ethereum addresses and amounts.';
+        document.getElementById('clearError').style.display = 'block';
+        return;
+    }
+
+    let transaction;
+    if (addresses.length === 1 && amounts.length === 1) {
+        // Call sendLockedTokensToSingle if there's only one address and one amount
+        transaction = window.contract2.methods.sendLockedTokensToSingle(addresses[0], amounts[0]);
+    } else {
+        // Call sendLockedTokensToMany if there are multiple addresses and amounts
+        transaction = window.contract2.methods.sendLockedTokensToMany(addresses, amounts);
+    }
+
+    try {
+        const receipt = await executeTransactionIfFeeIsAcceptable(transaction, [], selectedAccount);
+        console.log("Send Locked token transaction receipt: ", receipt);
+    } catch (error) {
+        console.error("Error in send locked Token transaction: ", error);
+        document.getElementById('errorMessage').innerText = `${error.message}`;
+        document.getElementById('clearError').style.display = 'block';
+    }
+}
 
 
 
@@ -649,12 +899,14 @@ function resetContractUI() {
     document.getElementById('withdraw1Button').style.display = 'none';
     document.getElementById('timelock2Button').style.display = 'none';
     document.getElementById('withdraw2Button').style.display = 'none';
+	document.getElementById('withdrawAll2Button').style.display = 'none';
     document.getElementById('sendLocked2Button').style.display = 'none';
 //document.getElementById('contract-explanation').style.display = 'none';
 	document.getElementById('errorMessage').innerText = '';
 	document.getElementById(`clearError`).style.display = 'none';
-	document.getElementById(`account-checkbox`).style.display = 'none';
-        document.getElementById(`account-checkbox-label`).style.display = 'none';
+ document.getElementById(`radio-container-account`).style.display = 'none';
+//	document.getElementById(`account-checkbox`).style.display = 'none';
+ //       document.getElementById(`account-checkbox-label`).style.display = 'none';
             document.getElementById('timelockedtokens1').style.display = 'none';
             document.getElementById('withdrawaltime1').style.display = 'none';
             document.getElementById('timelockedtokens2').style.display = 'none';

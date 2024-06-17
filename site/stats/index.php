@@ -140,7 +140,9 @@ function formatNumber($value) {
         <div class="contract-section">
             <h2 id="contract-heading">Contract 2</h2>
 		<a id="external-link2" href='#' target="_blank"><img src="/images/external-link.png" width="15px" alt="External Link Icon"> Etherscan</a> <a id="moreinfo" href="/docs/index.php/#contract-2" target="_blank">More info</a>
-
+            <div class="info-container" id="timeUntilWithdrawalHalving">
+                Time Left: Loading...
+            </div>
             <div class="info-container" id="contract2TimeLeft">
                 Time Left: Loading...
             </div>
@@ -155,7 +157,7 @@ function formatNumber($value) {
         <tr>
             <th>Address</th>
             <th>Total Timelocked</th>
-            <th>Total Withdrawn</th>
+            <th>Total Withdrawn or Sent</th>
             <th>Net Amount</th>
         </tr>
         <?php foreach ($leaderboard2 as $entry): ?>
@@ -196,16 +198,16 @@ function formatNumber($value) {
         <div class="contract-section">
 	    <h2 id="contract-heading">Timelock Rewards</h2>
 <a id="moreinfo" href="/docs/index.php/#rewardreserve" target="_blank">More info</a>
-            <div class="info-container" id="rewardsReserveCurrentTier">
+            <div class="info-container" id="CurrentTier">
                 Current Tier: Loading...
             </div>
-            <div class="info-container" id="rewardsReserveTotalClaimed">
-                Total Claimed: Loading...
-            </div>
-            <div class="info-container" id="rewardsReserveTotalEligibleAmount">
+            <div class="info-container" id="TotalEligibleAmount">
                 Total Eligible Amount: Loading...
             </div>
-            <div class="info-container" id="rewardsReserveTotalTimelocked">
+	   <div class="info-container" id="RewardsRemaining">
+    		Rewards Remaining: Loading...
+	   </div>
+            <div class="info-container" id="TotalTimelocked">
                 Total Timelocked: Loading...
             </div>
 	</div>

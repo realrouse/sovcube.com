@@ -66,8 +66,9 @@ async function initializeContracts() {
 // Helper function to update contract data on the page
 function updateContractData(contract, methodName, containerId, methodArgs) {
     const containerLabels = {
-        timeUntilWithdrawalHalving: "Time Remaining until Withdrawal Halving",
+	timeUntilWithdrawalHalving: "Time Remaining until Withdrawal Halving",
         contract1TimeLeft: "Time Remaining of Lock Time",
+
         contract2TimeLeft: "Time Remaining of Lock Time",
         CurrentTier: "Current Reward Tier",
         TotalClaimed: "Total Rewards Claimed",
@@ -98,16 +99,8 @@ function updateContractData(contract, methodName, containerId, methodArgs) {
         .then((result) => {
             let formattedResult = Number(result);
 
-            // Handle specific case for getTimestampOfNextWithdrawalHalving
-            if (methodName === 'getTimestampOfNextWithdrawalHalving') {
-                const now = Math.floor(Date.now() / 1000);
-                const timeLeft = formattedResult - now;
-                if (timeLeft > 0) {
-                    formattedResult = formatTime(timeLeft);
-                } else {
-                    formattedResult = "0 days, 0 hours, 0 min, 0 sec";
-                }
-            } else if (methodName === 'tokensMinted' || methodName === 'totalClaimed' || methodName === 'totalRewardsEarned' || methodName === 'totalCumulativeTimelocked' || methodName === 'balanceOf' || methodName === 'getBalanceRegularAccount') {
+            // Format specific contract data
+            if (methodName === 'tokensMinted' || methodName === 'totalClaimed' || methodName === 'totalRewardsEarned' || methodName === 'totalCumulativeTimelocked' || methodName === 'balanceOf' || methodName === 'getBalanceRegularAccount') {
                 formattedResult = (formattedResult / 100000000).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + " BSOV";
             } else if (methodName === 'getTimeLeft' || methodName === 'getGlobalTimeLeftRegularAccount' || methodName === 'getTimeLeftIncomingAccount') {
                 formattedResult = formatTime(formattedResult); // Format time as countdown

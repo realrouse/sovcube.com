@@ -1,11 +1,99 @@
 /*styles.css*/
 
-#advanceTierMessage, #timelockedtokens1, #withdrawaltime1, #timelockedtokens2, #withdrawaltime2, #timelockRewardCalculation {
+#withdraw2Button {
+font-size:8pt;
+}
+
+#timeLeftRegularAccount, #timeLeftIncomingAccount {
+font-size:9pt;
+}
+
+.withdrawable-now {
+align-items:center;
+justify-content: center;
+}
+
+.radio-container-account {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Centers the radio buttons horizontally */
+    align-items: center; /* Aligns the radio buttons vertically */
+    margin: 15px auto; /* Adds vertical spacing and centers the container */
+    max-width: 85%; /* Ensures the container doesn't grow too wide */
+}
+/*
+.radio-buttons-account,
+.withdrawable-now {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1 1 calc(50% - 20px);
+    max-width: calc(50% - 20px); 
+    margin: 10px;
+}
+*/
+
+.column-content {
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    align-items: center;
+    justify-content: center;
+    flex: 1 1 calc(45% - 20px); /* Ensures each column takes up roughly 50% of the container width minus margin */
+    max-width: calc(45% - 20px); /* Ensures columns don't grow larger than 50% of the container width minus margin */
+    margin: 5px; /* Adds space between columns */
+    padding: 8px; /* Adds padding inside the columns */
+    border-radius: 10px; /* Adds rounded corners */
+    background-color: #34363A; /* Very dark blue background */
+    color: white; /* Ensures the text is readable on the dark background */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adds a slight shadow for better visibility */
+    /*border: 1px solid #000080;  Adds a border of the same color as the background */
+}
+
+.radio-buttons-account,
+.withdrawable-now {
+    margin: 5px; /* Adds a 5px margin around each element */
+}
+
+.radio-buttons-account input[type="radio"] {
+    display: none; /* Hide the default radio button */
+}
+
+.radio-buttons-account label {
+    font-size: 8pt;
+    color: white; /* Label color */
+    cursor: pointer;
+    padding: 10px 20px;
+    border: 2px solid #004F8B; /* Border color */
+    border-radius: 5px; /* Rounded corners */
+    background-color: #171717; /* Background color */
+    transition: all 0.3s ease; /* Smooth transition for hover effects */
+    display: inline-block; /* Ensures labels are inline */
+    margin: 0 10px; /* Adds horizontal spacing between labels */
+    text-align: center; /* Centers the text inside the label */
+    -webkit-animation: fadeIn 0.5s;
+    animation: fadeIn 0.5s;
+}
+
+.radio-buttons-account input[type="radio"]:checked + label {
+    background-color: #004F8B; /* Background color when checked */
+    color: white; /* Text color when checked */
+    border-color: #0073CF; /* Border color when checked */
+    box-shadow: 0 0 10px rgba(0, 115, 207, 0.5); /* Shadow effect when checked */
+}
+
+.radio-buttons-account label:hover {
+    border-color: #0073CF; /* Border color on hover */
+    box-shadow: 0 0 5px rgba(0, 115, 207, 0.3); /* Shadow effect on hover */
+}
+
+
+#advanceTierMessage, #timelockedtokens1, #withdrawaltime1, #timelockedtokens2, #withdrawaltime2, #timelockRewardCalculation, #withdrawableNowRegularAccount, #withdrawableNowIncomingAccount {
 font-size: 9pt;
 text-align:center;
 margin:2px;
 color:#5E798C;
 }
+
 #timelockRewardCalculation {
 color:orange;
 }
@@ -70,7 +158,7 @@ color:yellow;
 
 .contract-info-style {
     background-color: rgba(0,0,0,0.2);
-    padding: 10px;
+    padding: 8px;
     border-radius: 10px;
     margin: 0px;
     min-width: 300px;
@@ -114,7 +202,7 @@ border: 1px solid orange; /* Thick blue border */
 
 .contract-info-style p{
 margin:0;
-font-size:10pt;
+font-size:9pt;
 }
 
 .contract-info-style h3 { 
@@ -130,7 +218,7 @@ font-size:10pt;
 }
 
 
-.checkbox-container {
+.radio-container {
     display: flex;
     align-items: center; /* This vertically centers the text with the checkbox */
 }
@@ -271,8 +359,8 @@ display: block;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 10pt;
-    font-weight: bold;
+    font-size: 8pt;
+   /* font-weight: bold;*/
     transition-duration: 0.4s;
     -webkit-animation: fadeIn 0.5s;
     animation: fadeIn 0.5s;
@@ -394,7 +482,7 @@ font-size:9pt;
 }
 
 /* Hide the buttons initially */
-#timelock1Button, #withdraw1Button, #sendLocked2Button, #timelock2Button, #withdraw2Button, #amount1, #amount2, #ethAddresses, #sendLockedAmounts, #contract1Explanation, #contract2Explanation {
+#timelock1Button, #withdraw1Button, #sendLocked2Button, #timelock2Button, #withdraw2Button, #withdrawAll2Button, #amount1, #amount2, #ethAddresses, #sendLockedAmounts, #contract1Explanation, #contract2Explanation {
     display: none;
     margin:auto;
     margin-top:10px;
@@ -403,6 +491,7 @@ font-size:9pt;
     animation: fadeIn 0.5s;
 
 }
+
 
 #contractSelect {
     font-size: 15pt;
@@ -618,4 +707,5 @@ width:100%;
 }
 
 }
+
 
