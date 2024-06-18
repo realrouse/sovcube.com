@@ -239,10 +239,10 @@ function formatNumber($value) {
     const externalLink4 = document.getElementById('external-link4');
 
     // Set the href attribute of the link using the contract1Address
-    externalLink1.href = `https://goerli.etherscan.io/address/${contract1Address}`;
-    externalLink2.href = `https://goerli.etherscan.io/address/${contract2Address}`;
+    externalLink1.href = `https://etherscan.io/address/${contract1Address}`;
+    externalLink2.href = `https://etherscan.io/address/${contract2Address}`;
     
-    externalLink4.href = `https://goerli.etherscan.io/address/${tokenContractAddress}`;
+    externalLink4.href = `https://etherscan.io/address/${tokenContractAddress}`;
 </script>
 
 
