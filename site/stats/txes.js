@@ -50,7 +50,7 @@ async function fetchTransactions(contractAddress, tableId, abiPath, eventNames) 
             const amountCell = row.insertCell(3);
 
             const truncatedAddress = event.returnValues.addr.slice(2, 7);
-            const etherscanUrl = `https://goerli.etherscan.io/address/${event.returnValues.addr}`;
+            const etherscanUrl = `https://etherscan.io/address/${event.returnValues.addr}`;
 
             addressCell.innerHTML = `<a href="${etherscanUrl}" target="_blank">${truncatedAddress}...</a>`;
             methodCell.textContent = event.event;
