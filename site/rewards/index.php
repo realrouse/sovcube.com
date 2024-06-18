@@ -31,8 +31,8 @@
 </div>
 
             <div class="button-container"> 
-                <p>Time-lock your BSOV Tokens to be eligible for Timelock Rewards. Click the button below to access the web3 dApp and start timelocking your BSOV Tokens!</p>
-	<button onclick="window.location.href='/dapp/index.php'" class="launch-button">Receive Timelock Rewards</button>
+                <p>Time-lock your BSOV Tokens in <b><span style="color:orange;">Contract 2</span></b> to be eligible for Timelock Rewards. Click the button below to access the web3 dApp and start timelocking your BSOV Tokens!</p>
+	<button onclick="window.location.href='/dapp/index.php'" class="launch-button">Receive Timelock Rewards - Launch dApp!</button>
             </div>
 </div>
 

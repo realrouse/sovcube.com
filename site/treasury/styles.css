@@ -1,0 +1,303 @@
+.per1000bsov {
+font-size:8pt;
+}
+
+.stats-container {
+    background-color: rgba(0,0,0,0.2);
+    padding-bottom: 5px;
+    padding-top: 5px;
+    padding-left:30px;
+    padding-right:30px;
+    border-radius: 10px;
+    margin: 10px;
+    min-width: 300px;
+
+}
+
+#totalTimelockedAmount, #totalRewardsSentAmount, #currentTier, #rewardsLeft {
+    text-align:center;
+}
+
+
+.rewards-progress-container {
+    width: 100%;
+    padding: 15px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    overflow: visible;
+
+}
+
+.rewards-progress-bar {
+    position: relative;
+    width: 100%;
+    height: 40px;
+    background-color: #242424;
+    border-radius: 10px;
+    overflow: visible;
+z-index:5;
+    border: 1px solid #191919; /* Thick golden border */
+    box-shadow: inset 0 0 10px grey; /* Gray inner shadow */
+}
+
+.current-progress {
+    height: 100%;
+    background-color: #4caf50;
+    border-radius: 10px 0 0 10px;
+}
+
+.marker {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background-color: #ff5722;
+}
+
+.rewards-progress-bar::before {
+    content: attr(data-tooltip);
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 100%;
+    background: #333;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 3px;
+    font-size: 12px;
+    white-space: nowrap;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+    z-index:100;
+}
+
+.rewards-progress-bar:hover::before {
+    opacity: 1;
+}
+
+/*
+.marker:hover::after {
+    content: attr(title);
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 100%;
+    background: #333;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 3px;
+    font-size: 12px;
+    white-space: nowrap;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+*/
+
+
+.rewards-container {
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+}
+
+
+
+.rewards {
+    background: rgba(0, 0, 0, 0.3);
+    opacity
+    border: 1px solid #ddd;
+    padding-right: 15px;
+    padding-left: 15px;
+    padding-top:3px;
+    padding-bottom:3px;
+    margin-bottom: 5px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.rewards h2 {
+    color: white;
+    margin-bottom:0px;
+
+}
+
+.rewards p {
+    font-size: 14px;
+    margin-top: 3px;
+}
+
+.rewards strong {
+    color: #28a745;
+}
+
+
+.rewards-menu {
+    background-color: #F8B128;
+    border: 3px solid #004F8B; /* Light blue border */
+    color: black;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    font-weight:bold;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+
+}
+
+.rewards-menu:hover {
+    background-color: #FDC860; /* Slightly lighter gray on hover */
+    border-color: #2A79A5; /* Slightly brighter blue on hover */
+    transform: scale(1.05);
+    color:black;
+}
+
+
+
+.brand-name {
+    font-size: 42pt; /* Large size for the brand name */
+    font-weight: bold; /* Optional: if you want the brand name to be bold */
+    margin-bottom: 0.5em; /* Adjust the space below the brand name */
+    text-align:center;
+}
+a {
+color:white;
+}
+
+.body-container {
+width: 1000px;
+margin-top:100px;
+margin:auto;
+opacity:1;
+}
+
+
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+font-family: Lato, Arial;
+margin:auto;
+opacity:1;
+background: #171717 url('/images/bg.jpg') no-repeat center center fixed;
+
+background-size:auto 100%;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+color: white;
+margin-left: 10px;
+margin-right:10px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+text-align:center;
+}
+
+.text-container {
+overflow: visible;
+padding-left:75px;
+padding-right:75px;
+padding-top:25px;
+padding-bottom:25px;
+position:relative;
+height:50%;
+width:50%;
+margin:auto;
+margin-top:100px;
+margin-bottom:-50px;
+background-color: rgba(50, 50, 50, 0.6);
+border-radius:10px;
+transition: opacity 5s ease-in-out;
+}
+
+
+.text-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('/images/bg.jpg') no-repeat center center fixed;
+background-size:auto 100%;
+
+    filter: blur(10px); /* Adjust the blur level as needed */
+    z-index: -1;
+/*    background-color: rgba(50, 50, 50, 0.5);*/
+}
+
+.text-container > * {
+    position: relative;
+    z-index: 1;
+}
+
+.launch-button {
+    background-color: #F8B128;
+    border: 3px solid #004F8B; /* Light blue border */
+    color: black;
+    padding: 20px 40px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    font-weight:bold;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.launch-button:hover {
+    background-color: #FDC860; /* Slightly lighter gray on hover */
+    border-color: #2A79A5; /* Slightly brighter blue on hover */
+    transform: scale(1.05);
+}
+
+.button-container {
+    text-align: center;
+}
+
+
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  
+
+    .body-container, .text-container, section {
+        width: 95%; /* Full width for all containers */
+        margin-top: 0px; /* Uniform top margin */
+	padding:0px;
+	margin-left:2%;
+	margin-right:0px;
+	
+    }
+
+
+    /* Optionally, adjust font sizes for smaller screens */
+    h1, h2, h3, h4, h5, h6, p {
+       /* font-size: smaller;*/
+
+    }
+h2, h3 {
+margin-left:56%;
+text-align:center;
+transform: translateX(-50%);
+font-size:17pt;
+}
+
+.body-container::before {
+width:100%;
+}
+
+
+
+}

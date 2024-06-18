@@ -8,10 +8,11 @@
         <a href="/stats/index.php" class="menu-item">Stats</a>
         <a href="/about/index.php" class="menu-item">About</a>
 	<a href="/account/index.php" class="menu-item">My Account</a>
-        <a href="/dapp/index.php" class="menu-item menu-launch-button">Launch dApp</a>
+        <a href="/dapp/index.php" class="menu-item menu-launch-button">dApp</a>
+	<a href="/treasury/index.php" class="menu-item treasury-menu">Treasury</a>
 
 
 
-	<a href="/rewards/index.php" class="menu-item rewards-menu">Timelock Rewards Info</a>
+	<a href="/rewards/index.php" class="menu-item rewards-menu">Rewards</a>
     </div>
 

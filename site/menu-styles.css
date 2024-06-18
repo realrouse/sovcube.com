@@ -79,3 +79,26 @@ font-weight:normal;
     transform: scale(1.05);
     color:black;
 }
+
+.treasury-menu {
+    background-color: #F8B128;
+    border: 3px solid #004F8B; /* Light blue border */
+    color: black;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    font-weight:bold;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+
+}
+
+.treasury-menu:hover {
+    background-color: #FDC860; /* Slightly lighter gray on hover */
+    border-color: #2A79A5; /* Slightly brighter blue on hover */
+    transform: scale(1.05);
+    color:black;
+}
