@@ -34,12 +34,13 @@
         <div class="contract-selection" style="display: none;">
             <select id="contractSelect" class="contractSelect">
 		<option value="select">Select Contract &#x21B4</option>
-                <option value="contract1" >Contract 1 (old)</option>
-                <option value="contract2" disabled style="color:gray;">Contract 2 &#127873; (new!)</option>
+                <option value="contract1" style="color:gray;" >Contract 1 (old)</option>
+                <option value="contract2">Contract 2 &#127873; (new!)</option>
             </select>
         </div>
 
-<p id="contract-explanation">To begin using the SovCube dApp you have to select a contract to interact with. The contracts have different parameters, and you should read the documentation before you timelock your tokens.
+<p id="contract-explanation">Only compatible with Ethereum (ETH) mainnet.
+<br><br>To begin using the SovCube dApp you have to select a contract to interact with. The contracts have different parameters, and you should read the documentation before you timelock your tokens.
 <br><br><span style="color:#F8B128">To get Timelock Rewards, you will need to timelock <a href="https://bsovtoken.com" target="_blank">BSOV Tokens</a> using <strong>Contract 2</strong>
 <br></span>
 </p>
@@ -50,7 +51,9 @@
 <p id="contract1Explanation">
   Contract 1: Timelock & Withdraw <a href="https://bsovtoken.com" target="_blank">BSOV Tokens</a>. 
   <br><a href="/docs/index.php/#contract-1" target="_blank">Contract Info</a>
-<br><p style="color:orange; text-align:center;">Looking for Timelock Rewards? Then wait for <b>Contract 2</b> to go live!</p>
+<br> This contract is an old contract that was deployed in year 2019,
+<br>and is mainly used for the old timelockers to withdraw their timelocked tokens.
+<!--<br><p style="color:orange; text-align:center;">Looking for Timelock Rewards? Then wait for <b>Contract 2</b> to go live!</p>-->
 </p>
 <p id="contract2Explanation">
   <a href="https://bsovtoken.com" target="_blank">BSOV Token</a> Info - <a href="/docs/index.php/#contract-2" target="_blank">Contract 2</a> Info.

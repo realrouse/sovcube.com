@@ -29,7 +29,8 @@ https://SovCube.com
 */
 
 
-   import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v5.0.2/contracts/utils/ReentrancyGuard.sol";
+  // import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v5.0.2/contracts/utils/ReentrancyGuard.sol";
+  import "./ReentrancyGuard.sol";
 
 // Defines the interface of the BSOV Token contract
     abstract contract ERC20Interface {
@@ -37,8 +38,10 @@ https://SovCube.com
         function transferFrom(address from, address to, uint tokens) public virtual returns(bool success);
         function approve(address spender, uint tokens) public virtual returns(bool success);
         function approveAndCall(address spender, uint tokens, bytes memory data) public virtual returns(bool success);
+        function balanceOf(address account) public virtual returns (uint256);
         event Transfer(address indexed from, address indexed to, uint tokens);
         event Approval(address indexed tokenOwner, address indexed spender, uint tokens);
+        
     }
 
     contract TimelockAndRewardsContract is ReentrancyGuard {
@@ -50,7 +53,7 @@ https://SovCube.com
         uint constant setGlobalLockExpirationRegularAccounts = 1000 days; // A global countdown that unlocks timelocked tokens in all user's Regular Accounts when it expires. 
         uint constant maxWithdrawalPeriods = 10; // The user can accumulate withdrawals for a maximum number of periods.
         uint constant timeBetweenWithdrawals = 7 days; // The user has to wait this amount of time to withdraw periodWithdrawalAmount
-        uint constant resetTimeLeftIncomingAccount = 1000 days; // Whenever a user takes untaken incoming tokens, the timer will reset to this amount of time.
+        uint constant resetTimeLeftIncomingAccount = 100 days; // Whenever a user takes untaken incoming tokens, the timer will reset to this amount of time.
         uint constant withdrawalHalvingEraDuration = 1500 days; // Amount of days until the periodWithdrawalAmount halves - only happens after the inital lockExpiration.
         uint constant maxWithdrawalHalvingEras = 5; // Max amount of withdrawal halving eras
         uint constant newUserLockTime = 10 weeks; // Set the duration that new timelockers need to wait before withdrawing their tokens. To penalize multiple wallets. 
@@ -73,6 +76,8 @@ https://SovCube.com
 
 // Address of the owner/contract deployer - Supposed to become the burn address (0x0000...) after owner revokes ownership.
         address public owner;
+        bool public isContractSeeded;
+
         
 // Mappings for Regular Accounts        
         mapping(address => uint) balanceRegularAccount;
@@ -94,6 +99,7 @@ https://SovCube.com
         event TokenWithdrawalRegularAccount(address indexed addr, uint256 amt, uint256 time);
         event TokenWithdrawalIncomingAccount(address indexed addr, uint256 amt, uint256 time);
         event NewWithdrawalHalving(uint256 era, uint256 time);
+        event AccountMigration(address indexed oldAddress, address indexed newAddress);
 
 // When deploying this contract, you will need to input the BSOV Token contract address.
         constructor(address _tokenContractAddress) {
@@ -108,6 +114,7 @@ https://SovCube.com
             
             lastWithdrawalHalving = globalLockExpirationDateRegularAccount; // Initialize the last halving timestamp
             withdrawalHalvingEra = 1; // Initialize the halving era
+            isContractSeeded = false;
         }
 
         modifier onlyOwner() {
@@ -118,7 +125,10 @@ https://SovCube.com
 // This function "seeds" the 300,000 tokens that are reserved for the Timelock Rewards.
 // First the owner needs to transfer at least 30609121600000 tokens to this contract, then he can call this function.
         function ownerSeedContract() public onlyOwner {
-            require(tokenContract.approveAndCall(address(this), 30303030384000, "0x"), "Token approval failed");
+            require (!isContractSeeded, "Contract is already seeded");
+            uint256 balance = tokenContract.balanceOf(address(this));
+            require(tokenContract.approveAndCall(address(this), balance, "0x"), "Token approval failed");
+            isContractSeeded = true;
         }
 
 // Move ownership of contract to the burn address.
@@ -300,7 +310,7 @@ https://SovCube.com
         }
 
 
-// Accept locked tokens that have been sent from other users, or received as rewards
+/*// Accept locked tokens that have been sent from other users, or received as rewards
         function acceptUntakenIncomingTokens() public nonReentrant {
             require(balanceUntakenIncomingAccount[msg.sender] > 0, "You have no Incoming Tokens to accept!");
 
@@ -313,7 +323,32 @@ https://SovCube.com
 
             delete balanceUntakenIncomingAccount[msg.sender];
             emit AcceptedUntakenIncomingTokens(msg.sender, incomingTokensAmount);
+    }*/
+
+
+    // Accept locked tokens that have been sent from other users, or received as rewards
+function acceptUntakenIncomingTokens() public nonReentrant {
+    require(balanceUntakenIncomingAccount[msg.sender] > 0, "You have no Incoming Tokens to accept!");
+
+    uint256 incomingTokensAmount = balanceUntakenIncomingAccount[msg.sender];
+    balanceIncomingAccount[msg.sender] += incomingTokensAmount;
+
+    // Set the lock time of IncomingAccount based on the Global Lock Time, if the Global Lock Time has not expired yet
+    if (block.timestamp < globalLockExpirationDateRegularAccount) {
+        lockExpirationForUserIncomingAccount[msg.sender] = globalLockExpirationDateRegularAccount + resetTimeLeftIncomingAccount;
+    } else {
+        lockExpirationForUserIncomingAccount[msg.sender] = block.timestamp + resetTimeLeftIncomingAccount;
     }
+
+    // Update the last withdrawal timestamp for incoming account
+    lastWithdrawalIncomingAccount[msg.sender] = block.timestamp;
+
+    // Reset the untaken incoming balance
+    delete balanceUntakenIncomingAccount[msg.sender];
+    
+    emit AcceptedUntakenIncomingTokens(msg.sender, incomingTokensAmount);
+}
+
 
 
 // Withdrawal functions - Enforce a set withdrawal rate
@@ -417,6 +452,41 @@ https://SovCube.com
             withdrawalHalvingEra += 1; // Increment the halving era
             emit NewWithdrawalHalving (withdrawalHalvingEra, block.timestamp);
         }
+
+// If a user needs to change the ownership of their account to another address, they can do so, using this function.
+// E.g. this can be used if you wish to move your account to a cold wallet, or a future contract, or another person.
+        function migrateAccount(address _receiver) public nonReentrant {
+            
+            // Require the receiver to be a new account without any history with SovCube
+            require(_receiver != address(0), "Invalid address");
+            require(balanceRegularAccount[_receiver] == 0, "The receiver account is not fresh");
+            require(balanceIncomingAccount[_receiver] == 0, "The receiver account is not fresh");
+            require(balanceUntakenIncomingAccount[_receiver] == 0, "The receiver account is not fresh");
+
+            // Transfer balance and lastWithdrawal from Regular Account
+            balanceRegularAccount[_receiver] = balanceRegularAccount[msg.sender];
+            balanceRegularAccount[msg.sender] = 0;
+
+            lastWithdrawalRegularAccount[_receiver] = lastWithdrawalRegularAccount[msg.sender];
+            lastWithdrawalRegularAccount[msg.sender] = 0;
+
+            // Transfer balance, lockExpiration, lastWithdrawal and untakenBalance from Incoming Account
+            lockExpirationForUserIncomingAccount[_receiver] = lockExpirationForUserIncomingAccount[msg.sender];
+            lockExpirationForUserIncomingAccount[msg.sender] = 0;
+
+            balanceIncomingAccount[_receiver] = balanceIncomingAccount[msg.sender];
+            balanceIncomingAccount[msg.sender] = 0;
+
+            lastWithdrawalIncomingAccount[_receiver] = lastWithdrawalIncomingAccount[msg.sender];
+            lastWithdrawalIncomingAccount[msg.sender] = 0;
+
+            balanceUntakenIncomingAccount[_receiver] = balanceUntakenIncomingAccount[msg.sender];
+            balanceUntakenIncomingAccount[msg.sender] = 0;
+
+            emit AccountMigration(msg.sender, _receiver);
+        }
+
+
 //
 //
 // Get-functions to retrieve essential data about users and stats.
@@ -431,9 +501,7 @@ https://SovCube.com
                 return globalLockExpirationDateRegularAccount + withdrawalHalvingEraDuration;
             }
             
-            if (withdrawalHalvingEra >= maxWithdrawalHalvingEras) {
-                return 0; // All halving eras have been completed
-            }
+            require(withdrawalHalvingEra < maxWithdrawalHalvingEras, "All halving eras have been completed");
             
             uint256 nextHalvingTimestamp = lastWithdrawalHalving + withdrawalHalvingEraDuration;
             
@@ -443,6 +511,7 @@ https://SovCube.com
             
             return nextHalvingTimestamp; // Return the timestamp of the next halving
         }
+
 
 
 // Get the amount of tokens unlocked for withdrawal to Regular Account
