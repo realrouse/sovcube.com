@@ -179,8 +179,9 @@ https://SovCube.com
             lastWithdrawalRegularAccount[_sender] = block.timestamp + newUserLockTime;
         } else {
             // For old users, ensure there's at least a 1 week lock from now
+            if (lastWithdrawalRegularAccount[_sender] < block.timestamp + oldUserLockTime) {
                 lastWithdrawalRegularAccount[_sender] = block.timestamp + oldUserLockTime;
-            
+            }
         }
             
                 // If sender is not this contract, meaning a normal user initiates timelock, then calculate and send Timelock Rewards
@@ -309,29 +310,45 @@ https://SovCube.com
         }
 
 
-// Accept locked tokens that have been sent from other users, or received as rewards
+/*// Accept locked tokens that have been sent from other users, or received as rewards
         function acceptUntakenIncomingTokens() public nonReentrant {
             require(balanceUntakenIncomingAccount[msg.sender] > 0, "You have no Incoming Tokens to accept!");
 
             uint256 incomingTokensAmount = balanceUntakenIncomingAccount[msg.sender];
             balanceIncomingAccount[msg.sender] += incomingTokensAmount;
-            uint256 globalLockMinusIncomingReset = globalLockExpirationDateRegularAccount - resetTimeLeftIncomingAccount;
-
-            // Set the lock time of IncomingAccount based on the Global Lock Time, if the Global Lock Time has not expired yet
-            if (block.timestamp < globalLockExpirationDateRegularAccount) {
-                lockExpirationForUserIncomingAccount[msg.sender] = globalLockMinusIncomingReset + resetTimeLeftIncomingAccount;
-            } else {
-                lockExpirationForUserIncomingAccount[msg.sender] = block.timestamp + resetTimeLeftIncomingAccount;
-            }
+            lockExpirationForUserIncomingAccount[msg.sender] = block.timestamp + resetTimeLeftIncomingAccount;
 
             // Update the last withdrawal timestamp for incoming account
             lastWithdrawalIncomingAccount[msg.sender] = block.timestamp;
 
-            // Reset the untaken incoming balance
             delete balanceUntakenIncomingAccount[msg.sender];
-            
             emit AcceptedUntakenIncomingTokens(msg.sender, incomingTokensAmount);
-        }
+    }*/
+
+
+    // Accept locked tokens that have been sent from other users, or received as rewards
+function acceptUntakenIncomingTokens() public nonReentrant {
+    require(balanceUntakenIncomingAccount[msg.sender] > 0, "You have no Incoming Tokens to accept!");
+
+    uint256 incomingTokensAmount = balanceUntakenIncomingAccount[msg.sender];
+    balanceIncomingAccount[msg.sender] += incomingTokensAmount;
+
+    // Set the lock time of IncomingAccount based on the Global Lock Time, if the Global Lock Time has not expired yet
+    if (block.timestamp < globalLockExpirationDateRegularAccount) {
+        lockExpirationForUserIncomingAccount[msg.sender] = globalLockExpirationDateRegularAccount + resetTimeLeftIncomingAccount;
+    } else {
+        lockExpirationForUserIncomingAccount[msg.sender] = block.timestamp + resetTimeLeftIncomingAccount;
+    }
+
+    // Update the last withdrawal timestamp for incoming account
+    lastWithdrawalIncomingAccount[msg.sender] = block.timestamp;
+
+    // Reset the untaken incoming balance
+    delete balanceUntakenIncomingAccount[msg.sender];
+    
+    emit AcceptedUntakenIncomingTokens(msg.sender, incomingTokensAmount);
+}
+
 
 
 // Withdrawal functions - Enforce a set withdrawal rate
