@@ -65,7 +65,7 @@
 <center><h3>Send or Pay using Timelocked Tokens</h3></center>
 
 <p>Once you've timelocked your tokens, you can still utilize them!
- You can offer individuals a payment that remains locked for 1000 days. 
+ You can offer individuals a payment that remains locked for 100 days. 
 In essence, you can provide them with a Long-Term Savings Account by sending, gifting, or paying anyone with timelocked BSOV Tokens.</p>
 </p>
 <br>

@@ -597,7 +597,7 @@ if ((totalTimelockedFormatted + timelockedTokens) >= currentTierNum * 150000) {
 
         // Update the HTML element
         document.getElementById('timelockRewardCalculation').innerHTML = 
-            `You'll be eligible for ${timelockRewardTokens.toFixed(0)} Timelock Reward tokens.`;
+            `You'll be eligible for ${timelockRewardTokens.toFixed(0)} BSOV in Timelock Rewards!`;
     } catch (error) {
         console.error('Error in updating Timelock Reward Calculation:', error);
              }
