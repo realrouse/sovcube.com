@@ -202,41 +202,6 @@
 *   If the timelock contract initiates the transaction (as done with the ownerSeedContract function), no rewards will be earned.
 *   If a user initiates the transaction, they will earn rewards through the calculateAndSendRewardsAfterTimelock function.
 */
-/*
-        function receiveApproval(address _sender, uint256 _value, address _tokenContract, bytes memory _extraData) public nonReentrant {
-            require(_tokenContract == address(tokenContract), "Can only deposit BSOV into this contract!");
-            require(_value > 100, "Value must be greater than 100 Mundos, (0.00000100 BSOV)");
-
-            require(ERC20Interface(tokenContract).transferFrom(_sender, address(this), _value), "Timelocking transaction failed");
-            
-            // Adjust for 1% burn of BSOV Token
-            uint256 _adjustedValue = (_value * 99) / 100;
-            
-            // Write updated balance to storage
-            balanceRegularAccount[_sender] += _adjustedValue;
-            totalCurrentlyTimelocked += _adjustedValue;
-            
-            emit TokenTimelock(_sender, _adjustedValue, block.timestamp);
-
-            // If sender has withdrawn before, meaning is an existing user, then set a 14 day lock from now.
-            if (lastWithdrawalRegularAccount[_sender] != 0) {
-                // Check if the current lock time is less than the new proposed lock time.
-                if (lastWithdrawalRegularAccount[_sender] < block.timestamp - TIME_BETWEEN_WITHDRAWALS + OLD_USER_LOCK_TIME) {
-                    lastWithdrawalRegularAccount[_sender] = block.timestamp - TIME_BETWEEN_WITHDRAWALS + OLD_USER_LOCK_TIME;
-                }
-            } else {
-                // For new users, set a 70 day wait before the user can withdraw.
-                lastWithdrawalRegularAccount[_sender] = block.timestamp - TIME_BETWEEN_WITHDRAWALS + NEW_USER_LOCK_TIME;
-            }
-
-            
-                // If sender is not this contract, meaning a normal user initiates timelock, then calculate and send Timelock Rewards
-                if (_sender != address(this)) {
-                    calculateAndSendRewardsAfterTimelock(_sender, _adjustedValue);
-                }
-        }
-        */
-
         function receiveApproval(address _sender, uint256 _value, address _tokenContract, bytes memory _extraData) public nonReentrant {
             require(_tokenContract == address(tokenContract), "Can only deposit BSOV into this contract!");
             require(_value > 100, "Value must be greater than 100 Mundos, (0.00000100 BSOV)");
@@ -336,7 +301,6 @@
                 emit EarnedReward(address(this), user, newlyEarnedRewards);
         }
         
-
 // Send locked tokens to a single address
         function sendLockedTokensToSingle(address _receiver, uint256 _amount) public nonReentrant {
             uint256 senderBalance = balanceRegularAccount[msg.sender];
@@ -399,9 +363,7 @@
             emit SentLockedTokensToMany(msg.sender, _receivers, _amounts);
         }
 
-
 // Accept locked tokens that have been sent from other users, or received as rewards
-
         function acceptUntakenIncomingTokens() public nonReentrant {
             require(balanceUntakenIncomingAccount[msg.sender] > 0, "You have no Incoming Tokens to accept!");
 
@@ -418,37 +380,11 @@
                 lastWithdrawalIncomingAccount[msg.sender] = block.timestamp  + RESET_TIME_LEFT_INCOMING_ACCOUNT - TIME_BETWEEN_WITHDRAWALS;
             }
 
-            
-
             // Reset the untaken incoming balance
             delete balanceUntakenIncomingAccount[msg.sender];
             
             emit AcceptedUntakenIncomingTokens(msg.sender, incomingTokensAmount);
         }
-
- /*       function acceptUntakenIncomingTokens() public nonReentrant {
-            require(balanceUntakenIncomingAccount[msg.sender] > 0, "You have no Incoming Tokens to accept!");
-
-            uint256 incomingTokensAmount = balanceUntakenIncomingAccount[msg.sender];
-            balanceIncomingAccount[msg.sender] += incomingTokensAmount;
-            uint256 globalLockMinusIncomingReset = globalLockExpirationDateRegularAccount - RESET_TIME_LEFT_INCOMING_ACCOUNT;
-
-            // Set the lock time of IncomingAccount based on the Global Lock Time, if the Global Lock Time has not expired yet
-            if (block.timestamp < globalLockMinusIncomingReset) {
-                lockExpirationForUserIncomingAccount[msg.sender] = globalLockExpirationDateRegularAccount;
-            } else {
-                lockExpirationForUserIncomingAccount[msg.sender] = block.timestamp + RESET_TIME_LEFT_INCOMING_ACCOUNT;
-            }
-
-            // Update the last withdrawal timestamp for incoming account
-            lastWithdrawalIncomingAccount[msg.sender] = block.timestamp;
-
-            // Reset the untaken incoming balance
-            delete balanceUntakenIncomingAccount[msg.sender];
-            
-            emit AcceptedUntakenIncomingTokens(msg.sender, incomingTokensAmount);
-        }*/
-
 
 // Withdrawal functions - Enforce a set withdrawal rate
         function withdrawFromRegularAccount(uint256 _amount) public nonReentrant {
@@ -488,7 +424,6 @@
             require(ERC20Interface(tokenContract).transfer(msg.sender, _amount), "Withdrawal: Transfer failed");
             emit TokenWithdrawalIncomingAccount(msg.sender, _amount, block.timestamp);
         }
-
 
 // Withdraw maxWithdrawable from both RegularAccount and IncomingAccount in a single transaction.
         function withdrawAll() public nonReentrant {
@@ -542,8 +477,6 @@
             return elapsedWithdrawalPeriods * periodWithdrawalAmount; // Calculate the max amount based on the number of withdrawal periods elapsed
         }
 
-
-
 // After the Global globalLockExpirationDateRegularAccount is over, then start 1500 day countdown to halve the weekly periodWithdrawalAmount
         function newWithdrawalHalving() public {
             require(block.timestamp >= globalLockExpirationDateRegularAccount, "Global lock expiration has not been reached");
@@ -592,7 +525,6 @@
             emit AccountMigration(msg.sender, _receiver);
         }
 
-
 //
 //
 // Get-functions to retrieve essential data about users and stats.
@@ -617,8 +549,6 @@
             
             return nextHalvingTimestamp; // Return the timestamp of the next halving
         }
-
-
 
 // Get the amount of tokens unlocked for withdrawal to Regular Account
         function getUnlockedForWithdrawalRegularAccount(address user) public view returns (uint256) {
@@ -690,22 +620,25 @@
             }
         }
 
-
 // Get the timestamp of the next withdrawal, or accumulation of withdrawals to the Regular Account
-        /*
         function getNextWithdrawalRegularAccount(address _addr) public view returns (uint256 _nextWithdrawalTime) {
             uint256 lastWithdrawal = lastWithdrawalRegularAccount[_addr];
             uint256 lockExpiration = globalLockExpirationDateRegularAccount;
 
-            // If the global lock expiration date has not been reached, return the global lock expiration date
             if (block.timestamp < lockExpiration) {
-                return lockExpiration;
+                // If global lock is still in effect, return both the lock expiration time and next possible withdrawal time.
+                uint256 nextWithdrawalTime = lastWithdrawal == 0 ? 0 : lastWithdrawal + TIME_BETWEEN_WITHDRAWALS;
+                if (nextWithdrawalTime > lockExpiration) {
+                    return nextWithdrawalTime;
+                } else {
+                    return lockExpiration;
+                }
             }
 
             if (lastWithdrawal == 0) {
                 return 0;
             }
-            
+
             if (block.timestamp < lastWithdrawal + TIME_BETWEEN_WITHDRAWALS) {
                 return lastWithdrawal + TIME_BETWEEN_WITHDRAWALS;
             } else {
@@ -716,38 +649,7 @@
                     return lastWithdrawal + ((elapsedWithdrawalPeriods + 1) * TIME_BETWEEN_WITHDRAWALS);
                 }
             }
-        }*/
-
-        function getNextWithdrawalRegularAccount(address _addr) public view returns (uint256 _nextWithdrawalTime) {
-    uint256 lastWithdrawal = lastWithdrawalRegularAccount[_addr];
-    uint256 lockExpiration = globalLockExpirationDateRegularAccount;
-
-    if (block.timestamp < lockExpiration) {
-        // If global lock is still in effect, return both the lock expiration time and next possible withdrawal time.
-        uint256 nextWithdrawalTime = lastWithdrawal == 0 ? 0 : lastWithdrawal + TIME_BETWEEN_WITHDRAWALS;
-        if (nextWithdrawalTime > lockExpiration) {
-            return nextWithdrawalTime;
-        } else {
-            return lockExpiration;
         }
-    }
-
-    if (lastWithdrawal == 0) {
-        return 0;
-    }
-
-    if (block.timestamp < lastWithdrawal + TIME_BETWEEN_WITHDRAWALS) {
-        return lastWithdrawal + TIME_BETWEEN_WITHDRAWALS;
-    } else {
-        uint256 elapsedWithdrawalPeriods = (block.timestamp - lastWithdrawal) / TIME_BETWEEN_WITHDRAWALS;
-        if (elapsedWithdrawalPeriods >= MAX_WITHDRAWAL_PERIODS) {
-            return block.timestamp;
-        } else {
-            return lastWithdrawal + ((elapsedWithdrawalPeriods + 1) * TIME_BETWEEN_WITHDRAWALS);
-        }
-    }
-}
-
 
 // Get the time left until the Global Lock Time of all Regular Accounts expire.
         function getGlobalTimeLeftRegularAccount() public view returns (uint256 _timeLeft) {
