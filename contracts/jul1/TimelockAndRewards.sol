@@ -117,7 +117,6 @@
         uint256 public totalCumulativeTimelocked; // Amount of tokens that have ever been timelocked, disregarding withdrawals.
         uint256 public totalCurrentlyTimelocked; // Amount of tokens that are currently timelocked
         uint256 public totalRewardsEarned; // Total amount of rewards that have been earned across all users.
-        uint256 public totalRewardsSeeded; // Total Rewards Seeded by deployer of this contract.
 
 // Address of the owner/contract deployer - Supposed to become the burn address (0x0000...) after owner revokes ownership.
         address public owner;
@@ -173,7 +172,6 @@
             uint256 balance = tokenContract.balanceOf(address(this));
             require(tokenContract.approveAndCall(address(this), balance, "0x"), "Token approval failed");
             isContractSeeded = true;
-            totalRewardsSeeded = (balance * 99) / 100;
         }
 
 // Move ownership of contract to the burn address.
