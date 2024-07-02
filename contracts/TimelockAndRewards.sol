@@ -85,7 +85,7 @@
     }
 
 
-    contract TimelockAndRewards is ReentrancyGuard {
+    contract TimelockAndRewardsContract is ReentrancyGuard {
         
         ERC20Interface tokenContract;
 
@@ -118,6 +118,7 @@
         uint256 public totalCurrentlyTimelocked; // Amount of tokens that are currently timelocked
         uint256 public totalRewardsEarned; // Total amount of rewards that have been earned across all users.
         uint256 public totalRewardsSeeded; // Total Rewards Seeded by deployer of this contract.
+
 
 // Address of the owner/contract deployer - Supposed to become the burn address (0x0000...) after owner revokes ownership.
         address public owner;
@@ -263,7 +264,7 @@
             totalCumulativeTimelocked = totalCumulative;
 
                 // If total rewards earned has reached 300,000 tokens, no more rewards will be calculated or sent
-                if (totalRewards >= TOTAL_REWARDS_SEEDED) {
+                if (totalRewards >= totalRewardsSeeded) {
                     return;
                 }
 
@@ -289,8 +290,8 @@
 
                 }
                     // Ensure that total rewards earned does not exceed 300,000 tokens
-                if (totalRewards + newlyEarnedRewards > TOTAL_REWARDS_SEEDED) {
-                newlyEarnedRewards = TOTAL_REWARDS_SEEDED - totalRewards;
+                if (totalRewards + newlyEarnedRewards > totalRewardsSeeded) {
+                newlyEarnedRewards = totalRewardsSeeded - totalRewards;
                 }
 
             // Update totals
