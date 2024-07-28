@@ -42,7 +42,7 @@
 <div class="text-background">
 <!--<center><p>The BSOV Token Community presents</p></center>-->
 <center><h1 class="brand-name">SovCube</h1></center>
-<center><p style="margin-bottom:100px; color:rgb(195, 195, 195, 0.9);">Decentralized Foundation</p></center>
+<center><p style="margin-bottom:100px; color:rgb(195, 195, 195, 0.9);"></p></center>
 <img src="/images/locked-bsov.png" style="margin:0px 0px 0px 0px; z-index:11;" width="50px" ></img>
 <center><h2 class="tagline">Timelock Today. Shape Tomorrow.</h2></center>
 <center><h3 class="description-heading">Great decisions take time. Your vote shapes the future in our decentralized foundation.</h3></center>
