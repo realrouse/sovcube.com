@@ -84,6 +84,40 @@ function formatNumber($value) {
    
 
 
+ <div class="container">
+
+        <div class="contract-section">
+            <h2 id="contract-heading">Timelock Rewards</h2>
+<a id="moreinfo" href="/docs/index.php/#rewardreserve" target="_blank">More info</a>
+            <div class="info-container" id="CurrentTier">
+                Current Tier: Loading...
+            </div>
+            <div class="info-container" id="TotalEligibleAmount">
+                Total Eligible Amount: Loading...
+            </div>
+           <div class="info-container" id="RewardsRemaining">
+                Rewards Remaining: Loading...
+           </div>
+            <div class="info-container" id="TotalTimelocked">
+                Total Timelocked: Loading...
+            </div>
+        </div>
+        <div class="contract-section">
+            <h2 id="contract-heading">BSOV Token</h2>
+<a id="external-link4" href='#' target="_blank"><img src="/images/external-link.png" width="15px" alt="External Link Icon"> Etherscan</a> <a id="moreinfo" href="/docs/index.php/#bsov" target="_blank">More info</a>
+            <div class="info-container" id="tokensMinted">
+                Tokens Minted: Loading...
+            </div>
+            <div class="info-container" id="burnAmount">
+                Tokens Minted: Loading...
+            </div>
+        </div>
+
+
+</div>
+
+
+
 
     <div class="container">
 
@@ -97,7 +131,7 @@ function formatNumber($value) {
                 Time Left: Loading...
             </div>
             <div class="info-container" id="contract1TotalTimelocked">
-                <p><b>Current Total Timelocked:</b><br><?php echo formatNumber($totalTimelocked1) . " BSOV"; ?></p>
+                <p><b>Currently Total Timelocked by Users:</b><br><?php echo formatNumber($totalTimelocked1) . " BSOV"; ?></p>
             </div>
             <div class="info-container" id="contract1UsersInfo">
                 <div class="leaderboard-container" id="contract1Leaderboard">
@@ -147,7 +181,7 @@ function formatNumber($value) {
                 Time Left: Loading...
             </div>
             <div class="info-container" id="contract2TotalTimelocked">
-                <p><b>Current Total Timelocked:</b><br><?php echo formatNumber($totalTimelocked2) . " BSOV"; ?></p>
+                <p><b>Currently Total Timelocked by Users:</b><br><?php echo formatNumber($totalTimelocked2) . " BSOV"; ?></p>
             </div>
             <div class="info-container" id="contract2UsersInfo">
                 <div class="leaderboard-container" id="contract2Leaderboard">
@@ -189,9 +223,13 @@ function formatNumber($value) {
         </div>
 
     </div>
+<!--
 <div class="governance-text-container">
 <div class="governance-text">In the future, we are considering the implementation of a governance function specifically for the Top Timelockers featured on the leaderboard. Therefore, maintaining your tokens timelocked in a single address could become an important aspect of leveraging this potential new feature.</div>
    </div>
+-->
+
+<!--
 
  <div class="container">
 
@@ -224,6 +262,8 @@ function formatNumber($value) {
 
 
 </div>
+-->
+
 <br><br><br>
 </div>
 

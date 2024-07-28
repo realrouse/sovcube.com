@@ -56,9 +56,19 @@ document.getElementById('clearError').addEventListener('click', function() {
 
 </script>
 
+
+
+
+
+
+
+
+
 <div id="contractInfoContainer">
+<details>
+<summary>Contract 1:</summary>
     <div id="contract1InfoSection">
-        <h3 class="contract1infoheader" style="display:none;">Contract 1 Balances:</h3>
+        <h3 class="contract1infoheader" style="display:none;">Contract 1:</h3>
         <span id="contract1DynamicInfo"></span>
     </div>
 
@@ -97,8 +107,8 @@ document.getElementById('clearError').addEventListener('click', function() {
 
 
 
+</details>
 </div>
-
 
 
 
@@ -108,7 +118,7 @@ document.getElementById('clearError').addEventListener('click', function() {
 
 <div id="contractInfo2Container">
     <div id="contract2InfoSection">
-	<h3 class="contract2infoheader" style="display:none;">Contract 2 Balances:</h3>
+	<h3 class="contract2infoheader" style="display:none;">Contract 2:</h3>
 <div id="mainContractInfo">
 	      </div>
         <span id="contract2DynamicInfo"></span>

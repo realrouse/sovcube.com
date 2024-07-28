@@ -1,4 +1,45 @@
- 
+.brand-name {
+    font-size: 60pt; /* Large size for the brand name */
+    font-weight: bold; /* Optional: if you want the brand name to be bold */
+    margin-bottom: 10px; /* Adjust the space below the brand name */
+    margin-top: 150px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+
+.description-heading {
+margin-top:60px;
+margin-bottom:60px;
+text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.tagline {
+margin-top:60px;
+margin-bottom:60px;
+font-size:28pt;
+text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.text-background {
+    position: relative;
+    margin-bottom:350px;
+    text-align: center;
+    width:100%;
+}
+
+.text-background::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 130%;
+    height: 170%;
+    background: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
+    transform: translate(-50%, -50%);
+    filter: blur(10px); /* Adjust the blur radius as needed */
+    z-index: -2;
+}
+
 .stats-container {
 background-color: rgba(0,0,0,0.2);
     padding-bottom: 5px;
@@ -39,12 +80,12 @@ background-color: rgba(0,0,0,0.2);
     mix-blend-mode: multiply;
 }
 
-.img-fade {
+/*.img-fade {
     opacity: 0; /* Start with the image fully transparent */
     animation: fadeIn ease-in 1; /* Define the animation */
     animation-fill-mode: forwards; /* Let the last keyframe (opacity: 1) persist after the animation completes */
     animation-duration: 0.5s; /* Animation duration of 1 second */
-}
+}*/
 
 /* Define the keyframes for the fadeIn animation */
 @keyframes fadeIn {
@@ -52,11 +93,6 @@ background-color: rgba(0,0,0,0.2);
     100% { opacity: 1; } /* At the end of the animation, opacity is 1 (fully opaque) */
 }
 
-.brand-name {
-    font-size: 45pt; /* Large size for the brand name */
-    font-weight: bold; /* Optional: if you want the brand name to be bold */
-    margin-bottom: 0.5em; /* Adjust the space below the brand name */
-}
 a {
 color:white;
 }
@@ -66,34 +102,21 @@ width: 1000px;
 margin-top:100px;
 margin:auto;
 opacity:0;
+z-index:-2;
 }
 
 .body-container.bg-loaded {
 opacity:1;
-transition: opacity 3s ease-in-out;
+transition: opacity 2s ease-in-out;
 
 }
 
-/*
-.body-container::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 50%;
-    width: 1000px;
-    height: 100%;
-    transform: translateX(-50%); /* Centers the background */
-    background: url('images/padlock3.png') no-repeat center center;
-    background-size: cover;
-    opacity: 0.1;
-    z-index: -1;
-}
-*/
 
 html, body {
     height: 100%;
     margin: 0;
     padding: 0;
+scroll-behavior: smooth;   
 }
 
 body {
@@ -139,6 +162,7 @@ h1, h2, h3, h4, h5, h6, p {
 color: white;
 margin-right:10px;
 margin-left:10px;
+scroll-margin-top: 100px;
 }
 
 .text-container {
@@ -149,7 +173,7 @@ padding-top:25px;
 padding-bottom:25px;
 position:relative;
 height:50%;
-width:50%;
+width:65%;
 margin:auto;
 margin-top:100px;
 background-color: rgba(50, 50, 50, 0.6);
@@ -177,6 +201,22 @@ transition: opacity 5s ease-in-out;
     z-index: 1;
 }
 
+.launch-button-gold {
+border-radius:10px;
+    background-color: #F8B128;
+    border: 3px solid #004F8B;
+    color: black;
+    padding: 20px 40px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 40px 40px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
 .launch-button {
     background-color: #1F1F1F;
     border: 3px solid #004F8B; /* Light blue border */
@@ -187,10 +227,11 @@ transition: opacity 5s ease-in-out;
     display: inline-block;
     font-size: 20px;
     font-weight:bold;
-    margin: 4px 2px;
+    margin: 40px 40px;
     transition-duration: 0.4s;
     cursor: pointer;
     z-index:15;
+    border-radius:10px;
 }
 
 .launch-button:hover {

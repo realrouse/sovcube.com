@@ -70,9 +70,9 @@ $(document).ready(function(){
 <div id="contract1Details" class="contract-details" style="display: none;">
     <div class="radio-buttons">
         <input type="radio" id="timelock1" name="contract1Action" value="timelock">
-        <label for="timelock1" data-toggle="tooltip" title="Lock your tokens to your 'Regular Account' for a pre-set period of time. Tokens cannot be accessed until the Lock Time has expired.">Timelock</label>
+        <label for="timelock1" data-toggle="tooltip" title="Lock your tokens into your 'Regular Account' until the Global Lock Time expires.">Timelock</label>
         <input type="radio" id="withdraw1" name="contract1Action" value="withdraw">
-        <label for="withdraw1" data-toggle="tooltip" title="Retrieve your timelocked tokens after the Lock Time has expired, adhering to the weekly Withdrawal Rate limits.">Withdraw</label>
+        <label for="withdraw1" data-toggle="tooltip" title="Withdraw your timelocked tokens after the Lock Time has expired, adhering to the weekly Withdrawal Rate limits.">Withdraw</label>
     </div>
     <input type="number" id="amount1" placeholder="Amount of BSOV">
     <p id="timelockedtokens1">0 BSOV will be timelocked. 0 BSOV will be burnt.</p>
@@ -127,17 +127,17 @@ const lockYears = Number(lockTimeLeftInSeconds) / Number(secondsInYear); // Conv
             
             <div class="radio-buttons">
                 <input type="radio" id="timelock2" name="contract2Action" value="timelock">
-                <label for="timelock2" style="outline-color:orange; box-shadow: 0 0 10px 1px orange;" data-toggle="tooltip" title="Lock your tokens for a pre-set period of time and receive Timelock Rewards. Tokens cannot be accessed until the Lock Time has expired.">Timelock</label>
+                <label for="timelock2" style="outline-color:orange; box-shadow: 0 0 10px 1px orange;" data-toggle="tooltip" title="Lock your tokens into your 'Regular Account' until the Global Lock Time expires, and receive Timelock Rewards!">Timelock</label>
                 <input type="radio" id="withdraw2" name="contract2Action" value="withdraw">
                 <label for="withdraw2" data-toggle="tooltip" title="Retrieve your timelocked tokens after the Lock Time has expired, adhering to the weekly Withdrawal Rate limits.">Withdraw</label>
                 <input type="radio" id="sendlocked" name="contract2Action" value="sendlocked">
-                <label for="sendlocked" data-toggle="tooltip" title="Transfer your timelocked tokens to someone else's 'Incoming Account'. When these tokens are claimed using the 'Accept Incoming Tokens' button, their Lock Time resets to 1000 days.">Send Locked Tokens</label>
+                <label for="sendlocked" data-toggle="tooltip" title="Transfer the timelocked tokens in your 'Regular Account' to someone else's 'Incoming Account'. The receiver must claim the tokens using the 'Accept Untaken Incoming Tokens' button.">Send Locked Tokens</label>
             </div>
             <input type="number" id="amount2" placeholder="Amount of BSOV">
 
     <p id="timelockedtokens2">0 BSOV will be timelocked. 0 BSOV will be burnt.</p>
     <p id="withdrawaltime2">Lock Time: 0 years, then 0 years at a withdrawal rate of 100 tokens/week.</p>
-    <span id="timelockRewardCalculation">You will be eligible for 0 Timelock Reward tokens.</span>
+    <span id="timelockRewardCalculation">You will be eligible for 0 BSOV in Timelock Rewards!</span>
 <p id="advanceTierMessage">Tier</p>
 <!--<script>
     // Function to update the text
@@ -427,7 +427,7 @@ document.getElementById('clearError').addEventListener('click', function() {
 	      <div class="contract-info-style" id="incomingAccountContainer">
                <div id="incomingTokensAccount">   
 	      </div>	
-	              <button id="acceptIncomingButton" data-toggle="tooltip" title="Accepting Incoming Tokens will reset the lock period of any existing timelocked balance in your 'Incoming Account' to a full 1000 days. This will not affect the lock period of your Regular Account.">Accept Untaken Incoming Tokens</button>
+	              <button id="acceptIncomingButton" data-toggle="tooltip" title="Accepting Untaken Incoming Tokens will either start or reset the lock period of any existing timelocked balance in your 'Incoming Account' to a full 100 days. This will not affect the lock period of your Regular Account.">Accept Untaken Incoming Tokens</button>
 		</div>
 	</div>
 

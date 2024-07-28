@@ -11,7 +11,7 @@ position: relative;
     text-align: center;
     padding: 10px 0;
    margin-top:0px;
-    
+z-index:30;    
 }
 
 .menu-item {
@@ -49,6 +49,7 @@ font-weight:normal;
     margin: 4px 2px;
     transition-duration: 0.4s;
     cursor: pointer;
+    border-radius:10px
 }
 
 .menu-launch-button:hover {
@@ -70,7 +71,7 @@ font-weight:normal;
     margin: 4px 2px;
     transition-duration: 0.4s;
     cursor: pointer;
-
+border-radius:10px
 }
 
 .rewards-menu:hover {
@@ -93,7 +94,7 @@ font-weight:normal;
     margin: 4px 2px;
     transition-duration: 0.4s;
     cursor: pointer;
-
+border-radius:10px
 }
 
 .treasury-menu:hover {

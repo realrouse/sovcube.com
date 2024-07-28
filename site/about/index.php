@@ -44,7 +44,7 @@ directly aligns with the core function of the system, which is to preserve the v
 which fits well with the idea of securely timelocking tokens.
 </p><p>
 The SovCube concept was created around year 2020, when a community member wanted to conceptualize a name for the timelock contract that already existed (Contract 1) for BSOV Token.
-In February 2024, the SovCube website was redesigned and launched with the creation of Contract 2 and the Rewards Reserve Contract.
+In June 2024, the SovCube website was redesigned and launched with the deployment of Contract 2 and Timelock Rewards.
 	</p>
 	<h2>Contact and support</h2>
     <p class="linklist">
