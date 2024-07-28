@@ -11,6 +11,7 @@ body {
     padding: 20px; /* Add some padding */
  -webkit-animation: fadeIn 0.5s;
     animation: fadeIn 0.5s;
+    z-index:31;
 }
 
 
@@ -28,6 +29,7 @@ body {
     white-space: nowrap;
  -webkit-animation: fadeIn 0.5s;
     animation: fadeIn 0.5s;
+    
 }
 
 .connect-button:hover {
@@ -40,6 +42,7 @@ body {
     font-size:8pt;
  -webkit-animation: fadeIn 0.5s;
     animation: fadeIn 0.5s;
+    
 }
 
 
