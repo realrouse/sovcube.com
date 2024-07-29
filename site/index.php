@@ -44,8 +44,10 @@
 <center><h1 class="brand-name">SovCube</h1></center>
 <center><p style="margin-bottom:100px; color:rgb(195, 195, 195, 0.9);"></p></center>
 <img src="/images/locked-bsov.png" style="margin:0px 0px 0px 0px; z-index:11;" width="50px" ></img>
-<center><h2 class="tagline">Timelock Today. Shape Tomorrow.</h2></center>
-<center><h3 class="description-heading">Great decisions take time. Your vote shapes the future in our decentralized foundation.</h3></center>
+<center><h2 class="tagline">Shape Tomorrow. Timelock Today.</h2></center>
+<p style="text-align:center;">Unlock the potential of your BSOV Tokens with SovCube, a web3 dApp built on Ethereum.
+<br>Timelock, earn rewards, and influence real-world outcomes in our decentralized foundation.</p>
+<center><h3 class="description-heading">Great decisions take time. Shape the future with your vote in our decentralized foundation.</h3></center>
 <button onclick="window.location.href='#more'" class="launch-button-gold">Read More</button>
 </div>
 
@@ -53,8 +55,8 @@
 
 <center><h2 class="tagline" id="more">Long Commitment, Lasting Impact</h2></center>
 <center><h3 class="description-heading">SovCube is a decentralized autonomous organization (DAO) that spends donated Treasury funds to various causes. Decision makers must demonstrate their commitment by locking their <a href="https://bsovtoken.com" target="_blank">BSOV Tokens</a> for an extended period.</h3></center>
-<p style="text-align:center;"></p>
 
+<p style="text-align:center;"></p>
 <!-- <p style="text-align:center;">Secure your <a href="https://bsovtoken.com" target="_blank">BSOV Tokens</a> with SovCube's web3 dApp<br>and smart-contract collection, which work similarly to a traditional long-term savings account.</p>-->
 <br>
 <center><h2 class="tagline">Features</h2></center>
