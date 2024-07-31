@@ -64,19 +64,21 @@
 <center><h3>Timelock Tokens</h3></center>
 <div style="text-align:center;">
 <p>Timelock your <a href="https://bsovtoken.com" target="_blank">BSOV Tokens</a> using SovCube's web3 interface to showcase your commitment to the token's long-term value. Become a Top Timelocker to qualify for voting power and earn voting rewards.</p>
-<img src="/images/timelock-gold.png" style="margin:0px 0px 0px 0px; z-index:11;" width="200px" ></img><br>
-<img src="/images/Sovcube-padlock-icon10.png" style="margin:0px 0px 0px 0px; z-index:11;" width="100px" ></img><br>
+<img src="/images/timelock-gold-padlock5.png" style="margin:0px 0px 0px 0px; z-index:11;" width="300px" ></img><br>
+<!--<img src="/images/Sovcube-padlock-icon10.png" style="margin:0px 0px 0px 0px; z-index:11;" width="100px" ></img><br>-->
 </div>
 </div>
 
 <div class="stats-container">
 <div style="text-align:center;">
 <center><h3 style="color:#F8B128;">Timelock Rewards for early users</h3></center>
-<p>Earn rewards by timelocking, and potentially<br>double your investment (100% ROI) when you're an early participant of SovCube's Timelock Rewards.</p>
+<p>Earn BSOV rewards by timelocking, and potentially<br>double your investment (100% ROI) when you're an early participant of SovCube's Timelock Rewards.</p>
 <br>
 </div>
 <div style="text-align:center;">
-<img src="/images/Sovcube-padlock-icon11.png" style="margin:0px 0px 20px 0px; z-index:11;" width="200px" ></img>
+<!--<img src="/images/Sovcube-padlock-icon11.png" style="margin:0px 0px 20px 0px; z-index:11;" width="200px" ></img>-->
+<img src="/images/sovcube-reward2.png" style="margin:0px 0px 20px 0px; z-index:11;" width="55px" ></img>
+
 </div>
 </div>
 <div class="stats-container">
@@ -87,7 +89,7 @@
  You can offer individuals a payment that remains locked for 100 days.<br> 
 In essence, you can send, gift, or pay anyone with timelocked BSOV Tokens.</p>
 </p>
-<img src="/images/send-locked-tokens.png" style="margin:0px 0px 20px 0px; z-index:11;" width="200px" ></img>
+<img src="/images/send-locked-tokens-users8.png" style="margin:0px 0px 20px 0px; z-index:11;" width="400px" ></img>
 </div>
 <br>
 </div>
