@@ -30,11 +30,9 @@
 
 <?php include $_SERVER['DOCUMENT_ROOT'] . '/menu.php'; ?>
 <body>
-
 <!--
 <center><img class="img-fade"  src="/images/Sovcube-padlock-icon-white.png" height=150px width=auto style="opacity:0.9; position:fixed; z-index:1; margin-left:-5%; margin-top:400px;"></img> </center>
 -->
-
 <div class="body-container">
 
 <div class="blurred-background"></div>
@@ -42,9 +40,8 @@
 <div class="text-background">
 <!--<center><p>The BSOV Token Community presents</p></center>-->
 <center><h1 class="brand-name">SovCube</h1></center>
-<center><p style="margin-bottom:100px; color:rgb(195, 195, 195, 0.9);"></p></center>
-<img src="/images/locked-bsov.png" style="margin:0px 0px 0px 0px; z-index:11;" width="50px" ></img>
-<center><h2 class="tagline">Shape Tomorrow. Timelock Today.</h2></center>
+<center><img  src="/images/ani-locked-bsov-padlock-small.gif" style="margin:0px 0px 0px 0px; z-index:11;" width="100px" alt="BSOV Token" ></img></center><br>
+<center><h2 class="tagline">Timelock Today. Shape Tomorrow.</h2></center>
 <p style="text-align:center;">Unlock the potential of your BSOV Tokens with SovCube, a web3 dApp built on Ethereum.
 <br>Timelock, earn rewards, and influence real-world outcomes in our decentralized foundation.</p>
 <center><h3 class="description-heading">Great decisions take time. Shape the future with your vote in our decentralized foundation.</h3></center>
@@ -55,7 +52,6 @@
 
 <center><h2 class="tagline" id="more">Long Commitment, Lasting Impact</h2></center>
 <center><h3 class="description-heading">SovCube is a decentralized autonomous organization (DAO) that spends donated Treasury funds to various causes. Decision makers must demonstrate their commitment by locking their <a href="https://bsovtoken.com" target="_blank">BSOV Tokens</a> for an extended period.</h3></center>
-
 <p style="text-align:center;"></p>
 <!-- <p style="text-align:center;">Secure your <a href="https://bsovtoken.com" target="_blank">BSOV Tokens</a> with SovCube's web3 dApp<br>and smart-contract collection, which work similarly to a traditional long-term savings account.</p>-->
 <br>
@@ -121,7 +117,7 @@ Will you take part in shaping the future?</p>
 window.onload = function() {
     setTimeout(function() {
         document.querySelector('.body-container').classList.add('bg-loaded');
-    }, 1000); // Wait for 2000 milliseconds before executing the code inside the function
+    }, 500); // Wait for 2000 milliseconds before executing the code inside the function
 };
 
 </script>

@@ -1,20 +1,28 @@
+    .hidden { 
+        opacity: 0;
+        transition: opacity 1s ease-in-out; /* Adjust the duration as needed */
+    }
+    .visible {
+        opacity: 1;
+    }
+
 .brand-name {
     font-size: 60pt; /* Large size for the brand name */
     font-weight: bold; /* Optional: if you want the brand name to be bold */
-    margin-bottom: 10px; /* Adjust the space below the brand name */
-    margin-top: 150px;
+    margin-bottom: 30px; /* Adjust the space below the brand name */
+    margin-top: 110px;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
 }
 
 
 .description-heading {
-margin-top:60px;
-margin-bottom:60px;
+margin-top:50px;
+margin-bottom:50px;
 text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
 }
 
 .tagline {
-margin-top:60px;
+margin-top:40px;
 margin-bottom:5px;
 font-size:28pt;
 text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);

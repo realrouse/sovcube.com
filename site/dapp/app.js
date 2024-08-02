@@ -114,7 +114,9 @@ function updateUIForConnectedWallet(account) {
 const balanceNumber = Number(BigInt(balance) / BigInt(100000000)); // Convert balance to a JavaScript number
             const formattedBalance = balanceNumber.toFixed(2); // Format with 2 decimal places
 const formattedBalanceString = new Intl.NumberFormat('en-US').format(formattedBalance); // Format with commas
-            walletStatus.innerText = `Connected to: ${account}\nBSOV in wallet: ${formattedBalanceString} BSOV`;
+            walletStatus.innerHTML = `<div class="connected-to">
+			<b>Connected to:</b><br>${account}<br><br><img width=13px height=auto src="/images/bsov-small-sharp.png"></img><b> BSOV in wallet:</b><br>${formattedBalanceString} BSOV
+		</div>`;
             walletStatus.style.color = '#2CB723';
             toggleConnectButtonText();
             updateUIOnConnection(selectedAccount);

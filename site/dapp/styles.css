@@ -1,4 +1,13 @@
+
+
 /*styles.css*/
+
+
+.connected-to {
+padding:5px;
+background-color:black;
+border-radius:10px;
+}
 
 #withdraw2Button {
 font-size:8pt;
