@@ -33,7 +33,7 @@ and IMPORTANT: Write your ERC20/ETH address in the memo.</p>
             <div class="button-container"> 
 	<button onclick="window.location.href='https://t.me/SovCube'" class="launch-button">Join Telegram</button>
 	    </div>
-<p><b>Info: </b>SOVCUBE-DROP to BSOV Token ratio is 1:1, meaning that 100 SOVCUBE-DROP Tokens will equal 100 BSOV Tokens.</p>
+<p><b>Info: </b>BSOV-DROP to BSOV Token ratio is 1:1, meaning that 100 BSOV-DROP Tokens will equal 100 BSOV Tokens.</p>
 </div>
 
 
