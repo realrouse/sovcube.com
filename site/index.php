@@ -51,7 +51,7 @@
     <div class="text-container">
 
 <center><h2 class="tagline" id="more">Long Commitment, Lasting Impact</h2></center>
-<center><h3 class="description-heading">SovCube is a decentralized autonomous organization (DAO) that spends donated Treasury funds to various causes. Decision makers must demonstrate their commitment by locking their <a href="https://bsovtoken.com" target="_blank">BSOV Tokens</a> for an extended period.</h3></center>
+<center><h3 class="description-heading">SovCube is a decentralized autonomous organization (DAO) that allocates donated Treasury funds to various causes. Any member can become a decision maker by demonstrating their commitment through locking their <a href="https://bsovtoken.com" target="_blank">BSOV Tokens</a> for an extended period.</h3></center>
 <p style="text-align:center;"></p>
 <!-- <p style="text-align:center;">Secure your <a href="https://bsovtoken.com" target="_blank">BSOV Tokens</a> with SovCube's web3 dApp<br>and smart-contract collection, which work similarly to a traditional long-term savings account.</p>-->
 <br>
@@ -93,7 +93,7 @@ In essence, you can send, gift, or pay anyone with timelocked BSOV Tokens.</p>
 <div class="stats-container">
 <div style="text-align:center;">
 <center><h3>Propose, Vote, Be Rewarded (Under development)</h3></center>
-<p>The decentralized foundation needs to spend donated funds on important causes.
+<p>The decentralized foundation spends donated funds on important causes. Which kind of causes? It can be anything from charities to funding advertisement to promote this project. It is completely up to the Proposal Makers and the Top Timelockers.
 Only the Top Timelockers can vote and receive Voting Rewards, but anyone can write proposals.
 Will you take part in shaping the future?</p>
 </p>
