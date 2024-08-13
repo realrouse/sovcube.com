@@ -1,4 +1,45 @@
-    .hidden { 
+details {
+background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    margin: 10px;
+    padding: 5px;
+}
+
+summary {
+    user-select: none; /* Disables text selection */
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    cursor: pointer;
+    font-size: 12pt;
+    color: #4a90e2;
+    margin-left:15%;
+    width: 70%;
+    height:30px;
+    display: flex;
+    align-items: center; /* Aligns marker and text vertically */
+    justify-content: center; /* Centers the content */
+}
+
+summary::marker {
+    font-size: 20px;
+    color: #4a90e2;
+    margin-right: 10px; /* Adds space between the marker and text */
+   /* content: "\25B6";*/ /* Adds a custom marker if necessary (Unicode for right-pointing triangle) */
+}
+
+summary::before {
+   content: "\25B6"; /* Unicode for a right-pointing triangle */
+    font-size: 20px;
+    color: #4a90e2;
+    margin-right: 10px; /* Space between the marker and text */
+}
+
+   details[open] summary::before {
+    content: "\25BC"; /* Unicode for a down-pointing triangle */
+} 
+    
+.hidden { 
         opacity: 0;
         transition: opacity 1s ease-in-out; /* Adjust the duration as needed */
     }
@@ -171,6 +212,11 @@ color: white;
 margin-right:10px;
 margin-left:10px;
 scroll-margin-top: 100px;
+}
+
+li {
+    color: white; /* Changes bullet color to white */
+    text-align:left;
 }
 
 .text-container {
