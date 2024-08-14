@@ -85,7 +85,7 @@
 <br>
 <div class="how-it-works">
 <details>
-   <summary> <center><h4>How It Works:</h2></center></summary>
+   <summary> <center><h4>How Rewards Work</h2></center></summary>
     <ul>
         <li> <p>         <strong>Earn up to 100% ROI:</strong> The sooner you timelock your BSOV Tokens, the higher your potential return on investment (ROI). Early participants can earn up to 100% ROI in the first reward tier.
        </p> </li>
@@ -127,7 +127,7 @@
         <div class="how-it-works">
 	 
 <details>
- <summary>  <center><h4>Gradual Release Withdrawal Mechanism:</h4></center></summary>
+ <summary>  <center><h4>Gradual Release:</h4></center></summary>
             <ul>
                 <li>
                     <p><strong>Weekly Limit:</strong> Withdrawals are capped at 100 BSOV tokens per week per user, allowing for a steady and controlled release of tokens.</p>
@@ -150,8 +150,34 @@
 <div class="stats-container">
 <div style="text-align:left;">
 <center><h3>Propose, Vote, Be Rewarded (Under development)</h3></center>
-<p>The decentralized foundation allocates funds to significant causes. What kind of causes? It’s completely up to the community. Proposal Makers suggest ideas, and Top Timelockers vote to decide how the funds are spent, ensuring that the direction of SovCube reflects the priorities of its most committed members.</p>
-    <p>Only the Top Timelockers can vote and receive Voting Rewards. However, anyone in the community is welcome to write and submit proposals, giving every member a voice in shaping the future.</p>
+<p>
+<strong>Exciting developments ahead:</strong> The decentralized foundation allocates funds to significant causes, determined entirely by the community. Proposal Makers suggest ideas, while Top Timelockers vote and receive Voting Rewards, ensuring SovCube reflects the priorities of its most committed members.
+</p>
+<details>
+<summary>
+<h4>Skin-in-the-Game Governance</h4>
+</summary>
+            <ul>
+                <li>
+                    <p><strong>Skin-in-the-game:</strong> Commitment to SovCube is a requirement, ensuring decisions are sound and resilient to voting attacks, creating a robust governance system.</p>
+                </li>
+                <li>
+                    <p><strong>1 Vote per User:</strong> Only the top 100 Timelockers can vote, making it costly to acquire multiple votes and ensuring true decentralization.</p>
+		</li>
+	        <li>
+                    <p><strong>Ever-Decentralizing Decision Pool:</strong> Every 4 years, the voting pool doubles, expanding the Top Timelockers from the top 100 to the top 200, and eventually to 102,400 over 40 years.</p>
+		</li>
+                <li>
+                    <p><strong>Voting Rewards:</strong> To incentivize participation, every Top Timelocker will receive Voting Rewards.</p>
+                </li>
+                <li>
+                    <p><strong>1 Decision per Year:</strong> Only 1 proposal will win per year, so every vote counts. This scarcity drives fierce competition among proposals, ensuring that only the most impactful and well-supported ideas rise to the top. It also gives the community ample time to thoroughly evaluate each proposal, making the final decision a meaningful reflection of the community's collective vision and commitment to the future of SovCube.</p>
+                </li>
+
+
+            </ul>
+
+</details>
 </div>
 <br>
 </div>
@@ -162,7 +188,7 @@
 
 <div class="button-container">
     <button onclick="window.location.href='/dapp'" class="launch-button">Launch dApp</button>
-    <button onclick="window.location.href='/docs'" class="launch-button">Read the Docs & Help</button>
+    <button onclick="window.location.href='/docs'" class="launch-button">Read Docs & Help</button>
     <p id="message" style="display: none; color: red; margin-top: 10px;">Under construction</p>
 </div>
 
@@ -174,6 +200,20 @@ window.onload = function() {
         document.querySelector('.body-container').classList.add('bg-loaded');
     }, 500); // Wait for 2000 milliseconds before executing the code inside the function
 };
+
+
+
+
+document.querySelectorAll('details').forEach((detail) => {
+  detail.addEventListener('toggle', function() {
+    if (this.open) {
+      this.style.maxHeight = this.scrollHeight + "px";
+    } else {
+      this.style.maxHeight = "50px"; // Set to the height of the summary
+    }
+  });
+});
+
 
 </script>
 
