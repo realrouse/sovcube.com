@@ -3,6 +3,137 @@
 /*styles.css*/
 
 
+.modal-table {
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-collapse: collapse;
+    color: white;
+}
+
+.modal-table td {
+    padding: 5px;
+    border-bottom: 1px solid #444;
+}
+
+.modal-table td:first-child {
+    text-align: left;
+    width: 60%;
+}
+
+.modal-table td:last-child {
+    text-align: right;
+    width: 40%;
+}
+
+
+
+#confirmationModal {
+    display: none;
+}
+
+
+/* Modal Backdrop */
+.modal-fade {
+    z-index: 1040 !important;
+    background-color: rgba(0, 0, 0, 0.7); /* Darker background to match the page */
+}
+
+/* Modal Content */
+
+.modal-content {
+    background-color: #262626; /* Dark background to match your theme */
+    color: white; /* White text for readability */
+    border-radius: 10px; /* Smooth rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Slight shadow for depth */
+    border: 1px solid #004F8B; /* Border color to match buttons */
+
+    left: 30.25%;
+    position: fixed;
+    top: 40%;
+    z-index: 50; /* Ensure it’s above the overlay */
+}
+
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.75); /* Dark semi-transparent background */
+    z-index: 40; /* Should be behind the modal but above other content */
+}
+
+
+/* Modal Header */
+.modal-header {
+    border-bottom: 1px solid #004F8B; /* Border at the bottom to separate sections */
+}
+
+.modal-title {
+    font-size: 15pt; /* Consistent font size */
+    font-weight: bold; /* Bold text */
+    color: #F8B128; /* Same color as buttons for consistency */
+    text-shadow: 1px 1px 2px #000; /* Subtle text shadow */
+}
+
+/* Close Button */
+.modal-header .close {
+    color: white; /* Close button color */
+    opacity: 1;
+}
+
+.modal-header .close:hover {
+    color: #FDC860; /* Hover color */
+}
+
+/* Modal Body */
+.modal-body {
+    font-size: 10pt; /* Match text size */
+    color: #A2A2A2; /* Slightly lighter gray for text */
+    text-align: center; /* Centered text */
+}
+
+/* Modal Footer */
+.modal-footer {
+    border-top: 1px solid #004F8B; /* Border at the top to separate sections */
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Modal Buttons */
+.modal-footer .btn {
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 10pt;
+    font-weight: bold;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.modal-footer .btn-secondary {
+    background-color: #6c757d; /* Default Bootstrap gray */
+    color: white;
+}
+
+.modal-footer .btn-secondary:hover {
+    background-color: #5a6268; /* Darker on hover */
+}
+
+.modal-footer .btn-primary {
+    background-color: #004F8B; /* Match your primary button color */
+    color: white;
+    border-color: #004F8B;
+}
+
+.modal-footer .btn-primary:hover {
+    background-color: #0073CF; /* Hover color matching other buttons */
+}
+
+
+
+
+
 .connected-to {
 padding:5px;
 background-color:black;

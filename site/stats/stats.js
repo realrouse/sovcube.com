@@ -4,10 +4,25 @@ let web3;
 if (typeof window.ethereum !== 'undefined') {
     console.log('MetaMask is installed!');
     web3 = new Web3(window.ethereum);
+} else if (typeof Web3 !== 'undefined') {
+    console.log('MetaMask is not installed. Falling back to Infura.');
+    console.log('MetaMask is not installed. Please consider installing it: https://metamask.io/download.html');
+    web3 = new Web3(new Web3.providers.HttpProvider(infuraUrl));
+} else {
+    console.error('Web3 not detected and no fallback available.');
+    alert('You need to install MetaMask or use a browser that supports Web3.');
+}
+
+/*
+// Check if MetaMask is installed
+if (typeof window.ethereum !== 'undefined') {
+    console.log('MetaMask is installed!');
+    web3 = new Web3(window.ethereum);
 } else {
     console.log('MetaMask is not installed. Please consider installing it: https://metamask.io/download.html');
-    alert('You need to install MetaMask to read the updated data. Please consider installing it: https://metamask.io/download.html');
+    web3 = new Web3(new Web3.providers.HttpProvider(infuraUrl));
 }
+*/
 
 let contract1;
 let contract2;
@@ -33,6 +48,7 @@ function loadABI(file) {
     return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
         xhr.open('GET', file, true);
+	    xhr.overrideMimeType('application/json');
         xhr.onreadystatechange = function() {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 const abi = JSON.parse(xhr.responseText);
@@ -44,7 +60,6 @@ function loadABI(file) {
         xhr.send();
     });
 }
-
 // Initialize contracts using async/await
 async function initializeContracts() {
     try {
@@ -115,14 +130,26 @@ function updateContractData(contract, methodName, containerId, methodArgs) {
 
             containerElement.innerHTML = `<p><b>${containerLabel}:</b><br>${formattedResult}</p>`;
         })
-        .catch((error) => {
-            if (error.message.includes('future is here') || error.message.includes('Tokens are unlocked')) {
-                // Show 'Unlocked!' text in green color
-                containerElement.innerHTML = `<p><b>${containerLabel}:</b><br><span style="color: green;">Unlocked!</span></p>`;
-            } else {
-                containerElement.innerHTML = `<p><b>${containerLabel}:</b><br>Error</p>`;
-            }
-        });
+
+.catch((error) => {
+    console.error(`Error in ${methodName} for container ${containerId}:`, error);
+
+    // Try accessing different levels of the error object
+    const errorMessage = error.message || error.toString() || '';
+
+    const detailedError = error.cause ? error.cause.message || error.cause : '';
+    
+    const fullErrorMessage = `${errorMessage} ${detailedError}`;
+
+    if (fullErrorMessage.includes('The future is here!') || fullErrorMessage.includes('Tokens are unlocked and ready for withdrawal')) {
+        // Show 'Unlocked!' text in green color
+        containerElement.innerHTML = `<p><b>${containerLabel}:</b><br><span style="color: green;">Unlocked!</span></p>`;
+    } else {
+        containerElement.innerHTML = `<p><b>${containerLabel}:</b><br>Error</p>`;
+    }
+});
+
+
 }
 
 function formatTime(seconds) {

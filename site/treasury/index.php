@@ -44,6 +44,6 @@
     
 </div>
 <script src="/dapp/config.js"></script>
-<script src="/rewards/rewards-progress.js"></script>
+<!--<script src="/rewards/rewards-progress.js"></script>-->
 </body>
 </html>

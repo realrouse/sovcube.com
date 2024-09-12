@@ -1,4 +1,4 @@
-fetch-contract.js
+// fetch-contract.js
 
 function fetchContractInfo(contractName, account) {
     if (contractName === 'contract1') {

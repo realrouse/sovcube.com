@@ -290,11 +290,11 @@ document.querySelectorAll('input[name="contract1Action"]').forEach(radio => {
         if (radio.value === 'timelock') {
             document.getElementById('timelock1Button').style.display = 'block';
 	    document.getElementById('timelockedtokens1').style.display = 'block';
-	   // document.getElementById('withdrawaltime1').style.display = 'block';
+	    document.getElementById('withdrawaltime1').style.display = 'block';
         } else if (radio.value === 'withdraw') {
             document.getElementById('withdraw1Button').style.display = 'block';
 	    document.getElementById('timelockedtokens1').style.display = 'none';
-           // document.getElementById('withdrawaltime1').style.display = 'none';
+            document.getElementById('withdrawaltime1').style.display = 'none';
         }
     });
 });
@@ -330,7 +330,7 @@ startInterval();
 	                document.getElementById('timelockedtokens2').style.display = 'block';
 		document.getElementById('advanceTierMessage').style.display = 'block';
 
-          //  document.getElementById('withdrawaltime2').style.display = 'block';
+            document.getElementById('withdrawaltime2').style.display = 'block';
 document.getElementById('timelockRewardCalculation').style.display = 'block';
         } else if (radio.value === 'withdraw') {
 		document.getElementById('withdrawableNowRegularAccount').style.display = 'block';
@@ -340,7 +340,7 @@ document.getElementById('timelockRewardCalculation').style.display = 'block';
 	                document.getElementById('timelockedtokens2').style.display = 'none';
 		document.getElementById('advanceTierMessage').style.display = 'none';
 
-          //  document.getElementById('withdrawaltime2').style.display = 'none';
+            document.getElementById('withdrawaltime2').style.display = 'none';
 document.getElementById('timelockRewardCalculation').style.display = 'none';
             document.getElementById('withdraw2Button').style.display = 'block';
 		document.getElementById('withdrawAll2Button').style.display = 'block';
@@ -375,7 +375,7 @@ if (withdraw1Button) {
 withdraw1Button.addEventListener('click', function() {
     const amountInput = Number(document.getElementById('amount1').value);
     const amount = Math.floor(amountInput * 100000000); // Ensures it is an integer
-   // withdrawTokensContract1(amount);
+    withdrawTokensContract1(amount);
 });
 }
 
@@ -385,7 +385,7 @@ const timelock2Button = document.getElementById('timelock2Button');
 if (timelock2Button) {
 timelock2Button.addEventListener('click', function() {
     const amount = Number(document.getElementById('amount2').value) * 100000000;
-   // timelockTokens(contract2Address, amount);
+    //timelockTokens(contract2Address, amount);
 });
 }
 
@@ -395,7 +395,7 @@ if (withdraw2Button) {
 withdraw2Button.addEventListener('click', function() {
     const amountInput = Number(document.getElementById('amount2').value);
     const amount = Math.floor(amountInput * 100000000); // Ensures it is an integer
-    // withdrawTokensContract2(amount);
+    withdrawTokensContract2(amount);
 });
 }
 
@@ -539,7 +539,7 @@ if ((totalTimelockedFormatted + timelockedTokens) >= currentTierNum * 150000) {
 
         // Update the HTML element
         document.getElementById('timelockRewardCalculation').innerHTML = 
-            `You will receive ${timelockRewardTokens.toFixed(0)} BSOV in Timelock Rewards!`;
+            `You'll be eligible for ${timelockRewardTokens.toFixed(0)} BSOV in Timelock Rewards!`;
     } catch (error) {
         console.error('Error in updating Timelock Reward Calculation:', error);
              }
@@ -566,6 +566,24 @@ function calculateAndDisplayROI(tier) {
 }
 
 
+/*
+async function executeTransactionIfFeeIsAcceptable(contractMethod, args, fromAddress) {
+    const HIGH_FEE_THRESHOLD = web3.utils.toWei("0.1", "ether"); // Example threshold: 0.1 ETH
+    const estimatedGas = await contractMethod.estimateGas(...args, { from: fromAddress });
+    const gasPrice = await web3.eth.getGasPrice();
+
+    const estimatedFee = BigInt(estimatedGas) * BigInt(gasPrice);
+    const highFeeThreshold = BigInt(HIGH_FEE_THRESHOLD);
+    console.log('Estimated Fee: ' + estimatedFee);
+    console.log("Highest Fee Threshold: " + highFeeThreshold);
+    if (estimatedFee > highFeeThreshold) {
+        throw new Error("HighFees");
+    }
+
+    console.log("Initiating Transaction...");
+    return contractMethod.send(...args, { from: fromAddress });
+}
+*/
 
 
 
@@ -670,19 +688,28 @@ async function withdrawTokensContract1(amount) {
 
 
 // Function to withdraw tokens from Contract 2
-async function withdrawTokensContract2(amount, transaction) {
+async function withdrawTokensContract2(amount) {
     document.getElementById('errorMessage').innerText = '';
     if (!window.contract2) {
         console.error('Contract 2 is not initialized for withdrawal');
         return;
     }
 
+    // Determine which account type is selected
+    const selectedAccountType = document.querySelector('input[name="account-type"]:checked').value;
+
+    let transaction;
+    if (selectedAccountType === 'incoming') {
+        transaction = window.contract2.methods.withdrawFromIncomingAccount(amount);
+    } else {
+        transaction = window.contract2.methods.withdrawFromRegularAccount(amount);
+    }
+
     try {
         const receipt = await executeTransactionIfFeeIsAcceptable(transaction, [], selectedAccount);
-        console.log("Transaction receipt: ", receipt);
     } catch (error) {
         if (error.message.includes("HighFees")) {
-            document.getElementById('errorMessage').innerText = 'Absurdly high ETH fees detected.';
+            document.getElementById('errorMessage').innerText = 'Absurdly high ETH fees detected. Something is wrong with the parameters you have specified, or you are trying to withdraw before the Lock Time has expired, or you are trying to withdraw/timelock too many tokens.';
             document.getElementById('clearError').style.display = 'block';
         } else {
             console.error("Error in transaction: ", error);
@@ -692,13 +719,11 @@ async function withdrawTokensContract2(amount, transaction) {
     }
 }
 
-
-
 // Event listener for the Contract 2 Withdraw All button
 const withdrawAll2Button = document.getElementById('withdrawAll2Button');
 if (withdrawAll2Button) {
     withdrawAll2Button.addEventListener('click', function() {
-    //    withdrawAllTokensContract2();
+        withdrawAllTokensContract2();
     });
 }
 
@@ -786,10 +811,10 @@ function resetContractUI() {
 //	document.getElementById(`account-checkbox`).style.display = 'none';
  //       document.getElementById(`account-checkbox-label`).style.display = 'none';
             document.getElementById('timelockedtokens1').style.display = 'none';
-          //  document.getElementById('withdrawaltime1').style.display = 'none';
+            document.getElementById('withdrawaltime1').style.display = 'none';
             document.getElementById('timelockedtokens2').style.display = 'none';
 	document.getElementById('advanceTierMessage').style.display = 'none';
-       //     document.getElementById('withdrawaltime2').style.display = 'none';
+            document.getElementById('withdrawaltime2').style.display = 'none';
 document.getElementById('timelockRewardCalculation').style.display = 'none';
 
 // When a new contract is selected
@@ -832,57 +857,9 @@ async function handleWithdraw() {
    }
 
 
-async function calculateTimelockRewardTokens() {
-    // Check if contract2 and the element exist
-    if (!window.contract2 || !document.getElementById('amount2')) {
-        console.error('Required elements are not initialized.');
-        return;
-    }
-
-    try {
-        const currentTier = await window.contract2.methods.currentGlobalTier().call();
-        const totalTimelockedBigInt = await window.contract2.methods.totalCumulativeTimelocked().call();
-        const totalTimelocked = Number(totalTimelockedBigInt);
-        const totalTimelockedFormatted = totalTimelocked / 100000000;
-
-        // Get the amount and calculate timelocked tokens
-        const amount = document.getElementById('amount2').value;
-        const timelockedTokens = amount * 0.99;
-        let currentTierNum = Number(currentTier);
-
-        if ((totalTimelockedFormatted + timelockedTokens) >= currentTierNum * 150000) {
-            currentTierNum++;
-        }
-
-        // Calculate ROI based on tier
-        const roi = calculateAndDisplayROI(currentTier);
-
-        // Calculate and return Timelock Reward Tokens
-        const timelockRewardTokens = timelockedTokens * roi;
-        return timelockRewardTokens;
-
-    } catch (error) {
-        console.error('Error in calculating Timelock Reward Tokens:', error);
-    }
-}
 
 
-function loadBSOVTokenABI(callback) {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', '/dapp/bsov.abi', true); // Update the path to the correct URL
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            bsovTokenABI = JSON.parse(xhr.responseText);
-            if (callback) {
-                callback();
-            }
-        }
-    };
-    xhr.send();
-}
 
-
-loadBSOVTokenABI();
 
 
 
@@ -975,7 +952,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (isNaN(amount) || amount <= 0) {
                 throw new Error('Please enter a valid amount.');
             }
-//            timelockTokens(contract2Address, amount);
+            timelockTokens(contract2Address, amount);
         } catch (error) {
             displayError(error.message);
         }
@@ -988,40 +965,28 @@ document.addEventListener('DOMContentLoaded', function () {
             if (isNaN(amount) || amount <= 0) {
                 throw new Error('Please enter a valid amount.');
             }
-   //         withdrawTokensContract1(amount);
+            withdrawTokensContract1(amount);
         } catch (error) {
             displayError(error.message);
         }
     }
 
-
-
-
-function withdraw2Action(amount, transaction) {
-    try {
-        executeTransactionIfFeeIsAcceptable(transaction, [], selectedAccount)
-            .then(receipt => {
-                console.log("Transaction receipt: ", receipt);
-            })
-            .catch(error => {
-                if (error.message.includes("HighFees")) {
-                    document.getElementById('errorMessage').innerText = 'Absurdly high ETH fees detected. Something is wrong with the parameters you have specified, or you are trying to withdraw before the Lock Time has expired, or you are trying to withdraw/timelock too many tokens.';
-                    document.getElementById('clearError').style.display = 'block';
-                } else {
-                    console.error("Error in transaction: ", error);
-                    document.getElementById('errorMessage').innerText = `${error.message}`;
-                    document.getElementById('clearError').style.display = 'block';
-                }
-            });
-    } catch (error) {
-        displayError(error.message);
+    function withdraw2Action() {
+        try {
+            const amountInput = document.getElementById('amount2').value;
+            const amount = Math.floor(Number(amountInput) * 100000000);
+            if (isNaN(amount) || amount <= 0) {
+                throw new Error('Please enter a valid amount.');
+            }
+            withdrawTokensContract2(amount);
+        } catch (error) {
+            displayError(error.message);
+        }
     }
-}
-
 
     function withdrawAll2Action() {
         try {
-            //withdrawAllTokensContract2();
+            withdrawAllTokensContract2();
         } catch (error) {
             displayError(error.message);
         }
@@ -1055,384 +1020,63 @@ function sendLocked2Action() {
     }
 }
 
-
-
-// Attach Event Listeners to Buttons
-function attachConfirmationListeners() {
-    // Timelock Contract 1
-    const timelock1Button = document.getElementById('timelock1Button');
-    if (timelock1Button) {
-        timelock1Button.addEventListener('click', function(event) {
-            event.preventDefault();
-            const amount = document.getElementById('amount1').value;
-
-            // Example placeholder values - replace with real calculations as needed
-            const amountBurnt = amount * 0.01;
-            const timelockedAmount = amount * 0.99;
-            const estimatedFee = '0.001 ETH';
-
-            const customMessage = `
-                <p>Are you sure you want to timelock <strong>${amount}</strong> tokens in Contract 1?</p>
-                <table class="modal-table">
-                    <tr>
-                        <td>Amount Sent from Your Wallet:</td>
-                        <td>${amount} BSOV</td>
-                    </tr>
-                    <tr>
-                        <td>Amount Burnt (1%):</td>
-                        <td>${amountBurnt} BSOV</td>
-                    </tr>
-                    <tr>
-                        <td>Amount Timelocked:</td>
-                        <td>${timelockedAmount} BSOV</td>
-                    </tr>
-                    <tr>
-                        <td>Estimated Transaction Fee:</td>
-                        <td>${estimatedFee}</td>
-                    </tr>
-                </table>
-		<p>There is no reason for you to timelock your tokens into Contract 1, unless you just really want to. It's recommended to use Contract 2.</p>
-		<p>By clicking 'Confirm' you agree on the <a target="_blank" href="http://sovcube.localhost/docs/index.php#legal">terms</a> and that you truly understand what you are doing.</p>
-            `;
-
-            showConfirmationModal('Confirm Timelock', customMessage, timelock1Action);
-        });
-    }
-
-
-
-
-// Timelock Contract 2
-const timelock2Button = document.getElementById('timelock2Button');
-if (timelock2Button) {
-    timelock2Button.addEventListener('click', async function(event) {
-        event.preventDefault();
-        try {
-            const amount = document.getElementById('amount2').value;
-            if (isNaN(amount) || amount <= 0) {
-                throw new Error('Please enter a valid amount.');
-            }
-
-            const amountInSmallestUnit = Math.floor(Number(amount) * 100000000); // Convert to smallest unit if required
-
-            // Determine if the user is new or old
-            const lastWithdrawalBigInt = await window.contract2.methods.getLastWithdrawalRegularAccount(selectedAccount).call();
-            const lastWithdrawal = Number(lastWithdrawalBigInt);
-            const isNewUser = (lastWithdrawal === 0);
-            const userStatus = isNewUser ? 'New' : 'Old';
-
-            // Calculate accumulated timelocked tokens
-            const currentBalanceBigInt = await window.contract2.methods.getBalanceRegularAccount(selectedAccount).call();
-            const currentBalance = Number(currentBalanceBigInt) / 100000000;
-            const accumulatedTimelocked = (parseFloat(currentBalance) + parseFloat(amount*0.99)).toFixed(0);
-            console.log("Current Balance: " + currentBalance);
-            console.log("Last Withdrawal: " + lastWithdrawal);
-            console.log("amount: " + amount);
-            console.log("accumulatedTimelocked: " + accumulatedTimelocked);
-
-            // Get already calculated rewards
-            const timelockRewardTokens = await calculateTimelockRewardTokens();
-            const receiveTimelockRewards = timelockRewardTokens.toFixed(0);
-
-
-	    // Get the period withdrawal amount and halving information
-const periodWithdrawalAmountBigInt = await window.contract2.methods.periodWithdrawalAmount().call();
-const periodWithdrawalAmount = Number(periodWithdrawalAmountBigInt) / 100000000;
-let timestampOfNextWithdrawalHalving = Number(await window.contract2.methods.getTimestampOfNextWithdrawalHalving().call()); // Use let here
-const withdrawalHalvingEraBigInt = await window.contract2.methods.withdrawalHalvingEra().call();
-const withdrawalHalvingEra = Number(withdrawalHalvingEraBigInt); // Convert BigInt to Number
-
-// Adjust the withdrawal calculation based on the current and future halving eras
-let totalYearsToWithdrawAll = 0;
-let remainingTokens = accumulatedTimelocked;
-let currentEra = withdrawalHalvingEra;
-let currentPeriodWithdrawalAmount = periodWithdrawalAmount;
-const currentTimestamp = Math.floor(Date.now() / 1000); // Current UNIX timestamp
-const daysInYear = 365;
-const secondsInYear = daysInYear * 24 * 60 * 60;
-
-while (remainingTokens > 0 && currentEra <= 5) {
-    const timeUntilNextHalvingInSeconds = timestampOfNextWithdrawalHalving - currentTimestamp;
-    const timeUntilNextHalvingInYears = timeUntilNextHalvingInSeconds / secondsInYear;
-    
-    // Tokens that can be withdrawn until the next halving
-    const tokensBeforeNextHalving = timeUntilNextHalvingInYears * (52.14 * currentPeriodWithdrawalAmount);
-
-    if (remainingTokens <= tokensBeforeNextHalving) {
-        // If all remaining tokens can be withdrawn before the next halving
-        totalYearsToWithdrawAll += remainingTokens / (52.14 * currentPeriodWithdrawalAmount);
-        remainingTokens = 0;
-    } else {
-        // If the next halving will occur before all tokens are withdrawn in this era
-        totalYearsToWithdrawAll += timeUntilNextHalvingInYears;
-        remainingTokens -= tokensBeforeNextHalving;
-        currentEra++; // Move to the next era
-        currentPeriodWithdrawalAmount /= 2; // Halve the withdrawal amount
-
-        // Update the timestamp for the next halving (adding 1500 days in seconds)
-        timestampOfNextWithdrawalHalving += 1500 * 24 * 60 * 60;
-    }
-}
-
-console.log("Total Years to Withdraw All Tokens: " + totalYearsToWithdrawAll.toFixed(2));
-
-
-
-            // Get global lock time
-            let lockTimeYears;
-            let globalTimeLeft;
-            try {
-                globalTimeLeft = await window.contract2.methods.getGlobalTimeLeftRegularAccount().call();
-                lockTimeYears = (Number(globalTimeLeft) / (365 * 24 * 60 * 60)).toFixed(2);
-            } catch (error) {
-                if (error.message.includes("Tokens are unlocked and ready for withdrawal")) {
-                    lockTimeYears = "0";
-                } else {
-                    throw error; // Re-throw the error if it's not the expected one
-                }
-            }
-
-            const bsovTokenContract = new web3.eth.Contract(bsovTokenABI, tokenContractAddress);
-            const transaction = bsovTokenContract.methods.approveAndCall(contract2Address, amountInSmallestUnit, "0x");
-
-            const estimatedTimeNeeded = `Lock Time: ${lockTimeYears} Years, Gradual Withdrawals: ${totalYearsToWithdrawAll.toFixed(2)} years`;
-
-            // Determine the new lock time reset
-            const newLockTimeReset = isNewUser ? '70 days' : '14 days';
-
-            // Estimate the transaction fee
-            const estimatedGas = await transaction.estimateGas({ from: selectedAccount });
-            const gasPrice = await web3.eth.getGasPrice();
-            const estimatedFee = web3.utils.fromWei((BigInt(estimatedGas) * BigInt(gasPrice)).toString(), 'ether') + ' ETH';
-
-            console.log("GlobalTimeLeft: " + globalTimeLeft);
-            console.log("Total Years to Withdraw All: " + totalYearsToWithdrawAll);
-            console.log("periodWithdrawalAmount: " + periodWithdrawalAmount);
-
-            // Create the custom message with all the details, including the fee
-            const customMessage = `
-                <p>Are you sure you want to timelock <strong>${amount}</strong> tokens in Contract 2?</p>
-                <table class="modal-table">
-                    <tr>
-                        <td>User (New/Old):</td>
-                        <td>${userStatus}</td>
-                    </tr>
-                    <tr>
-                        <td>Amount Sent from Your Wallet:</td>
-                        <td>${amount} BSOV</td>
-                    </tr>
-                    <tr>
-                        <td>Amount Burnt (1%):</td>
-                        <td>${(amount * 0.01).toFixed(0)} BSOV</td>
-                    </tr>
-                    <tr>
-                        <td>Amount Timelocked:</td>
-                        <td>${(amount * 0.99).toFixed(0)} BSOV</td>
-                    </tr>
-                    <tr>
-                        <td>Receive Timelock Rewards:</td>
-                        <td>${receiveTimelockRewards} BSOV</td>
-                    </tr>
-                    <tr>
-                        <td>Accumulated Timelocked Tokens:</td>
-                        <td>${accumulatedTimelocked} BSOV</td>
-                    </tr>
-                    <tr>
-                        <td>Estimated Time needed to Withdraw All Tokens:</td>
-                        <td>${estimatedTimeNeeded}</td>
-                    </tr>
-                    <tr>
-                        <td>New Lock Time Reset after Timelock:</td>
-                        <td>${newLockTimeReset}</td>
-                    </tr>
-                    <tr>
-                        <td>Estimated Transaction Fee:</td>
-                        <td>${estimatedFee}</td>
-                    </tr>
-                </table>
-                <p>By clicking 'Confirm' you agree on the <a target="_blank" href="http://sovcube.localhost/docs/index.php#legal">terms</a> and that you truly understand what you are doing.</p>
-            `;
-
-            // Show the confirmation modal with the correct title and message
-            showConfirmationModal(
-                'Confirm Timelock Tokens',  // Title for the modal
-                customMessage,
-                async function() {
-                    try {
-                        // Now execute the transaction after the user confirms
-                        const receipt = await executeTransactionIfFeeIsAcceptable(transaction, [], selectedAccount);
-                        console.log("Transaction receipt: ", receipt);
-                    } catch (error) {
-                        console.error("Error in transaction: ", error);
-                        document.getElementById('errorMessage').innerText = `${error.message}`;
-                        document.getElementById('clearError').style.display = 'block';
-                    }
-                }
-            );
-
-        } catch (error) {
-            console.error('Error during timelock action:', error);
-            displayError(error.message);
-        }
-    });
-}
-
-
-
-
-
-// Withdraw Contract 1
-const withdraw1Button = document.getElementById('withdraw1Button');
-if (withdraw1Button) {
-    withdraw1Button.addEventListener('click', async function(event) {
-        event.preventDefault();
-
-        try {
-            const amount = document.getElementById('amount1').value;
-            if (isNaN(amount) || amount <= 0) {
-                throw new Error('Please enter a valid amount.');
-            }
-
-            const amountBurnt = amount * 0.01;
-            const amountSentToWallet = amount * 0.99;
-
-            // Define the contract transaction
-            const transaction = window.contract1.methods.withdraw(Math.floor(Number(amount) * 100000000));
-
-            // Estimate the transaction fee (but do not execute the transaction yet)
-            const estimatedGas = await transaction.estimateGas({ from: selectedAccount });
-            const gasPrice = await web3.eth.getGasPrice();
-            const estimatedFee = BigInt(estimatedGas) * BigInt(gasPrice);
-            const formattedFee = web3.utils.fromWei(estimatedFee.toString(), "ether");
-
-            const customMessage = `
-                <p>Are you sure you want to withdraw <strong>${amount}</strong> tokens from Contract 1?</p>
-                <table class="modal-table">
-                    <tr>
-                        <td>Amount Withdrawn:</td>
-                        <td>${amount} BSOV</td>
-                    </tr>
-                    <tr>
-                        <td>Amount Burnt (1%):</td>
-                        <td>${amountBurnt} BSOV</td>
-                    </tr>
-                    <tr>
-                        <td>Amount Sent to Your Wallet:</td>
-                        <td>${amountSentToWallet} BSOV</td>
-                    </tr>
-                    <tr>
-                        <td>Estimated Transaction Fee:</td>
-                        <td>${formattedFee} ETH</td>
-                    </tr>
-                </table>
-		            <p style="color:yellow;">NOTICE: Withdrawing any amount once will reset the withdrawal timer back to 7 days.</p>
-            <p>By clicking 'Confirm' you agree on the <a target="_blank" href="http://sovcube.localhost/docs/index.php#legal">terms</a> and that you truly understand what you are doing.</p>
-            `;
-
-            // Show the confirmation modal, passing the transaction to be executed after confirmation
-            showConfirmationModal('Confirm Withdrawal', customMessage, async function() {
-                try {
-                    // Execute the transaction after the user confirms
-                    const receipt = await executeTransactionIfFeeIsAcceptable(transaction, [], selectedAccount);
-                    console.log("Transaction receipt: ", receipt);
-                } catch (error) {
-                    if (error.message.includes("HighFees")) {
-                        document.getElementById('errorMessage').innerText = 'Absurdly high ETH fees detected.';
-                        document.getElementById('clearError').style.display = 'block';
-                    } else {
-                        console.error("Error in transaction: ", error);
-                        document.getElementById('errorMessage').innerText = `${error.message}`;
-                        document.getElementById('clearError').style.display = 'block';
-                    }
-                }
+    // Attach Event Listeners to Buttons
+    function attachConfirmationListeners() {
+        // Timelock Contract 1
+        const timelock1Button = document.getElementById('timelock1Button');
+        if (timelock1Button) {
+            timelock1Button.addEventListener('click', function(event) {
+                event.preventDefault();
+                const amount = document.getElementById('amount1').value;
+                showConfirmationModal(
+                    'Confirm Timelock',
+                   ` Are you sure you want to timelock <strong>${amount}</strong> tokens in Contract 1?`,
+                    timelock1Action
+                );
             });
-
-        } catch (error) {
-            displayError(error.message);
         }
-    });
-}
 
-
-
-// Withdraw Contract 2
-const withdraw2Button = document.getElementById('withdraw2Button');
-if (withdraw2Button) {
-    withdraw2Button.addEventListener('click', async function(event) {
-        event.preventDefault();
-
-        try {
-            const amount = document.getElementById('amount2').value;
-            if (isNaN(amount) || amount <= 0) {
-                throw new Error('Please enter a valid amount.');
-            }
-
-            const amountBurnt = amount * 0.01;
-            const amountSentToWallet = amount * 0.99;
-
-            const selectedAccountType = document.querySelector('input[name="account-type"]:checked').value;
-            let transaction;
-
-            // Define the contract transaction based on the selected account type
-            if (selectedAccountType === 'incoming') {
-                transaction = window.contract2.methods.withdrawFromIncomingAccount(Math.floor(Number(amount) * 100000000));
-            } else {
-                transaction = window.contract2.methods.withdrawFromRegularAccount(Math.floor(Number(amount) * 100000000));
-            }
-
-            // Estimate the transaction fee (but do not execute the transaction yet)
-            const estimatedGas = await transaction.estimateGas({ from: selectedAccount });
-            const gasPrice = await web3.eth.getGasPrice();
-            const estimatedFee = BigInt(estimatedGas) * BigInt(gasPrice);
-            const formattedFee = web3.utils.fromWei(estimatedFee.toString(), "ether");
-
-            const customMessage = `
-                <p>Are you sure you want to withdraw <strong>${amount}</strong> tokens from Contract 2?</p>
-                <table class="modal-table">
-                    <tr>
-                        <td>Amount Withdrawn:</td>
-                        <td>${amount} BSOV</td>
-                    </tr>
-                    <tr>
-                        <td>Amount Burnt (1%):</td>
-                        <td>${amountBurnt} BSOV</td>
-                    </tr>
-                    <tr>
-                        <td>Amount Sent to Your Wallet:</td>
-                        <td>${amountSentToWallet} BSOV</td>
-                    </tr>
-                    <tr>
-                        <td>Estimated Transaction Fee:</td>
-                        <td>${formattedFee} ETH</td>
-                    </tr>
-                </table>
-		            <p style="color:yellow;">NOTICE: Withdrawing any amount once will reset the withdrawal timer back to 7 days and reset the 'Max Withdrawable now' back to 0.</p>
-            <p>By clicking 'Confirm' you agree on the <a target="_blank" href="http://sovcube.localhost/docs/index.php#legal">terms</a> and that you truly understand what you are doing.</p>
-            `;
-
-            showConfirmationModal('Confirm Withdrawal', customMessage, async function() {
-                try {
-                    const receipt = await executeTransactionIfFeeIsAcceptable(transaction, [], selectedAccount);
-                    console.log("Transaction receipt: ", receipt);
-                } catch (error) {
-                    if (error.message.includes("HighFees")) {
-                        document.getElementById('errorMessage').innerText = 'Absurdly high ETH fees detected.';
-                        document.getElementById('clearError').style.display = 'block';
-                    } else {
-                        console.error("Error in transaction: ", error);
-                        document.getElementById('errorMessage').innerText = `${error.message}`;
-                        document.getElementById('clearError').style.display = 'block';
-                    }
-                }
+        // Timelock Contract 2
+        const timelock2Button = document.getElementById('timelock2Button');
+        if (timelock2Button) {
+            timelock2Button.addEventListener('click', function(event) {
+                event.preventDefault();
+                const amount = document.getElementById('amount2').value;
+                showConfirmationModal(
+                    'Confirm Timelock',
+                    `Are you sure you want to timelock <strong>${amount}</strong> tokens in Contract 2?`,
+                    timelock2Action
+                );
             });
-
-        } catch (error) {
-            console.error("Error in transaction: ", error);
-            displayError(error.message);
         }
-    });
-}
 
+        // Withdraw Contract 1
+        const withdraw1Button = document.getElementById('withdraw1Button');
+        if (withdraw1Button) {
+            withdraw1Button.addEventListener('click', function(event) {
+                event.preventDefault();
+                const amount = document.getElementById('amount1').value;
+                showConfirmationModal(
+                    'Confirm Withdrawal',
+                    `Are you sure you want to withdraw <strong>${amount}</strong> tokens from Contract 1?`,
+                    withdraw1Action
+                );
+            });
+        }
+
+        // Withdraw Contract 2
+        const withdraw2Button = document.getElementById('withdraw2Button');
+        if (withdraw2Button) {
+            withdraw2Button.addEventListener('click', function(event) {
+                event.preventDefault();
+                const amount = document.getElementById('amount2').value;
+                showConfirmationModal(
+                    'Confirm Withdrawal',
+                    `Are you sure you want to withdraw <strong>${amount}</strong> tokens from Contract 2?`,
+                    withdraw2Action
+                );
+            });
+        }
 
 
 
@@ -1468,7 +1112,7 @@ withdrawAll2Button.addEventListener('click', async function(event) {
         const formattedFee = web3.utils.fromWei(estimatedFee.toString(), "ether");
 
         // Create the custom message with all the details, including the fee
-        const customMessage =`  
+        const customMessage = ` 
             <p>Are you sure you want to withdraw all available tokens from Contract 2?</p>
             <table class="modal-table">
                 <tr>
@@ -1488,7 +1132,7 @@ withdrawAll2Button.addEventListener('click', async function(event) {
                     <td>${formattedFee} ETH</td>
                 </tr>
             </table>
-            <p style="color:yellow;">NOTICE: Withdrawing any amount once will reset the withdrawal timer back to 7 days and reset the 'Max Withdrawable now' back to 0.</p>
+            <p>Withdrawing any amount once will reset the withdrawal timer back to 7 days and reset the 'Max Withdrawable now' back to 0.</p>
             <p>By clicking 'Confirm' you agree on the <a target="_blank" href="http://sovcube.localhost/docs/index.php#legal">terms</a> and that you truly understand what you are doing.</p>
         `;
 
@@ -1514,302 +1158,22 @@ withdrawAll2Button.addEventListener('click', async function(event) {
         document.getElementById('errorMessage').innerText = `Error fetching withdrawable amounts: ${error.message}`;
     }
 });
-}
 
-/*
-    // Send Locked Tokens Contract 2
-    const sendLocked2Button = document.getElementById('sendLocked2Button');
-    if (sendLocked2Button) {
-        sendLocked2Button.addEventListener('click', function(event) {
-            event.preventDefault();
 
-            // Example placeholder values - replace with real calculations as needed
-            const totalLockedTokens = '1000 BSOV';
-            const recipients = '5';
-            const estimatedFee = '0.001 ETH';
-
-            const customMessage = `
-                <p>Are you sure you want to send locked tokens to the specified addresses?</p>
-                <table class="modal-table">
-                    <tr>
-                        <td>Total Amount of Locked Tokens Sent:</td>
-                        <td>${totalLockedTokens} BSOV</td>
-                    </tr>
-                    <tr>
-                        <td>Amount of Recipients:</td>
-                        <td>${recipients}</td>
-                    </tr>
-                    <tr>
-                        <td>Estimated Transaction Fee:</td>
-                        <td>${estimatedFee}</td>
-                    </tr>
-                </table>
-            `;
-
-            showConfirmationModal('Confirm Send Locked Tokens', customMessage, sendLocked2Action);
-        });
+        // Send Locked Tokens Contract 2
+        const sendLocked2Button = document.getElementById('sendLocked2Button');
+        if (sendLocked2Button) {
+            sendLocked2Button.addEventListener('click', function(event) {
+                event.preventDefault();
+                showConfirmationModal(
+                    'Confirm Send Locked Tokens',
+                    'Are you sure you want to send locked tokens to the specified addresses?',
+                    sendLocked2Action
+                );
+            });
+        }
     }
-}
 
-*/
-
-
-// Send Locked Tokens Contract 2
-const sendLocked2Button = document.getElementById('sendLocked2Button');
-if (sendLocked2Button) {
-    sendLocked2Button.addEventListener('click', async function(event) {
-        event.preventDefault();
-
-        try {
-            // Retrieve and process the input values for addresses and amounts
-            const addresses = document.getElementById('ethAddresses').value.trim().split('\n').map(addr => addr.trim());
-            const amountsText = document.getElementById('sendLockedAmounts').value.trim().split('\n').map(amount => amount.trim());
-
-            if (addresses.length !== amountsText.length) {
-                throw new Error('The number of addresses and amounts does not match.');
-            }
-
-            const amounts = amountsText.map(amount => Math.floor(Number(amount) * 100000000)); // Convert to smallest unit
-            const totalLockedTokens = amounts.reduce((sum, amount) => sum + amount, 0) / 100000000; // Sum and convert back to BSOV
-            const recipients = addresses.length;
-
-            // Validate Addresses and Amounts
-            const isValidAddresses = addresses.every(address => web3.utils.isAddress(address));
-            const isValidAmounts = amounts.every(amount => !isNaN(amount) && amount > 0);
-
-            if (!isValidAddresses || !isValidAmounts) {
-                throw new Error('Please enter valid Ethereum addresses and amounts.');
-            }
-
-            let transaction;
-            if (recipients === 1) {
-                // Call sendLockedTokensToSingle if there's only one address and amount
-                transaction = window.contract2.methods.sendLockedTokensToSingle(addresses[0], amounts[0]);
-            } else {
-                // Call sendLockedTokensToMany if there are multiple addresses and amounts
-                transaction = window.contract2.methods.sendLockedTokensToMany(addresses, amounts);
-            }
-
-            // Estimate the transaction fee (but do not execute the transaction yet)
-            const estimatedGas = await transaction.estimateGas({ from: selectedAccount });
-            const gasPrice = await web3.eth.getGasPrice();
-            const estimatedFee = BigInt(estimatedGas) * BigInt(gasPrice);
-            const formattedFee = web3.utils.fromWei(estimatedFee.toString(), "ether");
-
-            // Create the custom message with the calculated details
-            const customMessage = `
-                <p>Are you sure you want to send locked tokens to the specified addresses?</p>
-                <table class="modal-table">
-                    <tr>
-                        <td>Total Amount of Locked Tokens Sent:</td>
-                        <td>${totalLockedTokens.toFixed(2)} BSOV</td>
-                    </tr>
-                    <tr>
-                        <td>Number of Recipients:</td>
-                        <td>${recipients}</td>
-                    </tr>
-                    <tr>
-                        <td>Estimated Transaction Fee:</td>
-                        <td>${formattedFee} ETH</td>
-                    </tr>
-                </table>
-		<p>By clicking 'Confirm' you agree on the <a target="_blank" href="http://sovcube.localhost/docs/index.php#legal">terms</a> and that you truly understand what you are doing.</p>
-            `;
-
-            // Show the confirmation modal with the correct title and message
-            showConfirmationModal('Confirm Send Locked Tokens', customMessage, async function() {
-                try {
-                    const receipt = await executeTransactionIfFeeIsAcceptable(transaction, [], selectedAccount);
-                    console.log("Transaction receipt: ", receipt);
-                } catch (error) {
-                    if (error.message.includes("HighFees")) {
-                        document.getElementById('errorMessage').innerText = 'Absurdly high ETH fees detected.';
-                        document.getElementById('clearError').style.display = 'block';
-                    } else {
-                        console.error("Error in transaction: ", error);
-                        document.getElementById('errorMessage').innerText = `${error.message}`;
-                        document.getElementById('clearError').style.display = 'block';
-                    }
-                }
-            });
-
-        } catch (error) {
-            console.error("Error in transaction: ", error);
-            displayError(error.message);
-        }
-    });
-
-}
-
-
-
-
-
-/*
-const acceptIncomingButton = document.getElementById('acceptIncomingButton');
-if (acceptIncomingButton) {
-    acceptIncomingButton.addEventListener('click', async function(event) {
-        event.preventDefault();
-
-        try {
-            // Get the balance of untaken incoming account
-            const untakenIncomingAmountBigInt = await window.contract2.methods.getBalanceUntakenIncomingAccount(selectedAccount).call();
-            const untakenIncomingAmount = Number(untakenIncomingAmountBigInt) / 100000000; // Convert from smallest unit to BSOV
-
-            // Check if the amount is greater than 0
-            if (untakenIncomingAmount <= 0) {
-                throw new Error("You have not received any locked tokens or timelock rewards that go into your Untaken Incoming Account, or you have already claimed it.");
-            }
-
-            // Define the contract transaction
-            const transaction = window.contract2.methods.acceptUntakenIncomingTokens();
-
-            // Estimate the transaction fee (but do not execute the transaction yet)
-            const estimatedGas = await transaction.estimateGas({ from: selectedAccount });
-            const gasPrice = await web3.eth.getGasPrice();
-            const estimatedFee = BigInt(estimatedGas) * BigInt(gasPrice);
-            const formattedFee = web3.utils.fromWei(estimatedFee.toString(), "ether");
-
-            // Create the custom message with the calculated details
-            const customMessage = `
-                <p>Are you sure you want to accept <strong>${untakenIncomingAmount.toFixed(2)}</strong> BSOV tokens from your Untaken Incoming Account?</p>
-                <table class="modal-table">
-                    <tr>
-                        <td>Amount to be Accepted:</td>
-                        <td>${untakenIncomingAmount.toFixed(2)} BSOV</td>
-                    </tr>
-                    <tr>
-                        <td>Estimated Transaction Fee:</td>
-                        <td>${formattedFee} ETH</td>
-                    </tr>
-                </table>
-		<p style="color:red;">WARNING: This will reset the Lock Time of your Incoming Account back to 100 days.</p>
-            `;
-
-            // Show the confirmation modal with the correct title and message
-            showConfirmationModal('Confirm Accept Untaken Incoming Tokens', customMessage, async function() {
-                try {
-                    // Now execute the transaction after the user confirms
-                    const receipt = await executeTransactionIfFeeIsAcceptable(transaction, [], selectedAccount);
-                    console.log("Transaction receipt: ", receipt);
-                } catch (error) {
-                    if (error.message.includes("HighFees")) {
-                        document.getElementById('errorMessage').innerText = 'Absurdly high ETH fees detected.';
-                        document.getElementById('clearError').style.display = 'block';
-                    } else {
-                        console.error("Error in transaction: ", error);
-                        document.getElementById('errorMessage').innerText = `${error.message}`;
-                        document.getElementById('clearError').style.display = 'block';
-                    }
-                }
-            });
-
-        } catch (error) {
-            console.error("Error in accepting incoming tokens: ", error);
-            document.getElementById('errorMessage').innerText = error.message;
-            document.getElementById('clearError').style.display = 'block';
-        }
-    });
-}
-*/
-
-
-const acceptIncomingButton = document.getElementById('acceptIncomingButton');
-if (acceptIncomingButton) {
-    acceptIncomingButton.addEventListener('click', async function(event) {
-        event.preventDefault();
-
-        try {
-            // Get the balance of untaken incoming account
-            const untakenIncomingAmountBigInt = await window.contract2.methods.getBalanceUntakenIncomingAccount(selectedAccount).call();
-            const untakenIncomingAmount = Number(untakenIncomingAmountBigInt) / 100000000; // Convert from smallest unit to BSOV
-
-            // Check if the amount is greater than 0
-            if (untakenIncomingAmount <= 0) {
-                throw new Error("You have not received any locked tokens or timelock rewards that go into your Untaken Incoming Account, or you have already claimed it.");
-            }
-
-            // Get incoming account balance and time left
-            const incomingAccountBalanceBigInt = await window.contract2.methods.getBalanceIncomingAccount(selectedAccount).call();
-            const incomingAccountBalance = Number(incomingAccountBalanceBigInt) / 100000000; // Convert to BSOV
-            const timeLeftIncomingAccountSeconds = await window.contract2.methods.getTimeLeftIncomingAccount(selectedAccount).call();
-            const incomingAccountDaysLeft = (Number(timeLeftIncomingAccountSeconds) / (24 * 60 * 60)).toFixed(0); // Convert to days
-
-            // Construct lockTimeWarning based on the incoming account balance
-            let lockTimeWarning;
-            if (incomingAccountBalance > 0) {
-                lockTimeWarning = `<p style="color:orange;"><b>WARNING:</b> Accepting Untaken Incoming Tokens will reset the Lock Time of your Incoming Account back to 100 days.<br>You have <b>${incomingAccountDaysLeft}</b> days left of your Lock Time.<br>This Lock Time reset will only affect your Incoming Account, not your Regular Account.</p>`;
-            } else {
-                lockTimeWarning = `<p style="color:yellow;"><b>NOTICE:</b> After accepting Untaken Incoming Tokens, a 100-day timer will start,<br> meaning that you will have to wait <b>100 days</b> until you can start withdrawing your tokens.<br>This Lock Time reset will only affect your Incoming Account, not your Regular Account.</p>`;
-            }
-
-            // Define the contract transaction
-            const transaction = window.contract2.methods.acceptUntakenIncomingTokens();
-
-            // Estimate the transaction fee (but do not execute the transaction yet)
-            const estimatedGas = await transaction.estimateGas({ from: selectedAccount });
-            const gasPrice = await web3.eth.getGasPrice();
-            const estimatedFee = BigInt(estimatedGas) * BigInt(gasPrice);
-            const formattedFee = web3.utils.fromWei(estimatedFee.toString(), "ether");
-
-            // Create the custom message with the calculated details
-            const customMessage = `
-                <p>Are you sure you want to accept <strong>${untakenIncomingAmount.toFixed(2)}</strong> BSOV tokens from your Untaken Incoming Account?</p>
-                <table class="modal-table">
-                    <tr>
-                        <td>Amount to be Accepted:</td>
-                        <td>${untakenIncomingAmount.toFixed(2)} BSOV</td>
-                    </tr>
-                    <tr>
-                        <td>Estimated Transaction Fee:</td>
-                        <td>${formattedFee} ETH</td>
-                    </tr>
-                </table>
-                ${lockTimeWarning}
-		<p>By clicking 'Confirm' you agree on the <a target="_blank" href="http://sovcube.localhost/docs/index.php#legal">terms</a> and that you truly understand what you are doing.</p>
-            `;
-
-            // Show the confirmation modal with the correct title and message
-            showConfirmationModal('Confirm Accept Incoming Tokens', customMessage, async function() {
-                try {
-                    // Now execute the transaction after the user confirms
-                    const receipt = await executeTransactionIfFeeIsAcceptable(transaction, [], selectedAccount);
-                    console.log("Transaction receipt: ", receipt);
-                } catch (error) {
-                    if (error.message.includes("HighFees")) {
-                        document.getElementById('errorMessage').innerText = 'Absurdly high ETH fees detected.';
-                        document.getElementById('clearError').style.display = 'block';
-                    } else {
-                        console.error("Error in transaction: ", error);
-                        document.getElementById('errorMessage').innerText = `${error.message}`;
-                        document.getElementById('clearError').style.display = 'block';
-                    }
-                }
-            });
-
-        } catch (error) {
-            console.error("Error in accepting incoming tokens: ", error);
-            document.getElementById('errorMessage').innerText = error.message;
-            document.getElementById('clearError').style.display = 'block';
-        }
-    });
-}
-
-
-
-
-
-
-
-
-
-
-
-
-// Initialize the application by attaching listeners
-attachConfirmationListeners();
-
-
+    // Initialize the application by attaching listeners
+    attachConfirmationListeners();
 });
-
-

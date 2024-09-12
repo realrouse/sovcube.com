@@ -1,3 +1,5 @@
+<!-- index.php -->
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -76,7 +78,7 @@ $(document).ready(function(){
     </div>
     <input type="number" id="amount1" placeholder="Amount of BSOV">
     <p id="timelockedtokens1">0 BSOV will be timelocked. 0 BSOV will be burnt.</p>
-    <p id="withdrawaltime1">Lock Time: 0 years, then 0 years at a withdrawal rate of 1000 tokens/week.</p>
+   <!-- <p id="withdrawaltime1">Lock Time: 0 years, then 0 years at a withdrawal rate of 1000 tokens/week.</p>-->
 
 <script>
     // Function to update the text
@@ -95,15 +97,15 @@ const lockYears = Number(lockTimeLeftInSeconds) / Number(secondsInYear); // Conv
 
 
           //  document.getElementById('withdrawaltime1').textContent = "Time to Withdraw: " + weeks.toFixed(0) + " weeks (" + years.toFixed(2) + " years)";
-	document.getElementById('withdrawaltime1').textContent = "Lock Time: " + lockYears.toFixed(2) + " years, then " + years.toFixed(2) + " years at a withdrawal rate of 1000 tokens/week.";       
+	//document.getElementById('withdrawaltime1').textContent = "Lock Time: " + lockYears.toFixed(2) + " years, then " + years.toFixed(2) + " years at a withdrawal rate of 1000 tokens/week.";       
       
         } catch (error) {
            // console.error('Error:', error);
        if (error.message.includes("future is here") || error.message.includes("Tokens are unlocked")) {
-                document.getElementById('withdrawaltime1').textContent = "Lock Time: " + years.toFixed(2) + " years at a withdrawal rate of 100 tokens/week.";
+         //       document.getElementById('withdrawaltime1').textContent = "Lock Time: " + years.toFixed(2) + " years at a withdrawal rate of 100 tokens/week.";
               //  document.getElementById('withdrawaltime2').style.color = 'green';
             } else {
-                document.getElementById('withdrawaltime1').textContent = "Error fetching data";
+            //    document.getElementById('withdrawaltime1').textContent = "Error fetching data";
             }
 	}    
     }
@@ -136,8 +138,8 @@ const lockYears = Number(lockTimeLeftInSeconds) / Number(secondsInYear); // Conv
             <input type="number" id="amount2" placeholder="Amount of BSOV">
 
     <p id="timelockedtokens2">0 BSOV will be timelocked. 0 BSOV will be burnt.</p>
-    <p id="withdrawaltime2">Lock Time: 0 years, then 0 years at a withdrawal rate of 100 tokens/week.</p>
-    <span id="timelockRewardCalculation">You will be eligible for 0 BSOV in Timelock Rewards!</span>
+   <!-- <p id="withdrawaltime2">Lock Time: 0 years, then 0 years at a withdrawal rate of 100 tokens/week.</p-->
+    <span id="timelockRewardCalculation">You will receive 0 BSOV in Timelock Rewards!</span>
 <p id="advanceTierMessage">Tier</p>
 <!--<script>
     // Function to update the text
@@ -243,7 +245,7 @@ const lockYears = Number(lockTimeLeftInSeconds) / Number(secondsInYear); // Conv
         var amount = parseFloat(document.getElementById('amount2').value);
         if (isNaN(amount) || amount <= 0) {
             document.getElementById('timelockedtokens2').textContent = "Invalid amount.";
-            document.getElementById('withdrawaltime2').textContent = "";
+            //document.getElementById('withdrawaltime2').textContent = "";
             return;
         }
 
@@ -269,18 +271,18 @@ const lockYears = Number(lockTimeLeftInSeconds) / Number(secondsInYear); // Conv
             const withdrawalRateMessage = `Current withdrawal rate is ${currentRate.toFixed(6)} tokens/week.`;
 
             if (lockTimeLeftInSeconds > 0) {
-                document.getElementById('withdrawaltime2').textContent = `Initial Lock for ${initialLockTimeLeftInYears.toFixed(2)} years. Withdrawals continue for approximately ${years.toFixed(2)} years, considering Withdrawal Halving Eras.`;
+               // document.getElementById('withdrawaltime2').textContent = `Initial Lock for ${initialLockTimeLeftInYears.toFixed(2)} years. Withdrawals continue for approximately ${years.toFixed(2)} years, considering Withdrawal Halving Eras.`;
             } else {
-                document.getElementById('withdrawaltime2').textContent = `Initial Lock for ${initialLockTimeLeftInYears.toFixed(2)} years. Withdrawals continue for approximately ${years.toFixed(2)} years, considering Withdrawal Halving Eras.`;
+               // document.getElementById('withdrawaltime2').textContent = `Initial Lock for ${initialLockTimeLeftInYears.toFixed(2)} years. Withdrawals continue for approximately ${years.toFixed(2)} years, considering Withdrawal Halving Eras.`;
             }
         } catch (error) {
             if (error.message.includes("Tokens are unlocked")) {
                 const halvingEra = await contract2.methods.withdrawalHalvingEra().call();
                 const daysPassed = calculateWithdrawalTime(timelocked, 0, Number(halvingEra)); // No initial lock time left, explicitly converting BigInt to Number
                 const years = daysPassed / 365;
-                document.getElementById('withdrawaltime2').textContent = "Lock Time: " + years.toFixed(2) + " years considering halving periods.";
+                //document.getElementById('withdrawaltime2').textContent = "Lock Time: " + years.toFixed(2) + " years considering Withdrawal Halving Eras";
             } else {
-                document.getElementById('withdrawaltime2').textContent = "Error fetching data";
+                //document.getElementById('withdrawaltime2').textContent = "Error fetching data";
             }
         }
     }
@@ -405,6 +407,28 @@ document.getElementById('clearError').addEventListener('click', function() {
 </script>
 
 
+<!-- Confirmation Modal -->
+<div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+<div class="modal-overlay"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{modalTitle}}</h5>
+      <!--  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+      </div>
+      <div class="modal-body">
+        {{modalBody}}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="cancelAction" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" id="confirmAction">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
 <div id="contractInfoContainer">
     
     <div id="contract1InfoSection">
@@ -449,6 +473,17 @@ document.getElementById('clearError').addEventListener('click', function() {
     <p class="terms">Everything on this site is provided "as-is" and SovCube.com has no responsibilities. Everything you do and see on this website is 100% your responsibility. Read more at <a target="_blank" href="/docs/index.php/#legal">Legal - Terms</a></p>
  <a href="#" id="toggleTerms" class="toggle-terms">Disclaimer</a>
 </div>
+
+
+
+
+
+
+
+
+
+
+
 <script>
 document.getElementById('toggleTerms').addEventListener('click', function(event) {
     event.preventDefault(); // Prevent default anchor behavior

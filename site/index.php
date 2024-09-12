@@ -30,6 +30,33 @@
 
 <?php include $_SERVER['DOCUMENT_ROOT'] . '/menu.php'; ?>
 <body>
+
+<?php
+
+include('config.php');
+
+// Include the functions file
+include('functions.php');
+
+
+// Assuming $conn is your database connection variable
+$contract2Data = get_stats_contract2_data($conn);
+
+// Check if data was fetched successfully
+if ($contract2Data) {
+    $globalLockTime = $contract2Data['globalLockExpirationDateRegularAccount'];
+    // Convert the global lock time to a more readable format if needed, e.g., days remaining
+    $currentTime = time(); // Current timestamp
+    $timeRemaining = max(0, $globalLockTime - $currentTime);
+    $daysRemaining = floor($timeRemaining / 86400); // Convert seconds to days
+} else {
+    $daysRemaining = 'N/A'; // If data fetching failed, set to 'N/A'
+}
+
+
+
+?>
+
 <!--
 <center><img class="img-fade"  src="/images/Sovcube-padlock-icon-white.png" height=150px width=auto style="opacity:0.9; position:fixed; z-index:1; margin-left:-5%; margin-top:400px;"></img> </center>
 -->
@@ -45,8 +72,9 @@
 <p style="text-align:center;">Unlock the potential of your <a href="https://bsovtoken.com" target="_blank">BSOV Tokens</a> by locking them using the SovCube dApp, a decentralized web3 app built on the Ethereum blockchain. Timelock, earn rewards, and join a decentralized foundation where the future is whatever the community decides.</p>
 <center><h3 class="description-heading">Great decisions take time.<br>Shape the future with thoughtful decisions and your vote in our decentralized foundation.</h3></center>
 <button onclick="window.location.href='#more'" class="launch-button-gold">Read More</button>
+<div class="arrow-down"></div>
 </div>
-
+            
     <div class="text-container">
 
 <center><h2 class="tagline" id="more">Long Commitment, Lasting Impact</h2></center>
@@ -65,11 +93,15 @@
    <summary> <center><h4>Timelock Periods</h4></center></summary>
     <ul>
         <li>
-            <p><strong>Onboarding Period:</strong> For the first 1000 days after contract deployment, all timelocked tokens are locked for the entire period.</p>
+            <p><strong>Onboarding Period:</strong> For the first 1000 days after SovCube was created, all timelocked tokens for all users were locked for the entire period. It is called "Global Lock Time".</p>
         </li>
         <li>
-            <p><strong>Post-Onboarding:</strong> After the 1000-day period, new users face a 70-day lock, while existing users only have a 14-day lock.</p>
+            <p><strong>Post-Onboarding:</strong> After the 1000-day Global Lock Time, new users face a 70-day lock, while existing users only have a 14-day lock.</p>
+	</li>
+ <li>
+ <p id="daysGlobalLockTime"><strong>Global Lock Time: </strong><span style="color:orange;"><?php echo $daysRemaining; ?> days</span> remain of the Global Lock Time</p>
         </li>
+
     </ul>
 
 <!--<img src="/images/Sovcube-padlock-icon10.png" style="margin:0px 0px 0px 0px; z-index:11;" width="100px" ></img><br>-->

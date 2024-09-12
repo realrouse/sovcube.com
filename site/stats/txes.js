@@ -1,4 +1,32 @@
 async function initiateWeb3() {
+
+    if (window.ethereum) {
+        window.web3 = new Web3(window.ethereum);
+        try {
+            await window.ethereum.request({ method: 'eth_requestAccounts' });
+            console.log('Account access granted');
+            await fetchTransactions(contract1Address, 'transactionTableBody1', '/dapp/contract1.abi', ['TokensUnfrozen', 'TokensFrozen']);
+            await fetchTransactions(contract2Address, 'transactionTableBody2', '/dapp/contract2.abi', ['TokenTimelock', 'TokenWithdrawalRegularAccount']);
+        } catch (error) {
+            console.error('User denied account access:', error);
+        }
+    } else {
+        console.error('MetaMask not detected. Falling back to Infura.');
+        window.web3 = new Web3(new Web3.providers.HttpProvider(infuraUrl));
+        try {
+            await fetchTransactions(contract1Address, 'transactionTableBody1', '/dapp/contract1.abi', ['TokensUnfrozen', 'TokensFrozen']);
+            await fetchTransactions(contract2Address, 'transactionTableBody2', '/dapp/contract2.abi', ['TokenTimelock', 'TokenWithdrawalRegularAccount']);
+        } catch (error) {
+            console.error('Error fetching transactions via Infura:', error);
+        }
+    }
+}
+
+
+
+
+/*
+async function initiateWeb3() {
     if (window.ethereum) {
         window.web3 = new Web3(window.ethereum);
         try {
@@ -13,6 +41,9 @@ async function initiateWeb3() {
         console.error('Web3 not detected');
     }
 }
+*/
+
+
 
 async function loadContractAbi(abiPath) {
     try {

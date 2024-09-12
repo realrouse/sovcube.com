@@ -573,7 +573,7 @@ Join the <a target="_blank" href="https://t.me/SovCube">SovCube Telegram</a> for
 
         <li>
             <strong>User Responsibilities:</strong>
-            <p>Users of the SovCube website and dApp assume all responsibility and risk for the use of the platform. This includes, but is not limited to, any reliance on the information available, the consequences of financial transactions, and interactions with smart contracts deployed on the SovCube blockchain.</p>
+            <p>Users of the SovCube website and dApp assume all responsibility and risk for the use of the platform. This includes, but is not limited to, any reliance on the information available, the consequences of financial transactions, and interactions with smart contracts available through the SovCube website.</p>
         </li>
 
         <li>

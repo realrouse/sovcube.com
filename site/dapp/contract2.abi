@@ -492,6 +492,19 @@
 	},
 	{
 		"inputs": [],
+		"name": "globalLockExpirationDateRegularAccount",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
 		"name": "isContractSeeded",
 		"outputs": [
 			{
@@ -669,6 +682,19 @@
 	{
 		"inputs": [],
 		"name": "totalRewardsEarned",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "totalRewardsSeeded",
 		"outputs": [
 			{
 				"internalType": "uint256",
