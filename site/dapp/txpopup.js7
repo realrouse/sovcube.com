@@ -41,17 +41,6 @@ function saveTransactionToLocalStorage(transaction) {
     }
 }
 
-// Function to save the state of notifications to localStorage
-function saveNotificationsToLocalStorage() {
-    const notificationsContainer = document.getElementById('notificationsContainer');
-    const notificationsHTML = notificationsContainer.innerHTML;
-    const selectedAccount = window.selectedAccount;
-    if (selectedAccount) {
-        localStorage.setItem(`notificationsHTML_${selectedAccount}`, notificationsHTML);
-        console.log("Saved notifications to local storage for account:", selectedAccount);
-    }
-}
-
 // Function to load transactions from local storage for the selected account
 function loadTransactionsFromLocalStorage() {
     const selectedAccount = window.selectedAccount;  // Ensure we're using the correct selectedAccount

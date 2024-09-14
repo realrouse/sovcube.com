@@ -14,6 +14,8 @@ let web3;
 let selectedAccount;
 
 
+
+
 // Check if MetaMask is installed
 if (typeof window.ethereum !== 'undefined') {
     console.log('MetaMask is installed!');
@@ -31,10 +33,29 @@ function toggleConnectButtonText() {
     const connectButton = document.getElementById('connectWallet');
     if (selectedAccount) {
         connectButton.innerText = 'Disconnect Wallet';
+	    window.selectedAccount = selectedAccount;
     } else {
         connectButton.innerText = 'Connect to Wallet';
+	    window.selectedAccount = null;
     }
 }
+
+
+function showTxProgressPopup() {
+    const popup = document.getElementById('txProgressPopup');
+    if (popup) {
+        popup.style.display = 'block';
+    }
+}
+
+function hideTxProgressPopup() {
+    const popup = document.getElementById('txProgressPopup');
+    if (popup) {
+        popup.style.display = 'none';
+    }
+}
+
+
 
 // Function to handle wallet connection
 async function connectWallet() {
@@ -42,6 +63,7 @@ async function connectWallet() {
     if (selectedAccount) {
         // Disconnect the wallet
         selectedAccount = null;
+	    window.selectedAccount = null;
         localStorage.removeItem('selectedAccount'); // Remove account from local storage
         updateUIForDisconnectedWallet();
     } else if (window.ethereum) {
@@ -49,6 +71,7 @@ async function connectWallet() {
         try {
             const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
             selectedAccount = accounts[0];
+		window.selectedAccount = selectedAccount;
             localStorage.setItem('selectedAccount', selectedAccount); // Store account in local storage
             updateUIForConnectedWallet(selectedAccount);
 	  // updateUIForConnectedWallet(selectedAccount);
@@ -146,11 +169,13 @@ async function checkWalletConnection() {
             if (accounts.length > 0 && storedAccount === accounts[0]) {
                 // An account is connected and matches the stored account
                 selectedAccount = accounts[0];
+		    window.selectedAccount = selectedAccount;
                 updateUIForConnectedWallet(selectedAccount);
             } else {
                 // No accounts connected or the stored account does not match
                 console.log('No connected account found or mismatch with stored account');
                 updateUIForDisconnectedWallet();
+		    window.selectedAccount = null;
             }
         } catch (error) {
             console.error('Error checking for connected accounts:', error);
@@ -585,7 +610,6 @@ async function executeTransactionIfFeeIsAcceptable(contractMethod, args, fromAdd
     if (estimatedFee > highFeeThreshold) {
         throw new Error("HighFees");
     }
-
     console.log("Initiating Transaction...");
     return contractMethod.send(...args, { from: fromAddress });
 }
@@ -939,6 +963,16 @@ function loadBSOVTokenABI(callback) {
 
 loadBSOVTokenABI();
 
+
+function convertBigIntToString(obj) {
+    for (const key in obj) {
+        if (typeof obj[key] === 'bigint') {
+            obj[key] = obj[key].toString();
+        } else if (typeof obj[key] === 'object' && obj[key] !== null) {
+            convertBigIntToString(obj[key]); // Recursively handle nested objects
+        }
+    }
+}
 
 
 function showConfirmationModal(title, bodyContents, action) {
@@ -1367,11 +1401,18 @@ console.log("Total Years to Withdraw All Tokens: " + totalYearsToWithdrawAll.toF
                 'Confirm Timelock Tokens',  // Title for the modal
                 customMessage,
                 async function() {
+			showTxProgressPopup();
                     try {
-                        // Now execute the transaction after the user confirms
+
+			    // Store the transaction hash before sending it
+
+                    // Store the transaction hash in localStorage for tracking
                         const receipt = await executeTransactionIfFeeIsAcceptable(transaction, [], selectedAccount);
                         console.log("Transaction receipt: ", receipt);
+			    hideTxProgressPopup();
+			                        // Handle the receipt to create notifications
                     } catch (error) {
+			    hideTxProgressPopup();
                         console.error("Error in transaction: ", error);
                         document.getElementById('errorMessage').innerText = `${error.message}`;
                         document.getElementById('clearError').style.display = 'block';
@@ -1450,11 +1491,14 @@ if (withdraw1Button) {
 
             // Show the confirmation modal, passing the transaction to be executed after confirmation
             showConfirmationModal('Confirm Withdrawal', customMessage, async function() {
+			showTxProgressPopup();
                 try {
                     // Execute the transaction after the user confirms
                     const receipt = await executeTransactionIfFeeIsAcceptable(transaction, [], selectedAccount);
-                    console.log("Transaction receipt: ", receipt);
+hideTxProgressPopup();
+			console.log("Transaction receipt: ", receipt);
                 } catch (error) {
+			hideTxProgressPopup();
                     if (error.message.includes("HighFees")) {
                         document.getElementById('errorMessage').innerText = 'Absurdly high ETH fees detected.';
                         document.getElementById('clearError').style.display = 'block';
@@ -1530,10 +1574,13 @@ if (withdraw2Button) {
             `;
 
             showConfirmationModal('Confirm Withdrawal', customMessage, async function() {
+		    showTxProgressPopup();
                 try {
                     const receipt = await executeTransactionIfFeeIsAcceptable(transaction, [], selectedAccount);
-                    console.log("Transaction receipt: ", receipt);
+                    hideTxProgressPopup();
+			console.log("Transaction receipt: ", receipt);
                 } catch (error) {
+			hideTxProgressPopup();
                     if (error.message.includes("HighFees")) {
                         document.getElementById('errorMessage').innerText = 'Absurdly high ETH fees detected.';
                         document.getElementById('clearError').style.display = 'block';
@@ -1616,11 +1663,14 @@ withdrawAll2Button.addEventListener('click', async function(event) {
             'Confirm Withdraw All',  // Title for the modal
             customMessage,
             async function() {
+		    showTxProgressPopup();
                 try {
                     // Now execute the transaction after the user confirms
                     const receipt = await executeTransactionIfFeeIsAcceptable(transaction, [], selectedAccount);
-                    console.log("Transaction receipt: ", receipt);
+                    hideTxProgressPopup();
+			console.log("Transaction receipt: ", receipt);
                 } catch (error) {
+			hideTxProgressPopup();
                     console.error("Error in transaction: ", error);
                     document.getElementById('errorMessage').innerText = `${error.message}`;
                     document.getElementById('clearError').style.display = 'block';
@@ -1737,10 +1787,13 @@ if (sendLocked2Button) {
 
             // Show the confirmation modal with the correct title and message
             showConfirmationModal('Confirm Send Locked Tokens', customMessage, async function() {
+		    showTxProgressPopup();
                 try {
                     const receipt = await executeTransactionIfFeeIsAcceptable(transaction, [], selectedAccount);
-                    console.log("Transaction receipt: ", receipt);
+                    hideTxProgressPopup();
+			console.log("Transaction receipt: ", receipt);
                 } catch (error) {
+			hideTxProgressPopup();
                     if (error.message.includes("HighFees")) {
                         document.getElementById('errorMessage').innerText = 'Absurdly high ETH fees detected.';
                         document.getElementById('clearError').style.display = 'block';
@@ -1890,11 +1943,14 @@ if (acceptIncomingButton) {
 
             // Show the confirmation modal with the correct title and message
             showConfirmationModal('Confirm Accept Incoming Tokens', customMessage, async function() {
+		    showTxProgressPopup();
                 try {
                     // Now execute the transaction after the user confirms
                     const receipt = await executeTransactionIfFeeIsAcceptable(transaction, [], selectedAccount);
-                    console.log("Transaction receipt: ", receipt);
+                    hideTxProgressPopup();
+			console.log("Transaction receipt: ", receipt);
                 } catch (error) {
+			hideTxProgressPopup();
                     if (error.message.includes("HighFees")) {
                         document.getElementById('errorMessage').innerText = 'Absurdly high ETH fees detected.';
                         document.getElementById('clearError').style.display = 'block';

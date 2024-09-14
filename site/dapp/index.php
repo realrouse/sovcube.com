@@ -30,8 +30,19 @@
 <body>
 <?php include $_SERVER['DOCUMENT_ROOT'] . '/menu.php'; ?>
 <?php include $_SERVER['DOCUMENT_ROOT'] . '/connect.php'; ?>
+
 <div id="notificationsContainer"></div>
-<script src="txpopup.js"></script>
+    <!-- Transaction notifications will be added here -->
+  <!--  <button id="clearAllBtn" style="display: none;">Clear All</button>-->
+
+<div id="txProgressPopup">
+<button class="close-btn" onclick="hideTxProgressPopup()">×</button>
+  <div class="loader"></div>
+  <div class="message">Processing your transaction...</div>
+</div>
+
+
+
 <h1 class="dapp-heading">SovCube Timelocking dApp</h1>
 <p id="connectYourWalletText"><span class="connectWalletTextClass">Connect your wallet to continue.<br></span>Use a browser like <a href="https://brave.com" target="_blank">Brave Browser</a> or Google Chrome and download the <a href="https://metamask.io/download/" target="_blank">Metamask wallet extension</a> to be able to connect.<br><br><span style="color:red;">Strongly Recommended to read up at <a href="/docs" target="_blank">Docs & Help</a> before you timelock any tokens.</span></p>
     <div id="container">
@@ -39,7 +50,7 @@
             <select id="contractSelect" class="contractSelect">
 		<option value="select">Select Contract &#x21B4</option>
                 <option value="contract1" style="color:gray;" >Contract 1 (old)</option>
-                <option value="contract2" selected>Contract 2 &#127873; (new!)</option>
+                <option value="contract2" selected>Contract 2 (new!)</option>
             </select>
         </div>
 
@@ -511,7 +522,7 @@ document.getElementById('toggleTerms').addEventListener('click', function(event)
 <script src="/dapp/app.js"></script>
 <script src="/dapp/contract1-calls.js"> </script>
 <script src="/dapp/contract2-calls.js"> </script>
-
+<script src="/dapp/txpopup.js"></script>
 
  
    
