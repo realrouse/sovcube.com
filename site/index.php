@@ -15,6 +15,10 @@
 <link rel="stylesheet" href="styles-fonts.css">
 <link rel="icon" href="/images/favicon-logo.png" type="image/x-icon">
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
+
+
 <script type="text/javascript">
         function showMessage() {
             document.getElementById('message').style.display = 'block';
@@ -129,6 +133,7 @@ if ($contract2Data) {
      </p>   </li>
     </ul>
 
+
 </div>
 
 </div>
@@ -155,7 +160,11 @@ if ($contract2Data) {
     <div style="text-align:left;">
         <center><h3>Withdrawal Process</h3></center>
         <p>The Gradual Release Withdrawal Mechanism (GRWM) is designed to ensure market stability by controlling the flow of token withdrawals, preventing any sudden large-scale sell-offs.</p>
-        <br>
+	<br>
+
+
+
+
         <div class="how-it-works">
 	 
 <details>
@@ -167,10 +176,25 @@ if ($contract2Data) {
                 <li>
                     <p><strong>Withdrawal Halvings:</strong> Every 4 years, the weekly withdrawal limit is halved. For example, after the first halving, the limit will be reduced to 50 BSOV tokens per week, further slowing the release rate over time.</p>
                 </li>
-            </ul>
+	    </ul>
+
+
+
+
+
         </div>
     </div>
 </details>
+
+<body style="background-color: #1e1e1e; color: white;">
+<div style="width: 100%; height: 500px;">
+    <h4 style="text-align: center;">SovCube Withdrawal Timeline and Halvings</h4>
+    <canvas id="sovCubeChart"></canvas>
+  </div>
+</body>
+
+
+
     <div style="text-align:center;">
         <!--<img src="/images/Sovcube-padlock-icon11.png" style="margin:0px 0px 20px 0px; z-index:11;" width="200px" ></img>-->
         <!--<img src="/images/sovcube-reward2.png" style="margin:0px 0px 20px 0px; z-index:11;" width="55px"></img> -->
@@ -248,6 +272,11 @@ document.querySelectorAll('details').forEach((detail) => {
 
 
 </script>
+
+
+
+<script src="/withdrawchart.js"></script>
+
 
 </body>
 </html>

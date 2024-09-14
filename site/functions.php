@@ -18,7 +18,7 @@ function formatBigInt($value) {
 
 function timelockLeaderboard($tableName) {
 
-$timelockRewardReserveContractAddress = "0x88BeA0051854c7C9c9f664594c5e440227F98039"; // insert Timelock Reward Reserve Contract Address here
+$timelockRewardReserveContractAddress = "0xBBb2BF563713817BF885FFAAEe8ac44B24B54d8C"; // insert Timelock Reward Reserve Contract Address here
  	global $conn, $giveawayReserveContractAddress;
 // echo "POST Address inside function: " . $giveawayReserveContractAddress . "<br>";
 

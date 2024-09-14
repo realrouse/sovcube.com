@@ -535,7 +535,7 @@ if ((totalTimelockedFormatted + timelockedTokens) >= currentTierNum * 150000) {
         const roi = calculateAndDisplayROI(currentTier);
 
         // Calculate Timelock Reward Tokens
-        const timelockRewardTokens = timelockedTokens * roi;
+        const timelockRewardTokens = await calculateTimelockRewardTokens();
 
         // Update the HTML element
         document.getElementById('timelockRewardCalculation').innerHTML = 
@@ -831,7 +831,7 @@ async function handleWithdraw() {
      }
    }
 
-
+/*
 async function calculateTimelockRewardTokens() {
     // Check if contract2 and the element exist
     if (!window.contract2 || !document.getElementById('amount2')) {
@@ -860,6 +860,61 @@ async function calculateTimelockRewardTokens() {
         // Calculate and return Timelock Reward Tokens
         const timelockRewardTokens = timelockedTokens * roi;
         return timelockRewardTokens;
+
+    } catch (error) {
+        console.error('Error in calculating Timelock Reward Tokens:', error);
+    }
+}
+*/
+async function calculateTimelockRewardTokens() {
+    // Check if contract2 and the element exist
+    if (!window.contract2 || !document.getElementById('amount2')) {
+        console.error('Required elements are not initialized.');
+        return;
+    }
+
+    try {
+        const currentTier = await window.contract2.methods.currentGlobalTier().call();
+        const totalTimelockedBigInt = await window.contract2.methods.totalCumulativeTimelocked().call();
+        const totalTimelocked = Number(totalTimelockedBigInt);
+        let totalTimelockedFormatted = totalTimelocked / 100000000;
+
+        // Get the amount and calculate timelocked tokens
+        const amount = Number(document.getElementById('amount2').value);
+        const timelockedTokens = amount * 0.99;
+        let remainingTokens = timelockedTokens;
+        let rewardTokens = 0;
+
+        let currentTierNum = Number(currentTier);
+        let tierThreshold = currentTierNum * 150000;
+
+        while (remainingTokens > 0) {
+            let tokensInCurrentTier = 0;
+
+            if (totalTimelockedFormatted + remainingTokens > tierThreshold) {
+                // Calculate how many tokens fit into the current tier
+                tokensInCurrentTier = tierThreshold - totalTimelockedFormatted;
+            } else {
+                // All remaining tokens fit within the current tier
+                tokensInCurrentTier = remainingTokens;
+            }
+
+            // Calculate rewards for tokens in the current tier
+            const roi = calculateAndDisplayROI(currentTierNum);
+            rewardTokens += tokensInCurrentTier * roi;
+
+            // Update remaining tokens and move to the next tier if needed
+            remainingTokens -= tokensInCurrentTier;
+            totalTimelockedFormatted += tokensInCurrentTier;
+
+            // Move to the next tier and update the threshold
+            if (remainingTokens > 0) {
+                currentTierNum++;
+                tierThreshold = currentTierNum * 150000;
+            }
+        }
+
+        return rewardTokens;
 
     } catch (error) {
         console.error('Error in calculating Timelock Reward Tokens:', error);
@@ -1135,54 +1190,14 @@ if (timelock2Button) {
             const receiveTimelockRewards = timelockRewardTokens.toFixed(0);
 
 
-	    // Get the period withdrawal amount and halving information
-const periodWithdrawalAmountBigInt = await window.contract2.methods.periodWithdrawalAmount().call();
-const periodWithdrawalAmount = Number(periodWithdrawalAmountBigInt) / 100000000;
-let timestampOfNextWithdrawalHalving = Number(await window.contract2.methods.getTimestampOfNextWithdrawalHalving().call()); // Use let here
-const withdrawalHalvingEraBigInt = await window.contract2.methods.withdrawalHalvingEra().call();
-const withdrawalHalvingEra = Number(withdrawalHalvingEraBigInt); // Convert BigInt to Number
-
-// Adjust the withdrawal calculation based on the current and future halving eras
-let totalYearsToWithdrawAll = 0;
-let remainingTokens = accumulatedTimelocked;
-let currentEra = withdrawalHalvingEra;
-let currentPeriodWithdrawalAmount = periodWithdrawalAmount;
-const currentTimestamp = Math.floor(Date.now() / 1000); // Current UNIX timestamp
-const daysInYear = 365;
-const secondsInYear = daysInYear * 24 * 60 * 60;
-
-while (remainingTokens > 0 && currentEra <= 5) {
-    const timeUntilNextHalvingInSeconds = timestampOfNextWithdrawalHalving - currentTimestamp;
-    const timeUntilNextHalvingInYears = timeUntilNextHalvingInSeconds / secondsInYear;
-    
-    // Tokens that can be withdrawn until the next halving
-    const tokensBeforeNextHalving = timeUntilNextHalvingInYears * (52.14 * currentPeriodWithdrawalAmount);
-
-    if (remainingTokens <= tokensBeforeNextHalving) {
-        // If all remaining tokens can be withdrawn before the next halving
-        totalYearsToWithdrawAll += remainingTokens / (52.14 * currentPeriodWithdrawalAmount);
-        remainingTokens = 0;
-    } else {
-        // If the next halving will occur before all tokens are withdrawn in this era
-        totalYearsToWithdrawAll += timeUntilNextHalvingInYears;
-        remainingTokens -= tokensBeforeNextHalving;
-        currentEra++; // Move to the next era
-        currentPeriodWithdrawalAmount /= 2; // Halve the withdrawal amount
-
-        // Update the timestamp for the next halving (adding 1500 days in seconds)
-        timestampOfNextWithdrawalHalving += 1500 * 24 * 60 * 60;
-    }
-}
-
-console.log("Total Years to Withdraw All Tokens: " + totalYearsToWithdrawAll.toFixed(2));
-
-
 
             // Get global lock time
             let lockTimeYears;
             let globalTimeLeft;
+	    let globalTimeLeftBigInt;
             try {
-                globalTimeLeft = await window.contract2.methods.getGlobalTimeLeftRegularAccount().call();
+                globalTimeLeftBigInt = await window.contract2.methods.getGlobalTimeLeftRegularAccount().call();
+		globalTimeLeft = (Number(globalTimeLeftBigInt));    
                 lockTimeYears = (Number(globalTimeLeft) / (365 * 24 * 60 * 60)).toFixed(2);
             } catch (error) {
                 if (error.message.includes("Tokens are unlocked and ready for withdrawal")) {
@@ -1191,6 +1206,75 @@ console.log("Total Years to Withdraw All Tokens: " + totalYearsToWithdrawAll.toF
                     throw error; // Re-throw the error if it's not the expected one
                 }
             }
+
+
+
+
+// Get the period withdrawal amount and halving information
+const periodWithdrawalAmountBigInt = await window.contract2.methods.periodWithdrawalAmount().call();
+const periodWithdrawalAmount = Number(periodWithdrawalAmountBigInt) / 100000000;
+let timestampOfNextWithdrawalHalving = Number(await window.contract2.methods.getTimestampOfNextWithdrawalHalving().call());
+const withdrawalHalvingEraBigInt = await window.contract2.methods.withdrawalHalvingEra().call();
+const withdrawalHalvingEra = Number(withdrawalHalvingEraBigInt);
+
+// Adjust the withdrawal calculation based on the current and future halving eras
+let totalYearsToWithdrawAll = 0;
+let remainingTokens = accumulatedTimelocked;
+let currentEra = withdrawalHalvingEra;
+let currentPeriodWithdrawalAmount = periodWithdrawalAmount; 
+let currentTimestamp = Math.floor(Date.now() / 1000); // Current UNIX timestamp
+let halvingsOccured = 0;
+const daysInYear = 365;
+const secondsInYear = daysInYear * 24 * 60 * 60;
+
+while (remainingTokens > 0) { // Continue until remainingTokens is 0
+    let timeUntilNextHalvingInSeconds = timestampOfNextWithdrawalHalving - currentTimestamp;
+
+    // Adjust time until next halving if globalTimeLeft is defined and greater than 0
+    if (typeof globalTimeLeft !== 'undefined' && globalTimeLeft > 0) {
+        timeUntilNextHalvingInSeconds -= globalTimeLeft;
+    }
+
+    // Convert the remaining time until the next halving to years
+    let timeUntilNextHalvingInYears = timeUntilNextHalvingInSeconds / secondsInYear;
+
+    // Calculate tokens that can be withdrawn until the next halving
+    let tokensBeforeNextHalving = timeUntilNextHalvingInYears * (52.14 * currentPeriodWithdrawalAmount);
+
+    if (currentEra >= 5) {
+        // If era is 5 or greater, we need to withdraw tokens continuously at the current rate
+        tokensBeforeNextHalving = remainingTokens;  // Consider all remaining tokens for era 5+
+    }
+
+    if (remainingTokens <= tokensBeforeNextHalving) {
+        // If all remaining tokens can be withdrawn before the next halving or era is greater than 5
+        totalYearsToWithdrawAll += remainingTokens / (52.14 * currentPeriodWithdrawalAmount);
+        remainingTokens = 0;
+    } else {
+        // If the next halving will occur before all tokens are withdrawn in this era
+        totalYearsToWithdrawAll += timeUntilNextHalvingInYears;
+        remainingTokens -= tokensBeforeNextHalving;
+
+        if (currentEra < 5) { // Only increase the era and halve the withdrawal amount if era < 5
+            currentEra++; // Move to the next era
+            halvingsOccured++;
+            currentPeriodWithdrawalAmount /= 2; // Halve the withdrawal amount
+
+            // Update the timestamp for the next halving (adding 1500 days in seconds)
+            timestampOfNextWithdrawalHalving += 1500 * 24 * 60 * 60;
+        }
+    }
+
+    // Update current timestamp after processing one iteration
+    currentTimestamp += timeUntilNextHalvingInSeconds;
+}
+
+
+
+console.log("Total Years to Withdraw All Tokens: " + totalYearsToWithdrawAll.toFixed(2));
+
+
+
 
             const bsovTokenContract = new web3.eth.Contract(bsovTokenABI, tokenContractAddress);
             const transaction = bsovTokenContract.methods.approveAndCall(contract2Address, amountInSmallestUnit, "0x");
@@ -1250,6 +1334,31 @@ console.log("Total Years to Withdraw All Tokens: " + totalYearsToWithdrawAll.toF
                         <td>${estimatedFee}</td>
                     </tr>
                 </table>
+
+
+<p style="color:yellow; line-height: 1.5;">
+  <b>NOTICE:</b><br>
+  - You will not be able to withdraw any tokens during the Global Lock Time period of 
+  <span style="font-weight: bold; background-color: #444; padding: 2px 4px;">
+    ${lockTimeYears} years
+  </span>.<br>
+  - Once your tokens are unlocked, you will need to withdraw every 
+  <span style="font-weight: bold; background-color: #444; padding: 2px 4px;">
+    10 weeks
+  </span> 
+  to adhere to the estimated timeline.<br>
+  - Due to 
+  <span style="font-weight: bold; background-color: #444; padding: 2px 4px;">
+    ${halvingsOccured}
+  </span> Withdrawal Halvings, 
+  it will take approximately 
+  <span style="font-weight: bold; background-color: #444; padding: 2px 4px;">
+    ${totalYearsToWithdrawAll.toFixed(2)} years
+  </span> 
+  to fully withdraw all your tokens.
+</p>
+
+
                 <p>By clicking 'Confirm' you agree on the <a target="_blank" href="http://sovcube.localhost/docs/index.php#legal">terms</a> and that you truly understand what you are doing.</p>
             `;
 
@@ -1276,6 +1385,16 @@ console.log("Total Years to Withdraw All Tokens: " + totalYearsToWithdrawAll.toF
         }
     });
 }
+
+
+
+
+
+
+
+
+
+
 
 
 

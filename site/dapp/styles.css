@@ -3,6 +3,37 @@
 /*styles.css*/
 
 
+
+.newTxPopup {
+    background-color: #444;
+    color: #fff;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    position: relative;
+}
+
+.newTxPopup .closePopup {
+    background-color: red;
+    color: #fff;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    border-radius: 50%;
+}
+
+#notificationsContainer {
+position:fixed;
+right:10px;
+top:200px;
+}
+
+
+
+
 .modal-table {
     width: 100%;
     margin-top: 10px;
@@ -135,9 +166,10 @@
 
 
 .connected-to {
-padding:5px;
+padding:15px;
 background-color:black;
 border-radius:10px;
+
 }
 
 #withdraw2Button {
@@ -634,7 +666,7 @@ font-size:9pt;
 
 
 #contractSelect {
-    font-size: 15pt;
+    font-size: 10pt;
     color: white; /* Text color */
     background-color: #004F8B; /* Background color */
     border: none;
@@ -643,7 +675,7 @@ font-size:9pt;
     -webkit-appearance: none; /* Removes default styling for select on Webkit browsers */
     -moz-appearance: none; /* Removes default styling for select on Mozilla browsers */
    appearance: none;
-    width: 300px;
+    width: 200px;
     text-align:center;
     margin-left:50%;
     transform: translateX(-50%);
