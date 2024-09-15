@@ -349,40 +349,134 @@ line-height:1.6;
 }
 
 
+
+
+
+
+
+
+
+
+
 /* Responsive Design */
+@media screen and (max-width: 1024px) {
+    .body-container, .text-container {
+        width: 90%;
+        margin-top: 50px;
+        padding: 20px;
+    }
+
+    .brand-name {
+        font-size: 40pt; /* Adjusted for tablet screens */
+    }
+
+    .tagline {
+        font-size: 24pt; /* Slightly smaller tagline */
+    }
+
+    .description-heading {
+        font-size: 18pt;
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
+
+    .launch-button, .launch-button-gold {
+        padding: 15px 30px;
+        font-size: 18px;
+        margin: 20px 20px;
+    }
+}
+
 @media screen and (max-width: 768px) {
-  
-
-    .body-container, .text-container, section {
-        width: 95%; /* Full width for all containers */
-        margin-top: 0px; /* Uniform top margin */
-	padding:0px;
-	margin-left:2%;
-	margin-right:0px;
-	
+    .body-container, .text-container {
+        width: 95%; /* Full width for small screens */
+        margin-top: 0px;
+        padding: 10px;
     }
 
-
-    /* Optionally, adjust font sizes for smaller screens */
-    h1, h2, h3, h4, h5, h6, p {
-       /* font-size: smaller;*/
-
+    .brand-name {
+        font-size: 30pt; /* Adjusted for mobile screens */
     }
-h2, h3 {
-margin-left:56%;
-text-align:center;
-transform: translateX(-50%);
-font-size:17pt;
+
+    .tagline {
+        font-size: 20pt; /* Smaller tagline for mobiles */
+    }
+
+    .description-heading {
+        font-size: 16pt;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    h2, h3 {
+        margin-left: 0;
+        text-align: center;
+        font-size: 16pt; /* Reduced font size */
+        transform: none;
+    }
+
+    .launch-button, .launch-button-gold {
+        padding: 10px 20px;
+        font-size: 16px;
+        margin: 15px 15px;
+    }
+
+    .arrow-down {
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        border-top: 12px solid white;
+    }
+
+    .stats-container {
+        padding: 10px;
+        min-width: unset; /* Remove fixed minimum width */
+    }
+
+    .text-background::before {
+        width: 110%;
+        height: 150%;
+    }
+
+    #sovCubeChart {
+        height: 300px; /* Adjusted chart height for smaller screens */
+    }
 }
 
- h2 {
-line-height:2.5;
+@media screen and (max-width: 480px) {
+    .brand-name {
+        font-size: 24pt; /* Further adjustment for very small screens */
+    }
+
+    .tagline {
+        font-size: 18pt; /* Smaller tagline for very small screens */
+    }
+
+    .description-heading {
+        font-size: 14pt;
+    }
+
+    .launch-button, .launch-button-gold {
+        padding: 8px 16px;
+        font-size: 14px;
+        margin: 10px 10px;
+    }
+
+    .text-container {
+        padding: 5px;
+    }
+
+    h2, h3 {
+        font-size: 14pt; /* Further reduced font size */
+    }
+
+    .arrow-down {
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-top: 10px solid white;
+    }
+
+    #sovCubeChart {
+        height: 250px; /* Further reduced chart height */
+    }
 }
 
-.body-container::before {
-width:100%;
-}
-
-
-
-}
