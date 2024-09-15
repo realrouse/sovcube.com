@@ -1,5 +1,14 @@
 // app.js
 
+
+// Function to detect mobile devices and log result in console
+function isMobile() {
+    const isMobileDevice = /Mobi|Android/i.test(navigator.userAgent);
+    console.log('Is Mobile Device:', isMobileDevice);
+    return isMobileDevice;
+}
+
+
 document.addEventListener('DOMContentLoaded', function() {
     const connectButton = document.getElementById('connectWallet');
     const walletStatus = document.getElementById('walletStatus');
