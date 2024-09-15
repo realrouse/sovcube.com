@@ -85,20 +85,52 @@ function displayStoredTransactions() {
     }
 }
 
+function removeTransactionFromLocalStorage(transactionToRemove) {
+    const selectedAccount = window.selectedAccount; // Ensure we're using the correct selectedAccount
+    if (selectedAccount) {
+        let transactionsKey = `transactions_${selectedAccount}`;
+        let transactions = JSON.parse(localStorage.getItem(transactionsKey)) || [];
+
+        // Filter out the transaction that matches the message and amount
+        transactions = transactions.filter(transaction =>
+            transaction.message !== transactionToRemove.message || transaction.amount !== transactionToRemove.amount
+        );
+
+        // Save the updated transactions back to local storage
+        localStorage.setItem(transactionsKey, JSON.stringify(transactions));
+        console.log("Removed transaction from local storage:", transactionToRemove);
+    }
+}
+
+
 // Function to display a transaction notification on the UI
 function displayTransactionNotification(transaction) {
     const notificationsContainer = document.getElementById('notificationsContainer');
     const notificationElement = document.createElement('div');
-    notificationElement.className = 'newTxPopup';
-    notificationElement.innerHTML = `
-        ${transaction.message}<br>${transaction.amount}
-        <button class="closePopup">&times;</button>
-    `;
+
+    // Apply special styling if the transaction is highlighted
+    if (transaction.highlighted) {
+        notificationElement.className = 'newTxPopup highlightedNotification';
+        notificationElement.innerHTML = `
+            <strong>${transaction.message}</strong><br>
+            <span style="font-size: 1.2em; color: #ffeb3b;">${transaction.amount}</span>
+            <button class="closePopup" style="color: #ffeb3b;">&times;</button>
+        `;
+    } else {
+        notificationElement.className = 'newTxPopup';
+        notificationElement.innerHTML = `
+            ${transaction.message}<br>${transaction.amount}
+            <button class="closePopup">&times;</button>
+        `;
+    }
 
     const closeButton = notificationElement.querySelector('.closePopup');
     closeButton.addEventListener('click', function () {
         notificationElement.remove();
-        saveNotificationsToLocalStorage(); // Save the updated state
+        removeTransactionFromLocalStorage(transaction); // Remove the specific transaction from local storage
+
+        // Save the updated notifications to local storage
+        saveNotificationsToLocalStorage();
 
         // Check if any notifications remain, if not, hide the "Clear All" button
         if (notificationsContainer.children.length === 1) { // Only the Clear All button left
@@ -116,6 +148,9 @@ function displayTransactionNotification(transaction) {
         clearAllBtn.style.display = 'block';
     }
 }
+
+
+
 
 // Function to handle new transaction receipts
 function handleNewReceipt(receipt) {
@@ -188,16 +223,37 @@ function handleNewReceipt(receipt) {
                     const decoded = web3.eth.abi.decodeParameters(['address[]', 'uint256[]'], log.data);
                     decoded[1].forEach((amt, index) => {
                         amount = parseInt(amt) / 100000000; // Convert from the smallest unit (assumes 8 decimals)
-                        const message = `${eventName} to ${decoded[0][index]}`;
-                        const transaction = { message, amount: `${amount.toFixed(2)} BSOV` };
+                        let message = `${eventName} to ${decoded[0][index]}`;
+                        let transaction = { message, amount: `${amount.toFixed(2)} BSOV` };
                         displayTransactionNotification(transaction);
                         saveTransactionToLocalStorage(transaction);
                     });
                     return; // Skip further processing for Sent Locked Tokens to Many
                 }
 
-                const message = `${eventName}`;
-                const transaction = { message, amount: `${amount.toFixed(2)} BSOV` };
+                let message = `${eventName}`;
+                let transaction = { message, amount: `${amount.toFixed(2)} BSOV` };
+
+
+
+$(document).ready(function(){
+  $('[data-toggle="tooltip"]').tooltip(); 
+});
+
+
+
+
+		    // Check if the event is "Earned Reward"
+if (eventName === 'Earned Reward') {
+message = `🎉 You've Earned a Reward!`;
+    transaction = {
+        message,
+        amount: `${amount.toFixed(2)} BSOV<br><a class="tooltip-icon" data-toggle="tooltip" title="To claim them, you must click the 'Accept Untaken Tokens' button. The tokens will be sent to your 'Incoming Account'" target="_blank" href="/docs/index.php">
+  ?
+</a>`,
+        highlighted: true // Add a flag to indicate that this notification should be highlighted
+    };
+}
                 displayTransactionNotification(transaction);
                 saveTransactionToLocalStorage(transaction);
             }

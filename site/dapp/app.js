@@ -324,19 +324,54 @@ document.querySelectorAll('input[name="contract1Action"]').forEach(radio => {
     });
 });
 
-let intervalId; // Variable to store the interval ID
 
-// Function to start the interval
-function startInterval() {
-    intervalId = setInterval(() => {
-        updateTimelockRewardCalculation();
-    }, 1000);
+
+	let intervals = {}; // Object to store all interval IDs and their times
+
+// Function to start an interval for a specific function
+function startInterval(fn, intervalTime = 1000) {
+    if (!intervals[fn.name]) {
+        intervals[fn.name] = setInterval(() => {
+            if (document.visibilityState === 'visible') {
+                fn();
+            }
+        }, intervalTime);
+    }
 }
 
-// Function to stop the interval
-function stopInterval() {
-    clearInterval(intervalId);
+// Function to stop the interval for a specific function
+function stopInterval(fn) {
+    if (intervals[fn.name]) {
+        clearInterval(intervals[fn.name]);
+        delete intervals[fn.name];
+    }
 }
+
+// Function to stop all intervals
+function stopAllIntervals() {
+    for (const key in intervals) {
+        clearInterval(intervals[key]);
+    }
+    intervals = {};
+}
+
+// Your event listeners or other code where stopAllIntervals is called
+document.addEventListener('visibilitychange', function() {
+    if (document.visibilityState === 'hidden') {
+        stopAllIntervals(); // This should now work without errors
+    } else if (document.visibilityState === 'visible') {
+        const selectedRadio = document.querySelector('input[name="contract2Action"]:checked');
+        if (selectedRadio) {
+            if (selectedRadio.value === 'withdraw') {
+                startInterval(updateWithdrawableAmounts, 1000);
+            } else if (selectedRadio.value === 'timelock') {
+                startInterval(updateTimelockRewardCalculation, 2000);
+            }
+        }
+    }
+});
+
+
 
 // Show the corresponding input field and/or textarea when a radio button is clicked for Contract 2
 document.querySelectorAll('input[name="contract2Action"]').forEach(radio => {
@@ -344,36 +379,33 @@ document.querySelectorAll('input[name="contract2Action"]').forEach(radio => {
         // Hide all amount inputs, textarea, and buttons first
         resetContractUI(); // Call this to reset the UI elements
 
+        // Stop all intervals before starting a new one
+        stopAllIntervals();
+
         // Show the corresponding input field and/or textarea and button
         if (radio.value === 'timelock') {
             document.getElementById('amount2').style.display = 'block';
-// Set an interval to call the update function every 1 seconds (1000 milliseconds)
-startInterval();
-	
+            startInterval(updateTimelockRewardCalculation, 2000); // Start interval for timelock reward calculation with a 2-second interval
 
             document.getElementById('timelock2Button').style.display = 'block';
-	                document.getElementById('timelockedtokens2').style.display = 'block';
-		document.getElementById('advanceTierMessage').style.display = 'block';
-
-          //  document.getElementById('withdrawaltime2').style.display = 'block';
-document.getElementById('timelockRewardCalculation').style.display = 'block';
+            document.getElementById('timelockedtokens2').style.display = 'block';
+            document.getElementById('advanceTierMessage').style.display = 'block';
+            document.getElementById('timelockRewardCalculation').style.display = 'block';
         } else if (radio.value === 'withdraw') {
-		document.getElementById('withdrawableNowRegularAccount').style.display = 'block';
-		document.getElementById('withdrawableNowIncomingAccount').style.display = 'block';
-		updateWithdrawableAmounts();
-            document.getElementById('amount2').style.display = 'block';
-	                document.getElementById('timelockedtokens2').style.display = 'none';
-		document.getElementById('advanceTierMessage').style.display = 'none';
+            document.getElementById('withdrawableNowRegularAccount').style.display = 'block';
+            document.getElementById('withdrawableNowIncomingAccount').style.display = 'block';
+            startInterval(updateWithdrawableAmounts, 1000); // Start interval for withdrawable amounts update with a 1-second interval
 
-          //  document.getElementById('withdrawaltime2').style.display = 'none';
-document.getElementById('timelockRewardCalculation').style.display = 'none';
+            document.getElementById('amount2').style.display = 'block';
+            document.getElementById('timelockedtokens2').style.display = 'none';
+            document.getElementById('advanceTierMessage').style.display = 'none';
+            document.getElementById('timelockRewardCalculation').style.display = 'none';
             document.getElementById('withdraw2Button').style.display = 'block';
-		document.getElementById('withdrawAll2Button').style.display = 'block';
-document.getElementById(`radio-container-account`).style.display = 'flex';
-		        //document.getElementById(`account-checkbox`).style.display = 'block';
-        //document.getElementById(`account-checkbox-label`).style.display = 'block';
+            document.getElementById('withdrawAll2Button').style.display = 'block';
+            document.getElementById(`radio-container-account`).style.display = 'flex';
         } else if (radio.value === 'sendlocked') {
-		stopInterval();
+            stopAllIntervals(); // Stop any running interval
+
             document.getElementById('ethAddresses').style.display = 'block';
             document.getElementById('sendLockedAmounts').style.display = 'block';
             document.getElementById('sendLocked2Button').style.display = 'block';
@@ -381,7 +413,12 @@ document.getElementById(`radio-container-account`).style.display = 'flex';
     });
 });
 }
-radioButtonUIResponse();
+
+
+	radioButtonUIResponse();
+
+
+
 
 
 // Event listener for the Contract 1 Timelock button
@@ -492,6 +529,7 @@ async function updateWithdrawableAmounts() {
         document.getElementById('errorMessage').innerText = `Error fetching withdrawable amounts: ${error.message}`;
     }
 }
+
 
 function formatBSOVAmount(amount) {
     const bsovAmount = Number(amount) / 100000000; // Convert to BSOV by dividing by 10^8

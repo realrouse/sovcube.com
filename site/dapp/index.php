@@ -130,7 +130,7 @@ const lockYears = Number(lockTimeLeftInSeconds) / Number(secondsInYear); // Conv
 </script>
 
 <!-- Contract 1 - Timelock and Withdraw Buttons -->
-<button class="button" id="timelock1Button">Timelock Now</button>
+<button class="button" id="timelock1Button">Review Timelock</button>
 <button class="button" id="withdraw1Button">Withdraw Now</button>
 
 
@@ -398,7 +398,7 @@ const lockYears = Number(lockTimeLeftInSeconds) / Number(secondsInYear); // Conv
             <textarea id="ethAddresses" spellcheck="false" placeholder="Enter ETH addresses to send timelocked tokens to (one address per line)"></textarea>
 	    <textarea id="sendLockedAmounts" spellcheck="false"  placeholder="Enter BSOV amounts (one amount per line)"></textarea>
           <!-- Contract 2 - Timelock, Withdraw, and Send Locked Tokens Buttons -->
-<button class="button" id="timelock2Button">Timelock Now</button>
+<button class="button" id="timelock2Button">Review Timelock</button>
 <button class="button" id="withdraw2Button">Withdraw from Selected Account</button>
 <button class="button" id="withdrawAll2Button">Withdraw All</button>
 <button class="button" id="sendLocked2Button">Send Locked Tokens Now</button>
@@ -441,6 +441,13 @@ document.getElementById('clearError').addEventListener('click', function() {
 </div>
 
 
+<div id="acceptIncomingContainer">
+<div id="acceptIncomingAccount"></div>
+<button id="acceptIncomingButton" data-toggle="tooltip" title="Accepting Untaken Incoming Tokens will either start or reset the lock period of any existing timelocked balance in your 'Incoming Account' to a full 100 days. This will not affect the lock period of your Regular Account.">Accept Incoming Tokens</button>
+</div>
+
+
+
 
 <div id="contractInfoContainer">
     
@@ -462,10 +469,9 @@ document.getElementById('clearError').addEventListener('click', function() {
 		</div>
 
 	      <div class="contract-info-style" id="incomingAccountContainer">
-               <div id="incomingTokensAccount">   
-	      </div>	
-	              <button id="acceptIncomingButton" data-toggle="tooltip" title="Accepting Untaken Incoming Tokens will either start or reset the lock period of any existing timelocked balance in your 'Incoming Account' to a full 100 days. This will not affect the lock period of your Regular Account.">Accept Untaken Incoming Tokens</button>
-		</div>
+               <div id="incomingTokensAccount">
+                </div>
+              </div>
 	</div>
 
 <!--	      <div class="contract-info-style" id="rewardsAccountContainer">
