@@ -3,10 +3,15 @@
 
 // Function to detect mobile devices and log result in console
 function isMobile() {
+    console.log('User Agent:', navigator.userAgent);
     const isMobileDevice = /Mobi|Android/i.test(navigator.userAgent);
     console.log('Is Mobile Device:', isMobileDevice);
+    alert('SovCube dApp does not work on mobile yet. Use a computer.');
     return isMobileDevice;
 }
+
+// Call the function
+isMobile();
 
 
 document.addEventListener('DOMContentLoaded', function() {
