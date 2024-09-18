@@ -6,7 +6,11 @@ function isMobile() {
     console.log('User Agent:', navigator.userAgent);
     const isMobileDevice = /Mobi|Android/i.test(navigator.userAgent);
     console.log('Is Mobile Device:', isMobileDevice);
-    alert('SovCube dApp does not work on mobile yet. Use a computer.');
+    
+    if (isMobileDevice) {
+        alert('SovCube dApp does not work on mobile yet. Use a computer.');
+    }
+    
     return isMobileDevice;
 }
 
@@ -1281,10 +1285,12 @@ if (timelock2Button) {
             let lockTimeYears;
             let globalTimeLeft;
 	    let globalTimeLeftBigInt;
+	    let lockTimeDays;
             try {
                 globalTimeLeftBigInt = await window.contract2.methods.getGlobalTimeLeftRegularAccount().call();
 		globalTimeLeft = (Number(globalTimeLeftBigInt));    
                 lockTimeYears = (Number(globalTimeLeft) / (365 * 24 * 60 * 60)).toFixed(2);
+		    lockTimeDays = (Number(globalTimeLeft) / (24 * 60 * 60)).toFixed(0);
             } catch (error) {
                 if (error.message.includes("Tokens are unlocked and ready for withdrawal")) {
                     lockTimeYears = "0";
@@ -1960,12 +1966,33 @@ if (acceptIncomingButton) {
             const incomingAccountDaysLeft = (Number(timeLeftIncomingAccountSeconds) / (24 * 60 * 60)).toFixed(0); // Convert to days
 
             // Construct lockTimeWarning based on the incoming account balance
-            let lockTimeWarning;
+            /*let lockTimeWarning;
             if (incomingAccountBalance > 0) {
-                lockTimeWarning = `<p style="color:orange;"><b>WARNING:</b> Accepting Untaken Incoming Tokens will reset the Lock Time of your Incoming Account back to 100 days.<br>You have <b>${incomingAccountDaysLeft}</b> days left of your Lock Time.<br>This Lock Time reset will only affect your Incoming Account, not your Regular Account.</p>`;
+                lockTimeWarning = `<p style="color:orange;"><b>WARNING:</b><br>Accepting Untaken Incoming Tokens will reset the Lock Time of your Incoming Account back to 100 days.<br>You have <b>${incomingAccountDaysLeft}</b> days left of your Lock Time.<br>This Lock Time reset will only affect your Incoming Account, not your Regular Account.</p>`;
             } else {
                 lockTimeWarning = `<p style="color:yellow;"><b>NOTICE:</b> After accepting Untaken Incoming Tokens, a 100-day timer will start,<br> meaning that you will have to wait <b>100 days</b> until you can start withdrawing your tokens.<br>This Lock Time reset will only affect your Incoming Account, not your Regular Account.</p>`;
             }
+	    */
+
+		// Construct lockTimeWarning based on the incoming account balance
+let lockTimeWarning;
+let lockTimeDays;
+
+// Display the warning if the incoming account balance is greater than 0 and the lock time is less than 100 days
+if ((incomingAccountBalance > 0) && (incomingAccountDaysLeft < 100)) {
+    lockTimeWarning = `<p style="color:orange;"><b>WARNING:</b><br>Accepting Untaken Incoming Tokens will reset the Lock Time of your Incoming Account back to 100 days.<br>You have <b>${incomingAccountDaysLeft}</b> days left of your Lock Time.<br>This Lock Time reset will only affect your Incoming Account, not your Regular Account.</p>`;
+}
+
+// Display the notice if the incoming account balance is 0
+if (incomingAccountBalance === 0) {
+    lockTimeWarning = `<p style="color:yellow;"><b>NOTICE:</b> After accepting Untaken Incoming Tokens, a 100-day timer will start,<br> meaning that you will have to wait <b>100 days</b> until you can start withdrawing your tokens.<br>This Lock Time reset will only affect your Incoming Account, not your Regular Account.</p>`;
+}
+
+// Add another warning if the global lock time has more than 100 days left
+if (incomingAccountDaysLeft > 100) {
+    lockTimeWarning = `<p style="color:yellow;"><b>NOTICE:</b><br>Global Lock Time is still active and there are <b>${incomingAccountDaysLeft}</b> days left.<br>This means that everyone has to wait before being able to withdraw any tokens.</p>`;
+}
+
 
             // Define the contract transaction
             const transaction = window.contract2.methods.acceptUntakenIncomingTokens();

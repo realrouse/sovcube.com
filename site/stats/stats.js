@@ -1,5 +1,5 @@
 let web3;
-
+/*
 // Check if MetaMask is installed
 if (typeof window.ethereum !== 'undefined') {
     console.log('MetaMask is installed!');
@@ -11,18 +11,46 @@ if (typeof window.ethereum !== 'undefined') {
 } else {
     console.error('Web3 not detected and no fallback available.');
     alert('You need to install MetaMask or use a browser that supports Web3.');
-}
+}*/
 
-/*
+
+
 // Check if MetaMask is installed
 if (typeof window.ethereum !== 'undefined') {
     console.log('MetaMask is installed!');
+    
+    // Use MetaMask's provider but don't ask for account access (read-only)
     web3 = new Web3(window.ethereum);
-} else {
-    console.log('MetaMask is not installed. Please consider installing it: https://metamask.io/download.html');
+    
+    // Ensure no account login is triggered for read-only access
+    window.ethereum.autoRefreshOnNetworkChange = false; // Optional: prevent auto-login on network changes
+    window.ethereum.request({ method: 'eth_accounts' })
+        .then(accounts => {
+            if (accounts.length === 0) {
+                console.log('MetaMask is installed, but no account is connected (read-only).');
+                // Proceed with fetching data in read-only mode
+            } else {
+                console.log('MetaMask is connected with account:', accounts[0]);
+                // Proceed with fetching data using the connected account if needed
+            }
+        })
+        .catch(error => {
+            console.error('Error checking MetaMask accounts:', error);
+        });
+} else if (typeof Web3 !== 'undefined') {
+    // MetaMask is not installed, fallback to Infura (or another provider)
+    console.log('MetaMask is not installed. Falling back to Infura.');
     web3 = new Web3(new Web3.providers.HttpProvider(infuraUrl));
+} else {
+    // No MetaMask or Web3 provider detected, show an alert
+    console.error('Web3 not detected and no fallback available.');
+    alert('You need to install MetaMask or use a browser that supports Web3.');
 }
-*/
+
+
+
+
+
 
 let contract1;
 let contract2;
@@ -81,16 +109,16 @@ async function initializeContracts() {
 // Helper function to update contract data on the page
 function updateContractData(contract, methodName, containerId, methodArgs) {
     const containerLabels = {
-        timeUntilWithdrawalHalving: "Time Remaining until Withdrawal Halving",
-        contract1TimeLeft: "Time Remaining of Lock Time",
-        contract2TimeLeft: "Time Remaining of Lock Time",
+        timeUntilWithdrawalHalving: "Time Left until Withdrawal Halving",
+        contract1TimeLeft: "Global Lock Time - Time Left",
+        contract2TimeLeft: "Global Lock Time - Time Left",
         CurrentTier: "Current Reward Tier",
         TotalClaimed: "Total Rewards Claimed",
         TotalEligibleAmount: "Total Rewards Sent",
         RewardsRemaining: "Rewards Remaining",
         TotalTimelocked: "Total BSOV Timelocked for Rewards",
-        tokensMinted: "Total BSOV Tokens Minted",
-        burnAmount: "Total BSOV Burned"
+        tokensMinted: "Total BSOV Minted",
+        burnAmount: "Total BSOV Burnt"
     };
 
     const containerLabel = containerLabels[containerId] || 'Unknown Container';

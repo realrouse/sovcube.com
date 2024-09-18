@@ -1,6 +1,6 @@
 // Check if MetaMask is installed
 if (typeof window.ethereum !== 'undefined') {
-    console.log('MetaMask is installed!');
+    console.log('MetaMask is installed! TEST TEST TEST');
     web3 = new Web3(window.ethereum);
 } else {
     console.log('MetaMask is not installed. Please consider installing it: https://metamask.io/download.html');

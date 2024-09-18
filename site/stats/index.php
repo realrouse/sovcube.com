@@ -131,7 +131,7 @@ function formatNumber($value) {
                 Time Left: Loading...
             </div>
             <div class="info-container" id="contract1TotalTimelocked">
-                <p><b>Currently Total Timelocked by Users:</b><br><?php echo formatNumber($totalTimelocked1) . " BSOV"; ?></p>
+                <p><b>Total Timelocked in Contract:</b><br><?php echo formatNumber($totalTimelocked1) . " BSOV"; ?></p>
             </div>
             <div class="info-container" id="contract1UsersInfo">
                 <div class="leaderboard-container" id="contract1Leaderboard">
@@ -166,6 +166,7 @@ function formatNumber($value) {
         </thead>
         <tbody id="transactionTableBody1"></tbody>
     </table>
+<button id="loadMoreBtn_transactionTableBody1" class="load-more-btn" onclick="loadMoreTransactions(contract1Address, 'transactionTableBody1', '/dapp/contract1.abi', ['TokensUnfrozen', 'TokensFrozen'])">Load the next 50 transactions</button>
 </div>
 
             </div>
@@ -174,15 +175,16 @@ function formatNumber($value) {
         <div class="contract-section">
             <h2 id="contract-heading">Contract 2</h2>
 		<a id="external-link2" href='#' target="_blank"><img src="/images/external-link.png" width="15px" alt="External Link Icon"> Etherscan</a> <a id="moreinfo" href="/docs/index.php/#contract-2" target="_blank">More info</a>
-            <div class="info-container" id="timeUntilWithdrawalHalving">
-                Time Left: Loading...
-            </div>
             <div class="info-container" id="contract2TimeLeft">
                 Time Left: Loading...
             </div>
             <div class="info-container" id="contract2TotalTimelocked">
-                <p><b>Currently Total Timelocked by Users:</b><br><?php echo formatNumber($totalTimelocked2) . " BSOV"; ?></p>
+                <p><b>Total Timelocked in Contract:</b><br><?php echo formatNumber($totalTimelocked2) . " BSOV"; ?></p>
+	    </div>
+            <div class="info-container" id="timeUntilWithdrawalHalving">
+                Time Left: Loading...
             </div>
+
             <div class="info-container" id="contract2UsersInfo">
                 <div class="leaderboard-container" id="contract2Leaderboard">
     <h2>Leaderboard</h2>
@@ -215,6 +217,7 @@ function formatNumber($value) {
         </thead>
         <tbody id="transactionTableBody2"></tbody>
     </table>
+<button id="loadMoreBtn_transactionTableBody2" class="load-more-btn" onclick="loadMoreTransactions(contract2Address, 'transactionTableBody2', '/dapp/contract2.abi', ['TokenTimelock', 'TokenWithdrawalRegularAccount'])">Load the next 50 transactions</button>
 </div>
 
 </div>

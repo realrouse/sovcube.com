@@ -96,14 +96,17 @@
 }
 
 #txProgressPopup .loader {
-  margin: 20px 0;
+  margin: 20px auto;
   border: 6px solid #3d3d3d; /* Lighter gray for the background of the loader */
   border-top: 6px solid #3498db; /* Blue color for the loader */
   border-radius: 50%;
   width: 50px;
   height: 50px;
   animation: spin 1.5s linear infinite;
+  
 }
+
+
 
 #txProgressPopup .message {
   font-size: 16px;
@@ -127,9 +130,9 @@
 
 #notificationsContainer {
     position: fixed;
-    right: 20px;
-    top: 200px;
-    width: 250px;
+    right: -10px;
+    top: 235px;
+    width: 270px;
     z-index: 0;
     padding:30px;
 }
@@ -343,7 +346,7 @@
 
 .connected-to {
 padding:15px;
-background-color:black;
+background-color:rgba(50, 50, 50, 0.3);
 border-radius:10px;
 
 }
@@ -684,9 +687,9 @@ body {
 
 }
 
-
+/*
 .connectWalletTextClass {
-background-color: #004F8B;
+background-color: #111;
 font-size: 15pt;
 font-weight:bold;
 margin-bottom:20px;
@@ -696,7 +699,12 @@ padding-bottom: 15px;
 display: block;
  -webkit-animation: fadeIn 0.5s;
     animation: fadeIn 0.5s;
+    width:400px;
+    padding:50px;
+    border-radius:5px;
+    margin-left:32.5%;
 }
+*/
 
 /* Tooltip container */
 .tooltip {

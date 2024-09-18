@@ -1,5 +1,38 @@
 /*styles.css*/
 
+
+/* Style for the "Load More" button */
+.load-more-btn {
+    background-color: #007bff; /* Blue color similar to the existing buttons */
+    color: #ffffff; /* White text */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.load-more-btn:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+.load-more-btn:disabled {
+    background-color: #6c757d; /* Grey background when disabled */
+    cursor: not-allowed;
+}
+
+/* Style for the "All transactions have been loaded" message */
+.no-more-transactions {
+    color: #ffdd00; /* Yellow color to match the theme */
+    text-align: center;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+
+
+
 summary {
             cursor: pointer;
             font-size: 12pt;

@@ -32,8 +32,8 @@
 
 </head>
 
-<?php include $_SERVER['DOCUMENT_ROOT'] . '/menu.php'; ?>
 <body>
+<?php include $_SERVER['DOCUMENT_ROOT'] . '/menu.php'; ?>
 
 <?php
 

@@ -137,6 +137,30 @@ function updateAcceptIncomingContainer(untakenIncomingTokens) {
     }
 }
 
+
+
+async function checkUntakenIncomingTokens() {
+    try {
+        // Check if the account is connected
+        if (!selectedAccount) {
+            console.error("No account connected");
+            return;
+        }
+
+        // Proceed with the balance check if the account is connected
+        const account = selectedAccount;
+        const { untakenIncomingTokens } = await getContract2TimelockedTokens(account);
+
+        // Update the container with the untaken incoming tokens
+        updateAcceptIncomingContainer((Number(untakenIncomingTokens) / 100000000).toFixed(2));
+    } catch (error) {
+        console.error("Error checking untaken incoming tokens:", error);
+    }
+}
+
+
+
+/*
 async function checkUntakenIncomingTokens() {
     try {
         const account = selectedAccount; // Ensure you have the correct selectedAccount context
@@ -147,6 +171,7 @@ async function checkUntakenIncomingTokens() {
         console.error("Error checking untaken incoming tokens:", error);
     }
 }
+*/
 
 // Check balance every 2 seconds
 setInterval(checkUntakenIncomingTokens, 2000);
