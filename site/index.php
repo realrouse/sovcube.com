@@ -73,7 +73,7 @@ if ($contract2Data) {
 <center><h1 class="brand-name">SovCube</h1></center>
 <center><img  src="/images/ani-locked-bsov-padlock-small.gif" style="margin:0px 0px 0px 0px; z-index:11;" width="100px" alt="BSOV Token" ></img></center><br>
 <center><h2 class="tagline">Timelock Today. Shape Tomorrow.</h2></center>
-<p style="text-align:center;">Unlock the potential of your <a href="https://bsovtoken.com" target="_blank">BSOV Tokens</a> by locking them using the SovCube dApp, a decentralized web3 app built on the Ethereum blockchain. Timelock, earn rewards, and join a decentralized foundation where the future is whatever the community decides.</p>
+<p style="text-align:center;">Unlock the potential of your BSOV Tokens, a cryptocurrency designed as a Store-of-Value (SoV), by locking them using the SovCube dApp, a decentralized web3 app built on the Ethereum blockchain. By timelocking your BSOV Tokens, you can earn rewards and participate in a decentralized foundation where the community collectively decides the future.</p>
 <center><h3 class="description-heading">Great decisions take time.<br>Shape the future with thoughtful decisions and your vote in our decentralized foundation.</h3></center>
 <button onclick="window.location.href='#more'" class="launch-button-gold">Read More</button>
 <div class="arrow-down"></div>
@@ -82,37 +82,58 @@ if ($contract2Data) {
     <div class="text-container">
 
 <center><h2 class="tagline" id="more">Long Commitment, Lasting Impact</h2></center>
-<center><h3 class="description-heading">Join SovCube, a decentralized autonomous organization (DAO) where your commitment directs Treasury funds to meaningful causes.<br><br>Any member can qualify to become a decision maker by demonstrating their commitment through locking their <a href="https://bsovtoken.com" target="_blank">BSOV Tokens</a> for an extended period.</h3></center>
+<center><h3 class="description-heading">Join SovCube, a decentralized autonomous organization (DAO) where your commitment gives you a vote to spend money from a community-governed Treasury to meaningful causes.<br><br>Any member can qualify to become a decision maker by demonstrating their commitment through locking their <a href="https://bsovtoken.com" target="_blank">BSOV Tokens</a> for an extended period.</h3></center>
 <p style="text-align:center;"></p>
 <!-- <p style="text-align:center;">Secure your <a href="https://bsovtoken.com" target="_blank">BSOV Tokens</a> with SovCube's web3 dApp<br>and smart-contract collection, which work similarly to a traditional long-term savings account.</p>-->
 <br>
 <center><h2 class="tagline">Features</h2></center>
+
+
+
 <div class="stats-container">
-<center><h3>Timelock Tokens</h3></center>
 <div style="text-align:left;">
-<p>Timelock your <a href="https://bsovtoken.com" target="_blank">BSOV Tokens</a> using SovCube's web3 interface, which means locking them in a secure smart contract for a set period. During this time, your tokens cannot be moved or traded, demonstrating your commitment to the token's long-term value.</p>
-<p> As a reward for your dedication, you can become a Top Timelocker, qualifying for voting power and earning additional rewards.</p>
-
+<center><h3>Propose, Vote, Be Rewarded (Under development)</h3></center>
+<p>
+<strong>Exciting developments ahead:</strong> The decentralized foundation allocates funds to significant causes, determined entirely by the community. Proposal Makers suggest ideas, while Top Timelockers vote and receive Voting Rewards, ensuring SovCube reflects the priorities of its most committed members.
+</p>
+<p><strong>Types of Causes:</strong> The Treasury can support a variety of initiatives, such as funding small projects, charitable efforts, and further development and outreach of SovCube. Whether it's contributing to community-driven ventures or expanding the reach and impact of SovCube itself, the community has the power to decide where the resources are best allocated.
+</p>
+<p>
+<strong>The Future Awaits:</strong> Who knows what SovCube’s impact could be? Will it help tackle global challenges like hunger, or even lay the groundwork for a new digital nation? The only limit is the community's imagination.
+</p>
 <details>
-   <summary> <center><h4>Timelock Periods</h4></center></summary>
-    <ul>
-        <li>
-            <p><strong>Onboarding Period:</strong> For the first 1000 days after SovCube was created, all timelocked tokens for all users were locked for the entire period. It is called "Global Lock Time".</p>
-        </li>
-        <li>
-            <p><strong>Post-Onboarding:</strong> After the 1000-day Global Lock Time, new users face a 70-day lock, while existing users only have a 14-day lock.</p>
-	</li>
- <li>
- <p id="daysGlobalLockTime"><strong>Global Lock Time: </strong><span style="color:orange;"><?php echo $daysRemaining; ?> days</span> remain of the Global Lock Time</p>
-        </li>
+<summary>
+<h4>Governance, Treasury & Incentives</h4>
+</summary>
+	    <ul>
+<li>
+                    <p><strong>Treasury:</strong> A fund financed by generous donations from philanthropists and the BSOV Community. Through SovCube, these contributions are directed towards meaningful projects and initiatives that create a lasting impact.</p>
+                </li>
 
-    </ul>
+                <li>
+                    <p><strong>Skin-in-the-game:</strong> Commitment to SovCube is a requirement, ensuring decisions are sound and resilient to voting attacks, creating a robust governance system.</p>
+                </li>
+                <li>
+                    <p><strong>1 Vote per User:</strong> In the beginning, only the top 100 Timelockers can vote, making it costly to acquire multiple votes and ensuring true decentralization.</p>
+                </li>
+                <li>
+                    <p><strong>Decision Maker Pool Decentralizes over Time:</strong> Every four years, a <b>Doubling</b> event will expand the Decision Maker Pool, doubling the number of Top Timelockers eligible to vote.</strong> The first event will increase participation from the top 100 to the top 200, and over 40 years, this pool will grow to include 102,400 individuals. This gradual expansion will empower more people to actively participate in the decision-making process.
+                </li>
+                <li>
+                    <p><strong>Voting Rewards:</strong> To incentivize participation, every Top Timelocker will receive Voting Rewards in the form of BSOV Tokens during the Yearly Vote, where they vote on a proposal to allocate funds from the treasury. Rewards are only given to those Top Timelockers who actively participate in the voting process.</p>
+                </li>
+                <li>
+                    <p><strong>1 Decision per Year:</strong> Only one proposal will win per year, so every vote counts. This scarcity drives competition among proposals, ensuring that only the most impactful and well-supported ideas rise to the top. It also gives the community ample time to thoroughly evaluate each proposal, making the final decision a meaningful reflection of the community's collective vision and commitment to the future of SovCube.</p>
+                </li>
 
-<!--<img src="/images/Sovcube-padlock-icon10.png" style="margin:0px 0px 0px 0px; z-index:11;" width="100px" ></img><br>-->
-</div>
+
+            </ul>
+
 </details>
-<center><img src="/images/timelock-gold-padlock5.png" style="margin:0px 0px 0px 0px; z-index:11;" width="300px" ></img></center><br>
 </div>
+<br>
+</div>
+
 
 <div class="stats-container">
 <div style="text-align:left;">
@@ -144,16 +165,35 @@ if ($contract2Data) {
 
 </div>
 </div>
-<div class="stats-container">
-<div style="text-align:left;">
-<center><h3>Send or Pay using Timelocked Tokens</h3></center>
 
-<p>Your timelocked tokens aren't just locked away—they're flexible. Use them to make payments, send gifts, or offer donations, all while ensuring they remain locked for 100 days in the address of the receiver.</p>
-</p>
-<center><img src="/images/send-locked-tokens-users8.png" style="margin:0px 0px 20px 0px; z-index:11;" width="400px" ></img></center>
+
+<div class="stats-container">
+<center><h3>Timelock Tokens</h3></center>
+<div style="text-align:left;">
+<p>Timelock your <a href="https://bsovtoken.com" target="_blank">BSOV Tokens</a> using SovCube's web3 interface, which means locking them in a secure smart contract for a set period. During this time, your tokens cannot be moved or traded, demonstrating your commitment to the token's long-term value. However, your tokens remain yours and will be fully withdrawable once the timelock period ends.</p>
+<p>As a reward for your dedication, earn Timelock Rewards during the onboarding phase, or qualify to become a Top Timelocker to gain Voting Power and receive Voting Rewards.</p>
+
+<details>
+   <summary> <center><h4>Timelock Periods</h4></center></summary>
+    <ul>
+        <li>
+            <p><strong>Onboarding Period:</strong> For the first 1000 days after SovCube was created, all timelocked tokens for all users were locked for the entire period. It is called "Global Lock Time".</p>
+        </li>
+        <li>
+            <p><strong>Post-Onboarding:</strong> After the 1000-day Global Lock Time, new users face a 70-day lock, while existing users only have a 14-day lock.</p>
+	</li>
+ <li>
+ <p id="daysGlobalLockTime"><strong>Global Lock Time: </strong><span style="color:orange;"><?php echo $daysRemaining; ?> days</span> remain of the Global Lock Time</p>
+        </li>
+
+    </ul>
+
+<!--<img src="/images/Sovcube-padlock-icon10.png" style="margin:0px 0px 0px 0px; z-index:11;" width="100px" ></img><br>-->
 </div>
-<br>
+</details>
+<center><img src="/images/timelock-gold-padlock5.png" style="margin:0px 0px 0px 0px; z-index:11;" width="300px" ></img></center><br>
 </div>
+
 
 
 <div class="stats-container">
@@ -191,6 +231,14 @@ if ($contract2Data) {
     <h4 style="text-align: center;">SovCube Withdrawal Timeline and Halvings</h4>
     <canvas id="sovCubeChart"></canvas>
   </div>
+
+
+
+
+
+
+
+
 </body>
 
 
@@ -201,42 +249,18 @@ if ($contract2Data) {
     </div>
 </div>
 
-
-
 <div class="stats-container">
 <div style="text-align:left;">
-<center><h3>Propose, Vote, Be Rewarded (Under development)</h3></center>
-<p>
-<strong>Exciting developments ahead:</strong> The decentralized foundation allocates funds to significant causes, determined entirely by the community. Proposal Makers suggest ideas, while Top Timelockers vote and receive Voting Rewards, ensuring SovCube reflects the priorities of its most committed members.
+<center><h3>Send or Pay using Timelocked Tokens</h3></center>
+
+<p>Your timelocked tokens aren't just locked away—they're flexible. Use them to make payments, send gifts, or offer donations, with an additional 100-day lock period applied to the recipient's address to prevent misuse.</p>
 </p>
-<details>
-<summary>
-<h4>Skin-in-the-Game Governance</h4>
-</summary>
-            <ul>
-                <li>
-                    <p><strong>Skin-in-the-game:</strong> Commitment to SovCube is a requirement, ensuring decisions are sound and resilient to voting attacks, creating a robust governance system.</p>
-                </li>
-                <li>
-                    <p><strong>1 Vote per User:</strong> Only the top 100 Timelockers can vote, making it costly to acquire multiple votes and ensuring true decentralization.</p>
-		</li>
-	        <li>
-                    <p><strong>Ever-Decentralizing Decision Pool:</strong> Every 4 years, the voting pool doubles, expanding the Top Timelockers from the top 100 to the top 200, and eventually to 102,400 over 40 years.</p>
-		</li>
-                <li>
-                    <p><strong>Voting Rewards:</strong> To incentivize participation, every Top Timelocker will receive Voting Rewards.</p>
-                </li>
-                <li>
-                    <p><strong>1 Decision per Year:</strong> Only 1 proposal will win per year, so every vote counts. This scarcity drives fierce competition among proposals, ensuring that only the most impactful and well-supported ideas rise to the top. It also gives the community ample time to thoroughly evaluate each proposal, making the final decision a meaningful reflection of the community's collective vision and commitment to the future of SovCube.</p>
-                </li>
-
-
-            </ul>
-
-</details>
+<center><img src="/images/send-locked-tokens-users8.png" style="margin:0px 0px 20px 0px; z-index:11;" width="400px" ></img></center>
 </div>
 <br>
 </div>
+
+
 
 
 </div>
