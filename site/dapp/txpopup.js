@@ -113,8 +113,8 @@ function displayTransactionNotification(transaction) {
         notificationElement.className = 'newTxPopup highlightedNotification';
         notificationElement.innerHTML = `
             <strong>${transaction.message}</strong><br>
-            <span style="font-size: 1.2em; color: #ffeb3b;">${transaction.amount}</span>
-            <button class="closePopup" style="color: #ffeb3b;">&times;</button>
+            <span style="font-size: 1.2em; color: white;">${transaction.amount}</span>
+            <button class="closePopup" style="color: white;">&times;</button>
         `;
     } else {
         notificationElement.className = 'newTxPopup';
@@ -245,7 +245,7 @@ $(document).ready(function(){
 
 		    // Check if the event is "Earned Reward"
 if (eventName === 'Earned Reward') {
-message = `🎉 You've Earned a Reward!`;
+message = `Timelock Reward!`;
     transaction = {
         message,
         amount: `${amount.toFixed(2)} BSOV<br><a class="tooltip-icon" data-toggle="tooltip" title="To claim them, you must click the 'Accept Untaken Tokens' button. The tokens will be sent to your 'Incoming Account'" target="_blank" href="/docs/index.php">

@@ -58,12 +58,12 @@
 /* Highlighted notification styling */
 .highlightedNotification {
     background-color: #444; /* A slightly lighter background for the highlighted notification */
-    border: 1px solid #F8B128; /* A yellow border to highlight the notification */
+    border: 1px solid black; /* A yellow border to highlight the notification */
 }
 
 .highlightedNotification strong {
     font-size: 1em;
-    color: #F8B128; /* Yellow text color for the title */
+    color: white; /* Yellow text color for the title */
 }
 
 .highlightedNotification .closePopup {
@@ -827,7 +827,8 @@ color:white;
     margin-top:10px;
     transform: translateX(-50%);
     background-color: #262626;
-    border: 1px solid #004F8B;
+   /* border: 1px solid #004F8B;*/
+    border: 1px solid #3a3a3a;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
     padding: 10px;
     border-radius: 5px;
@@ -1044,7 +1045,8 @@ border-radius: 5px;
     margin-left:50%; /* Adjust as needed */
     transform: translateX(-50%);
     background-color: #262626;
-    border: 1px solid #004F8B;
+ /*   border: 1px solid #004F8B;*/
+    border: 1px solid #3a3a3a;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
     padding-bottom: 0px;
     padding-top:5px;
