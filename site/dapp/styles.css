@@ -130,8 +130,8 @@
 
 #notificationsContainer {
     position: fixed;
-    right: -10px;
-    top: 235px;
+    right: 5px;
+    top: 245px;
     width: 270px;
     z-index: 0;
     padding:30px;

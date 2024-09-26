@@ -54,7 +54,7 @@
             </select>
         </div>
 
-<p id="contract-explanation">Only compatible with Ethereum (ETH) mainnet.
+<p id="contract-explanation" style="display:none;">Only compatible with Ethereum (ETH) mainnet.
 <br><br>To begin using the SovCube dApp you have to select a contract to interact with. The contracts have different parameters, and you should read the documentation before you timelock your tokens.
 <br><br><span style="color:#F8B128">To get Timelock Rewards, you will need to timelock <a href="https://bsovtoken.com" target="_blank">BSOV Tokens</a> using <strong>Contract 2</strong>
 <br></span>

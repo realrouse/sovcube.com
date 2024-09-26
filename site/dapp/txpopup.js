@@ -248,7 +248,7 @@ if (eventName === 'Earned Reward') {
 message = `Timelock Reward!`;
     transaction = {
         message,
-        amount: `${amount.toFixed(2)} BSOV<br><a class="tooltip-icon" data-toggle="tooltip" title="To claim them, you must click the 'Accept Untaken Tokens' button. The tokens will be sent to your 'Incoming Account'" target="_blank" href="/docs/index.php">
+        amount: `${amount.toFixed(2)} BSOV<br><a class="tooltip-icon" data-toggle="tooltip" title="To claim them, you must click the 'Accept Untaken Tokens' button. The tokens will be sent to your 'Incoming Account'. Click this icon to read more" target="_blank" href="/docs/index.php#timelock-rewards">
   ?
 </a>`,
         highlighted: true // Add a flag to indicate that this notification should be highlighted

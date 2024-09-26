@@ -99,7 +99,7 @@ if ($contract2Data) {
 <p><strong>Types of Causes:</strong> The Treasury can support a variety of initiatives, such as funding small projects, charitable efforts, and further development and outreach of SovCube. Whether it's contributing to community-driven ventures or expanding the reach and impact of SovCube itself, the community has the power to decide where the resources are best allocated.
 </p>
 <p>
-<strong>The Future Awaits:</strong> Who knows what SovCube’s impact could be? Will it help tackle global challenges like hunger, or even lay the groundwork for a new digital nation? The only limit is the community's imagination.
+<strong>The Future Awaits:</strong> Who knows what SovCube’s impact could be? Will it help tackle global challenges like hunger, or even lay the groundwork for a new digital nation? The only limit is the community's imagination, and the capital that is invested into SovCube.
 </p>
 <details>
 <summary>
