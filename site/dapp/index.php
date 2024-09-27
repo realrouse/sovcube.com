@@ -141,8 +141,8 @@ const lockYears = Number(lockTimeLeftInSeconds) / Number(secondsInYear); // Conv
         <div id="contract2Details" class="contract-details" style="display: none;">
             
             <div class="radio-buttons">
-                <input type="radio" id="timelock2" name="contract2Action" value="timelock">
-                <label for="timelock2" style="outline-color:orange; box-shadow: 0 0 10px 1px orange;" data-toggle="tooltip" title="Lock your tokens into your 'Regular Account' until the Global Lock Time expires, and receive Timelock Rewards!">Timelock</label>
+                <input type="radio" id="timelock2" name="contract2Action" value="timelock" checked>
+                <label for="timelock2" style="" data-toggle="tooltip" title="Lock your tokens into your 'Regular Account' until the Global Lock Time expires, and receive Timelock Rewards!">Timelock</label>
                 <input type="radio" id="withdraw2" name="contract2Action" value="withdraw">
                 <label for="withdraw2" data-toggle="tooltip" title="Retrieve your timelocked tokens after the Lock Time has expired, adhering to the weekly Withdrawal Rate limits.">Withdraw</label>
                 <input type="radio" id="sendlocked" name="contract2Action" value="sendlocked">

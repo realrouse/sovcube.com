@@ -150,7 +150,7 @@ function updateContractData(contract, methodName, containerId, methodArgs) {
                 } else {
                     formattedResult = "0 days, 0 hours, 0 min, 0 sec";
                 }
-            } else if (methodName === 'tokensMinted' || methodName === 'totalClaimed' || methodName === 'totalRewardsEarned' || methodName === 'totalCumulativeTimelocked' || methodName === 'balanceOf' || methodName === 'getBalanceRegularAccount') {
+            } else if (methodName === 'tokensMinted' || methodName === 'totalClaimed' || methodName === 'totalRewardsEarned' || methodName === 'totalCumulativeTimelockedByUsers' || methodName === 'balanceOf' || methodName === 'getBalanceRegularAccount') {
                 formattedResult = (formattedResult / 100000000).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + " BSOV";
             } else if (methodName === 'getTimeLeft' || methodName === 'getGlobalTimeLeftRegularAccount' || methodName === 'getTimeLeftIncomingAccount') {
                 formattedResult = formatTime(formattedResult); // Format time as countdown
@@ -207,7 +207,7 @@ function updateData() {
     updateContractData(contract2, 'currentGlobalTier', 'CurrentTier');
     updateContractData(contract2, 'totalRewardsEarned', 'TotalEligibleAmount');
     updateContractData(contract2, 'getBalanceRegularAccount', 'RewardsRemaining', [contract2Address]);
-    updateContractData(contract2, 'totalCumulativeTimelocked', 'TotalTimelocked');
+    updateContractData(contract2, 'totalCumulativeTimelockedByUsers', 'TotalTimelocked');
 }
 
 // Call the initializeContracts function to start the process

@@ -85,7 +85,7 @@
     }
 
 
-    contract TimelockAndRewards is ReentrancyGuard {
+    contract TimelockAndRewardsContract is ReentrancyGuard {
         
         ERC20Interface tokenContract;
 
@@ -105,7 +105,7 @@
 
 // Set in the constructor
         uint256 public periodWithdrawalAmount; // The user can withdraw this amount of tokens per withdrawal period.
-        uint256 public globalLockExpirationDateRegularAccount; // Timestamp of the day of contract deployment + GLOBAL_LOCK_EXPIRATION_TIME
+        uint256 globalLockExpirationDateRegularAccount; // Timestamp of the day of contract deployment + GLOBAL_LOCK_EXPIRATION_TIME
         uint256 public deploymentTimestamp; // Timestamp created the day of contract deployment
 
 // Withdrawal halving variables
@@ -114,10 +114,8 @@
 
 // Stats that apply to totals and globals
         uint256 public currentGlobalTier; // The current global tier. The reward ratio for each tier is defined in getRewardRatioForTier.
-        uint256 public totalCumulativeTimelockedByUsers; // Amount of tokens that have ever been timelocked by users, disregarding withdrawals.
-        uint256 public totalCurrentlyTimelocked; // Amount of tokens that are currently timelocked, including both regular and incoming accounts, and remaining rewards
-        uint256 public totalCurrentlyTimelockedRegularAccount; // Amount of tokens that are currently timelocked in Regular Accounts
-        uint256 public totalCurrentlyTimelockedIncomingAccount; // Amount of tokens that are currently timelocked in Incoming Accounts
+        uint256 public totalCumulativeTimelocked; // Amount of tokens that have ever been timelocked, disregarding withdrawals.
+        uint256 public totalCurrentlyTimelocked; // Amount of tokens that are currently timelocked
         uint256 public totalRewardsEarned; // Total amount of rewards that have been earned across all users.
         uint256 public totalRewardsSeeded; // Total Rewards Seeded by deployer of this contract.
 
@@ -246,7 +244,6 @@
             
                 // If sender is not this contract, meaning a normal user initiates timelock, then calculate and send Timelock Rewards
                 if (_sender != address(this)) {
-
                     calculateAndSendRewardsAfterTimelock(_sender, _adjustedValue);
                 }
         }
@@ -256,34 +253,33 @@
             require(amountTimelocked <= MAX_TIMELOCK_AMOUNT, "Cannot timelock more than 145,000 tokens in a single transaction");
 
             // Read balances and totals once and create temporary variables in memory
-            uint256 _totalRewardsEarned = totalRewardsEarned;
-            uint256 _currentGlobalTier = currentGlobalTier;
-            uint256 _totalCumulativeTimelockedByUsers = totalCumulativeTimelockedByUsers;
+            uint256 totalRewards = totalRewardsEarned;
+            uint256 currentTier = currentGlobalTier;
+            uint256 totalCumulative = totalCumulativeTimelocked;
 
             // Update balances and totals in memory
-            _totalCumulativeTimelockedByUsers += amountTimelocked;
+            totalCumulative += amountTimelocked;
             
             // Update totals to storage
-            totalCumulativeTimelockedByUsers = _totalCumulativeTimelockedByUsers;
-            totalCurrentlyTimelockedRegularAccount += amountTimelocked;
+            totalCumulativeTimelocked = totalCumulative;
 
                 // If total rewards earned has reached 300,000 tokens, no more rewards will be calculated or sent
-                if (_totalRewardsEarned >= totalRewardsSeeded) {
+                if (totalRewards >= totalRewardsSeeded) {
                     return;
                 }
 
             uint256 newlyEarnedRewards = 0;
-            uint256 nextTierThreshold = _currentGlobalTier * NEXT_TIER_THRESHOLD;
+            uint256 nextTierThreshold = currentTier * NEXT_TIER_THRESHOLD;
                     
                     // Check if total cumulative timelocked amount is below the threshold for the next tier or if the current tier is the highest (tier 10)
-                if (_totalCumulativeTimelockedByUsers < nextTierThreshold || _currentGlobalTier == 10) {
-                    uint256 rewardRatio = getRewardRatioForTier(_currentGlobalTier);
+                if (totalCumulative < nextTierThreshold || currentTier == 10) {
+                    uint256 rewardRatio = getRewardRatioForTier(currentTier);
                     newlyEarnedRewards = amountTimelocked * rewardRatio / TOKEN_PRECISION;
                 } else {
                     
                     // Calculate rewards for the current tier and adjust for any amount that exceeds the current tier threshold
-                    uint256 amountInCurrentTier = nextTierThreshold - (_totalCumulativeTimelockedByUsers - amountTimelocked);
-                    uint256 rewardRatioCurrent = getRewardRatioForTier(_currentGlobalTier);
+                    uint256 amountInCurrentTier = nextTierThreshold - (totalCumulative - amountTimelocked);
+                    uint256 rewardRatioCurrent = getRewardRatioForTier(currentTier);
                     newlyEarnedRewards = amountInCurrentTier * rewardRatioCurrent / TOKEN_PRECISION;
                     
                     // Move to the next tier and calculate rewards for the remaining amount in the next tier
@@ -294,13 +290,12 @@
 
                 }
                     // Ensure that total rewards earned does not exceed 300,000 tokens
-                if (_totalRewardsEarned + newlyEarnedRewards > totalRewardsSeeded) {
-                newlyEarnedRewards = totalRewardsSeeded - _totalRewardsEarned;
+                if (totalRewards + newlyEarnedRewards > totalRewardsSeeded) {
+                newlyEarnedRewards = totalRewardsSeeded - totalRewards;
                 }
 
             // Update totals
             totalRewardsEarned += newlyEarnedRewards;
-            totalCurrentlyTimelockedIncomingAccount += newlyEarnedRewards;
 
             // Send earned rewards to user's Incoming Account and deduct from Rewards Reserve
             balanceRegularAccount[address(this)] -= newlyEarnedRewards;
@@ -312,14 +307,10 @@
 // Send locked tokens to a single address
         function sendLockedTokensToSingle(address _receiver, uint256 _amount) public nonReentrant {
             uint256 senderBalance = balanceRegularAccount[msg.sender];
-            require(senderBalance >= _amount, "Insufficient timelocked balance in Regular Account. You have to timelock tokens before sending timelocked tokens.");
+            require(senderBalance >= _amount, "Insufficient timelocked balance. You have to timelock tokens before sending timelocked tokens.");
 
             // Update the sender's balance
             balanceRegularAccount[msg.sender] = senderBalance - _amount;
-
-            // Update global totals for Regular and Incoming Accounts
-            totalCurrentlyTimelockedRegularAccount -= _amount;
-            totalCurrentlyTimelockedIncomingAccount += _amount;
 
             // Update the receiver's balance
             balanceUntakenIncomingAccount[_receiver] += _amount;
@@ -364,8 +355,6 @@
             uint256 senderBalance = balanceRegularAccount[msg.sender];
             require(senderBalance >= totalAmount, "Insufficient timelocked balance. You have to timelock tokens before sending timelocked tokens.");
             balanceRegularAccount[msg.sender] -= totalAmount;
-            totalCurrentlyTimelockedRegularAccount -= totalAmount;
-            totalCurrentlyTimelockedIncomingAccount += totalAmount;
 
             // Write the accumulated amounts to storage
             for (uint256 i = 0; i < uniqueCount; i++) {
@@ -414,7 +403,6 @@
 
             balanceRegularAccount[msg.sender] = senderBalance - _amount;
             totalCurrentlyTimelocked -= _amount;
-            totalCurrentlyTimelockedRegularAccount -= _amount;
             lastWithdrawalRegularAccount[msg.sender] = block.timestamp;
 
             require(ERC20Interface(tokenContract).transfer(msg.sender, _amount), "Withdrawal: Transfer failed");
@@ -433,8 +421,7 @@
             require(_amount <= maxWithdrawable, "Exceeds max allowable withdrawal amount based on elapsed time");
 
             balanceIncomingAccount[msg.sender] = senderBalance - _amount;
-            totalCurrentlyTimelocked -= _amount;
-            totalCurrentlyTimelockedIncomingAccount -= _amount; 
+            totalCurrentlyTimelocked -= _amount; 
             lastWithdrawalIncomingAccount[msg.sender] = block.timestamp;
 
             require(ERC20Interface(tokenContract).transfer(msg.sender, _amount), "Withdrawal: Transfer failed");
@@ -465,7 +452,6 @@
                 balanceRegularAccount[msg.sender] -= amountToWithdrawFromRegular;
                 lastWithdrawalRegularAccount[msg.sender] = block.timestamp;
                 totalCurrentlyTimelocked -= amountToWithdrawFromRegular;
-                totalCurrentlyTimelockedRegularAccount -= amountToWithdrawFromRegular;
                 require(ERC20Interface(tokenContract).transfer(msg.sender, amountToWithdrawFromRegular), "Withdrawal from regular account: Transfer failed");
                 emit TokenWithdrawalRegularAccount(msg.sender, amountToWithdrawFromRegular, block.timestamp);
             }
@@ -474,7 +460,6 @@
                 balanceIncomingAccount[msg.sender] -= amountToWithdrawFromIncoming;
                 lastWithdrawalIncomingAccount[msg.sender] = block.timestamp;
                 totalCurrentlyTimelocked -= amountToWithdrawFromIncoming;
-                totalCurrentlyTimelockedIncomingAccount -= amountToWithdrawFromIncoming;
                 require(ERC20Interface(tokenContract).transfer(msg.sender, amountToWithdrawFromIncoming), "Withdrawal from incoming account: Transfer failed");
                 emit TokenWithdrawalIncomingAccount(msg.sender, amountToWithdrawFromIncoming, block.timestamp);
             }
@@ -687,4 +672,3 @@
 
 
     }
-

@@ -187,7 +187,7 @@ function updateContract2Details(tokensLocked, tokensIncomingAccount, untakenInco
         `;
 
 	const acceptIncomingAccount = document.getElementById('acceptIncomingAccount');
-acceptIncomingAccount.innerHTML = `<p><b>Untaken Incoming Tokens:</b><br> <span id="unclaimedTokens">${untakenIncomingTokens} BSOV</span></p>`;
+acceptIncomingAccount.innerHTML = `<p>You have received<br><b>Untaken Incoming Tokens:</b><br> <span id="unclaimedTokens">${untakenIncomingTokens} BSOV</span></p>`;
 
 
 /* DEPRECATED

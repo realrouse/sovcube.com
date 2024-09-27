@@ -390,7 +390,7 @@ document.addEventListener('visibilitychange', function() {
 });
 
 
-
+/*
 // Show the corresponding input field and/or textarea when a radio button is clicked for Contract 2
 document.querySelectorAll('input[name="contract2Action"]').forEach(radio => {
     radio.addEventListener('change', () => {
@@ -431,6 +431,58 @@ document.querySelectorAll('input[name="contract2Action"]').forEach(radio => {
     });
 });
 }
+*/
+
+// Function to handle the change event for radio buttons
+function handleContract2ActionChange(radio) {
+    // Hide all amount inputs, textarea, and buttons first
+    resetContractUI(); // Call this to reset the UI elements
+
+    // Stop all intervals before starting a new one
+    stopAllIntervals();
+
+    // Show the corresponding input field and/or textarea and button based on the selected radio button value
+    if (radio.value === 'timelock') {
+        document.getElementById('amount2').style.display = 'block';
+        startInterval(updateTimelockRewardCalculation, 2000); // Start interval for timelock reward calculation with a 2-second interval
+
+        document.getElementById('timelock2Button').style.display = 'block';
+        document.getElementById('timelockedtokens2').style.display = 'block';
+        document.getElementById('advanceTierMessage').style.display = 'block';
+        document.getElementById('timelockRewardCalculation').style.display = 'block';
+    } else if (radio.value === 'withdraw') {
+        document.getElementById('withdrawableNowRegularAccount').style.display = 'block';
+        document.getElementById('withdrawableNowIncomingAccount').style.display = 'block';
+        startInterval(updateWithdrawableAmounts, 1000); // Start interval for withdrawable amounts update with a 1-second interval
+
+        document.getElementById('amount2').style.display = 'block';
+        document.getElementById('timelockedtokens2').style.display = 'none';
+        document.getElementById('advanceTierMessage').style.display = 'none';
+        document.getElementById('timelockRewardCalculation').style.display = 'none';
+        document.getElementById('withdraw2Button').style.display = 'block';
+        document.getElementById('withdrawAll2Button').style.display = 'block';
+        document.getElementById('radio-container-account').style.display = 'flex';
+    } else if (radio.value === 'sendlocked') {
+        stopAllIntervals(); // Stop any running interval
+
+        document.getElementById('ethAddresses').style.display = 'block';
+        document.getElementById('sendLockedAmounts').style.display = 'block';
+        document.getElementById('sendLocked2Button').style.display = 'block';
+    }
+}
+
+// Add event listeners for the 'change' event
+document.querySelectorAll('input[name="contract2Action"]').forEach(radio => {
+    radio.addEventListener('change', () => handleContract2ActionChange(radio));
+
+    // Trigger the function on page load if the radio button is checked
+    if (radio.checked) {
+        handleContract2ActionChange(radio);
+    }
+});
+}
+
+
 
 
 	radioButtonUIResponse();
@@ -584,7 +636,7 @@ async function updateTimelockRewardCalculation() {
 
 try {
 	const currentTier = await window.contract2.methods.currentGlobalTier().call();
-const totalTimelockedBigInt = await window.contract2.methods.totalCumulativeTimelocked().call();
+const totalTimelockedBigInt = await window.contract2.methods.totalCumulativeTimelockedByUsers().call();
 const totalTimelocked = Number(totalTimelockedBigInt);
 const totalTimelockedFormatted = totalTimelocked / 100000000;
 
@@ -955,7 +1007,7 @@ async function calculateTimelockRewardTokens() {
 
     try {
         const currentTier = await window.contract2.methods.currentGlobalTier().call();
-        const totalTimelockedBigInt = await window.contract2.methods.totalCumulativeTimelocked().call();
+        const totalTimelockedBigInt = await window.contract2.methods.totalCumulativeTimelockedByUsers().call();
         const totalTimelocked = Number(totalTimelockedBigInt);
         let totalTimelockedFormatted = totalTimelocked / 100000000;
 
@@ -1264,7 +1316,7 @@ if (timelock2Button) {
             const lastWithdrawalBigInt = await window.contract2.methods.getLastWithdrawalRegularAccount(selectedAccount).call();
             const lastWithdrawal = Number(lastWithdrawalBigInt);
             const isNewUser = (lastWithdrawal === 0);
-            const userStatus = isNewUser ? 'New' : 'Old';
+            const userStatus = isNewUser ? 'New' : 'Existing';
 
             // Calculate accumulated timelocked tokens
             const currentBalanceBigInt = await window.contract2.methods.getBalanceRegularAccount(selectedAccount).call();
@@ -1372,27 +1424,34 @@ console.log("Total Years to Withdraw All Tokens: " + totalYearsToWithdrawAll.toF
             const transaction = bsovTokenContract.methods.approveAndCall(contract2Address, amountInSmallestUnit, "0x");
 
             const estimatedTimeNeeded = `Lock Time: ${lockTimeYears} Years, Gradual Withdrawals: ${totalYearsToWithdrawAll.toFixed(2)} years`;
+            
 
-            // Determine the new lock time reset
+// Determine the new lock time reset
             const newLockTimeReset = isNewUser ? '70 days' : '14 days';
 
             // Estimate the transaction fee
             const estimatedGas = await transaction.estimateGas({ from: selectedAccount });
             const gasPrice = await web3.eth.getGasPrice();
             const estimatedFee = web3.utils.fromWei((BigInt(estimatedGas) * BigInt(gasPrice)).toString(), 'ether') + ' ETH';
-
             console.log("GlobalTimeLeft: " + globalTimeLeft);
             console.log("Total Years to Withdraw All: " + totalYearsToWithdrawAll);
             console.log("periodWithdrawalAmount: " + periodWithdrawalAmount);
+console.log('LockTimeDays: '+lockTimeDays);
+let newLockTimeOrNot;
+		if (lockTimeDays < 70 || typeof lockTimeDays === 'undefined') {
+newLockTimeOrNot = `                    <tr>
+                        <td>Since you are <span style="font-weight: bold; background-color: #444; padding: 2px 4px;">${userStatus}</span> user, your Lock Time will reset to:</td>
+                        <td>${newLockTimeReset}</td>
+                    </tr>
+`;
+	}
+console.log(newLockTimeOrNot);
 
             // Create the custom message with all the details, including the fee
             const customMessage = `
                 <p>Are you sure you want to timelock <strong>${amount}</strong> tokens in Contract 2?</p>
+		<h3 style="color:yellow;">NOTICE: Your tokens may be locked for a very long time.<br>Read this info!</h3>
                 <table class="modal-table">
-                    <tr>
-                        <td>User (New/Old):</td>
-                        <td>${userStatus}</td>
-                    </tr>
                     <tr>
                         <td>Amount Sent from Your Wallet:</td>
                         <td>${amount} BSOV</td>
@@ -1406,7 +1465,7 @@ console.log("Total Years to Withdraw All Tokens: " + totalYearsToWithdrawAll.toF
                         <td>${(amount * 0.99).toFixed(0)} BSOV</td>
                     </tr>
                     <tr>
-                        <td>Receive Timelock Rewards:</td>
+                        <td>You will receive Timelock Rewards:</td>
                         <td>${receiveTimelockRewards} BSOV</td>
                     </tr>
                     <tr>
@@ -1417,38 +1476,27 @@ console.log("Total Years to Withdraw All Tokens: " + totalYearsToWithdrawAll.toF
                         <td>Estimated Time needed to Withdraw All Tokens:</td>
                         <td>${estimatedTimeNeeded}</td>
                     </tr>
-                    <tr>
-                        <td>New Lock Time Reset after Timelock:</td>
-                        <td>${newLockTimeReset}</td>
+                    ${newLockTimeOrNot}
+		                        <tr>
+                        <td>Withdrawal Halvings occuring during the withdrawal period:</td>
+                        <td>${halvingsOccured}</td>
                     </tr>
+
                     <tr>
                         <td>Estimated Transaction Fee:</td>
                         <td>${estimatedFee}</td>
                     </tr>
                 </table>
 
-
+<div style="max-width:600px; margin:0 auto;">
 <p style="color:yellow; line-height: 1.5;">
   <b>NOTICE:</b><br>
-  - You will not be able to withdraw any tokens during the Global Lock Time period of 
-  <span style="font-weight: bold; background-color: #444; padding: 2px 4px;">
-    ${lockTimeYears} years
-  </span>.<br>
-  - Once your tokens are unlocked, you will need to withdraw every 
-  <span style="font-weight: bold; background-color: #444; padding: 2px 4px;">
-    10 weeks
-  </span> 
-  to adhere to the estimated timeline.<br>
-  - Due to 
-  <span style="font-weight: bold; background-color: #444; padding: 2px 4px;">
-    ${halvingsOccured}
-  </span> Withdrawal Halvings, 
-  it will take approximately 
-  <span style="font-weight: bold; background-color: #444; padding: 2px 4px;">
-    ${totalYearsToWithdrawAll.toFixed(2)} years
-  </span> 
-  to fully withdraw all your tokens.
+  Once your tokens are unlocked after Global Lock Time of <span style="font-weight: bold; background-color: #444; padding: 2px 4px;">
+    ${lockTimeYears} years</span> has expired,<br>you will need to withdraw <span style="font-weight: bold; background-color: #444; padding: 2px 4px;">Max Withdrawable Amount</span> every <span style="font-weight: bold; background-color: #444; padding: 2px 4px;">
+    10 weeks</span> to follow the Gradual Withdrawal timeline of <span style="font-weight: bold; background-color: #444; padding: 2px 4px;">
+    ${totalYearsToWithdrawAll.toFixed(2)} years</span> to fully withdraw all your tokens.
 </p>
+</div>
 
 
                 <p>By clicking 'Confirm' you agree on the <a target="_blank" href="http://sovcube.localhost/docs/index.php#legal">terms</a> and that you truly understand what you are doing.</p>
@@ -1840,7 +1888,10 @@ if (sendLocked2Button) {
                         <td>${formattedFee} ETH</td>
                     </tr>
                 </table>
+		<div style="max-width:600px; margin:0 auto;">
+		<p style="color:yellow;">NOTICE: The tokens will be sent to the Incoming Account of the recipients, and they will need to "Accept Incoming Tokens" to start their 100-day lock time.<br> Note that if you are sending locked tokens to your own address, you will not be able to use them to qualify to become a Top Timelocker. </p>
 		<p>By clicking 'Confirm' you agree on the <a target="_blank" href="http://sovcube.localhost/docs/index.php#legal">terms</a> and that you truly understand what you are doing.</p>
+		</div>
             `;
 
             // Show the confirmation modal with the correct title and message
