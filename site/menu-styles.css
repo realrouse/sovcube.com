@@ -165,6 +165,7 @@ border-radius:10px
         right: 10px;
         width: 100%;
         text-align: center;
+	top:100px;
     }
 
     .menu-item-img img {
@@ -173,7 +174,7 @@ border-radius:10px
     }
 
     .menu-header {
-top:50px;
+top:0px;
 position:fixed;
 width:100%;
 }
@@ -194,6 +195,7 @@ width:100%;
 
     .account-header {
         width: 220px;
+	top:100px;
     }
 
     .menu-item-img img {
@@ -202,7 +204,7 @@ width:100%;
     }
 
 .menu-header {
-top:50px;
+top:0px;
 position:fixed;
 width:100%;
 }
@@ -226,6 +228,7 @@ width:100%;
 
     .account-header {
         width: 240px;
+	top:100px;
     }
 
     .menu-item-img img {
@@ -233,7 +236,7 @@ width:100%;
     }
 
 .menu-header {
-top:50px;
+top:0px;
 position:fixed;
 width:100%;
 }
