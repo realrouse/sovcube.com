@@ -454,6 +454,7 @@ line-height:1.6;
 
     .tagline {
         font-size: 24pt; /* Slightly smaller tagline */
+margin-top:0px;
     }
 
     .description-heading {
@@ -482,6 +483,7 @@ line-height:1.6;
 
     .tagline {
         font-size: 20pt; /* Smaller tagline for mobiles */
+margin-top:0px;
     }
 
     .description-heading {
@@ -531,6 +533,7 @@ line-height:1.6;
 
     .tagline {
         font-size: 18pt; /* Smaller tagline for very small screens */
+margin-top:0px;
     }
 
     .description-heading {
