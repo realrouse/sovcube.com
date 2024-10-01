@@ -17,8 +17,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
-
-
 <script type="text/javascript">
         function showMessage() {
             document.getElementById('message').style.display = 'block';
@@ -33,6 +31,8 @@
 </head>
 
 <body>
+<div id="clear-background"></div>
+<div id="blurred-background"></div>
 <?php include $_SERVER['DOCUMENT_ROOT'] . '/menu.php'; ?>
 
 <?php
@@ -82,7 +82,9 @@ if ($contract2Data) {
     <div class="text-container">
 
 <center><h2 class="tagline" id="more">Long Commitment, Lasting Impact</h2></center>
-<center><h3 class="description-heading">Join SovCube, a decentralized autonomous organization (DAO) where your commitment gives you a vote to spend money from a community-governed Treasury to meaningful causes.<br><br>Any member can qualify to become a decision maker by demonstrating their commitment through locking their <a href="https://bsovtoken.com" target="_blank">BSOV Tokens</a> for an extended period.</h3></center>
+<center><h3 class="description-heading">Join SovCube, a decentralized autonomous organization (DAO) where your commitment gives you a vote to spend money from a community-governed Treasury to meaningful causes <span style="text-decoration: underline;"  data-toggle="tooltip" data-html="true" data-original-title="<h3>Types of Causes:</h3> <p>The Treasury can support a variety of initiatives, such as funding small projects, charitable efforts, and further development and outreach of SovCube. Whether it's contributing to community-driven ventures or expanding the reach and impact of SovCube itself, the community has the power to decide where the resources are best allocated.</p><br>
+<h3>The Future Awaits:</h3> <p>Who knows what SovCube’s impact could be? Will it help tackle global challenges like hunger, or even lay the groundwork for a new digital nation? The only limit is the community's imagination, and the capital that is invested into SovCube.</p>
+" >(?)</span>.<br><br>Any member can qualify to become a decision maker by demonstrating their commitment through locking their <a href="https://bsovtoken.com" target="_blank">BSOV Tokens</a> for an extended period.</h3></center>
 <p style="text-align:center;"></p>
 <!-- <p style="text-align:center;">Secure your <a href="https://bsovtoken.com" target="_blank">BSOV Tokens</a> with SovCube's web3 dApp<br>and smart-contract collection, which work similarly to a traditional long-term savings account.</p>-->
 <br>
@@ -95,11 +97,6 @@ if ($contract2Data) {
 <center><h3>Propose, Vote, Be Rewarded (Under development)</h3></center>
 <p>
 <strong>Exciting developments ahead:</strong> The decentralized foundation allocates funds to significant causes, determined entirely by the community. Proposal Makers suggest ideas, while Top Timelockers vote and receive Voting Rewards, ensuring SovCube reflects the priorities of its most committed members.
-</p>
-<p><strong>Types of Causes:</strong> The Treasury can support a variety of initiatives, such as funding small projects, charitable efforts, and further development and outreach of SovCube. Whether it's contributing to community-driven ventures or expanding the reach and impact of SovCube itself, the community has the power to decide where the resources are best allocated.
-</p>
-<p>
-<strong>The Future Awaits:</strong> Who knows what SovCube’s impact could be? Will it help tackle global challenges like hunger, or even lay the groundwork for a new digital nation? The only limit is the community's imagination, and the capital that is invested into SovCube.
 </p>
 <details>
 <summary>
@@ -130,6 +127,13 @@ if ($contract2Data) {
             </ul>
 
 </details>
+
+<div class="tech-cube-container">
+    <img class="tech-cube-img" src="/images/tech-cube.webp" alt="Tech Cube Image">
+</div>
+
+
+
 </div>
 <br>
 </div>
@@ -298,8 +302,19 @@ document.querySelectorAll('details').forEach((detail) => {
 </script>
 
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <script src="/withdrawchart.js"></script>
+
+
+<script>
+$(document).ready(function(){
+  $('[data-toggle="tooltip"]').tooltip(); 
+});
+</script>
+
 
 
 </body>

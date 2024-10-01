@@ -1,4 +1,67 @@
 
+.tech-cube-img {
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out;
+    width: 450px; /* Adjust width if necessary */
+
+    width: 300px; /* Set the desired width */
+    height: 300px; /* Set the desired height (this will crop the image) */
+opacity:0.75;
+position:absolute;
+top:-14px;
+}
+
+
+.tech-cube-container {
+    position: relative;
+    margin: 20px auto; /* Center the image */
+    display: flex;
+    justify-content: center; /* Center the image horizontally */
+    overflow: hidden;
+    width: 250px; /* Set the width you want for the cropped area */
+    height: 250px; /* Set the height you want for the cropped area */
+    border: 2px solid transparent;
+    border-radius: 50%; /* Circular shape */
+    background: linear-gradient(gray, black) padding-box, 
+                linear-gradient(darkgray, black) border-box;
+box-shadow: 0 0px 35px rgba(0, 0, 0, 0.6);
+	}
+
+
+
+
+/* Tooltip container */
+.tooltip {
+    /* Your custom styles here */
+    font-size: 13px; /* Example: change font size */
+    /*background-color: #f8f9fa;*/
+    background-color:rgba(0,0,0,0.95);
+    color: black; /* Example: change text color */
+    border: 1px solid #ddd; /* Example: add border */
+    border-radius: 4px; /* Example: round corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Example: add shadow */
+ -webkit-animation: fadeIn 0.5s;
+    animation: fadeIn 0.5s;
+    z-index:1000;
+    max-width:400px;
+}
+
+/* Tooltip arrow */
+.tooltip .arrow::before {
+    border-color: #f8f9fa; /* Match the border color with the background color of the tooltip */
+}
+
+/* Tooltip inner */
+.tooltip-inner {
+    max-width: 400px; /* Example: limit maximum width */
+    padding: 8px 15px; /* Example: adjust padding */
+}
+
+.tooltip h3, .tooltip p {
+color:rgba(255,255,255,0.9);
+}
+
+
 #sovCubeChart {
   width: 100%;
   height: 500px;
@@ -128,7 +191,7 @@ text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
     left: 50%;
     width: 130%;
     height: 170%;
-    background: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
     transform: translate(-50%, -50%);
     filter: blur(10px); /* Adjust the blur radius as needed */
     z-index: -2;
@@ -213,6 +276,7 @@ html, body {
 scroll-behavior: smooth;   
 }
 
+
 body {
 font-family: Lato, Arial;
 /*background-color: #171717;*/
@@ -225,10 +289,28 @@ opacity:1;
 /*overflow: hidden;*/
 /*position: relative;*/
 /*height:800px;*/
-background: #171717 url('/images/bg.jpg') no-repeat center center fixed;
+background: #171717 url('/images/bg-dark3.jpg') no-repeat center center fixed;
 
 background-size:auto 100%;
 }
+
+/*
+body::before {
+content: ''; 
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('/images/bg-minimal-dark.webp') no-repeat center center fixed;
+    background-size: auto 100%;
+    filter: blur(20px);
+    z-index: -50; 
+}
+*/
+
+
+
 /*
 body.bg-loaded {
     background: url('/images/bg.jpg') no-repeat center center fixed;
@@ -288,7 +370,7 @@ transition: opacity 5s ease-in-out;
     left: 0;
     right: 0;
     bottom: 0;
-    background: url('/images/bg.jpg') no-repeat center center fixed;
+    background: url('/images/bg-dark3.jpg') no-repeat center center fixed;
     background-size: auto 100%;
     filter: blur(10px); /* Adjust the blur level as needed */
     z-index: -1;

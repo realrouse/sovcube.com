@@ -188,7 +188,7 @@ body {
 font-family: Lato, Arial;
 margin:auto;
 opacity:1;
-background: #171717 url('/images/bg.jpg') no-repeat center center fixed;
+background: #171717 url('/images/bg-dark3.jpg') no-repeat center center fixed;
 
 background-size:auto 100%;
 }
@@ -228,7 +228,7 @@ transition: opacity 5s ease-in-out;
     left: 0;
     right: 0;
     bottom: 0;
-    background: url('/images/bg.jpg') no-repeat center center fixed;
+    background: url('/images/bg-dark3.jpg') no-repeat center center fixed;
 background-size:auto 100%;
 
     filter: blur(10px); /* Adjust the blur level as needed */
