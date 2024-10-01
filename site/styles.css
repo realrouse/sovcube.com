@@ -431,6 +431,9 @@ line-height:1.6;
 }
 
 
+.tagline-body {
+font-size:13pt;
+}
 
 
 
@@ -450,7 +453,8 @@ line-height:1.6;
 
     .brand-name {
         font-size: 40pt; /* Adjusted for tablet screens */
-    }
+margin-top:140px;
+}
 
     .tagline {
         font-size: 24pt; /* Slightly smaller tagline */
@@ -470,7 +474,7 @@ margin-top:0px;
     }
 
 .tagline-body {
-font-size:10pt;
+font-size:12pt;
 }
 
 
@@ -485,7 +489,8 @@ font-size:10pt;
 
     .brand-name {
         font-size: 30pt; /* Adjusted for mobile screens */
-    }
+margin-top:140px;
+}
 
     .tagline {
         font-size: 20pt; /* Smaller tagline for mobiles */
@@ -532,7 +537,7 @@ margin-top:0px;
     }
 
 .tagline-body {
-font-size:10pt;
+font-size:9pt;
 }
 
 
@@ -541,7 +546,8 @@ font-size:10pt;
 @media screen and (max-width: 480px) {
     .brand-name {
         font-size: 24pt; /* Further adjustment for very small screens */
-    }
+margin-top:140px;
+}
 
     .tagline {
         font-size: 18pt; /* Smaller tagline for very small screens */
@@ -577,7 +583,7 @@ margin-top:0px;
     }
 
 .tagline-body {
-font-size:10pt;
+font-size:9pt;
 }
 
 }
