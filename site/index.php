@@ -73,7 +73,7 @@ if ($contract2Data) {
 <center><h1 class="brand-name">SovCube</h1></center>
 <center><img  src="/images/ani-locked-bsov-padlock-small.gif" style="margin:0px 0px 0px 0px; z-index:11;" width="100px" alt="BSOV Token" ></img></center><br>
 <center><h2 class="tagline">Timelock Today. Shape Tomorrow.</h2></center>
-<p style="text-align:center;">Unlock the potential of your BSOV Tokens, a cryptocurrency designed as a Store-of-Value (SoV), by locking them using the SovCube dApp, a decentralized web3 app built on the Ethereum blockchain. By timelocking your BSOV Tokens, you can earn rewards and participate in a decentralized foundation where the community collectively decides the future.</p>
+<p style="text-align:center;" class="tagline-body">Unlock the potential of your BSOV Tokens, a cryptocurrency designed as a Store-of-Value (SoV), by locking them using the SovCube dApp, a decentralized web3 app built on the Ethereum blockchain. By timelocking your BSOV Tokens, you can earn rewards and participate in a decentralized foundation where the community collectively decides the future.</p>
 <center><h3 class="description-heading">Great decisions take time.<br>Shape the future with thoughtful decisions and your vote in our decentralized foundation.</h3></center>
 <button onclick="window.location.href='#more'" class="launch-button-gold">Read More</button>
 <div class="arrow-down"></div>
@@ -259,7 +259,7 @@ if ($contract2Data) {
 
 <p>Your timelocked tokens aren't just locked away—they're flexible. Use them to make payments, send gifts, or offer donations, with an additional 100-day lock period applied to the recipient's address to prevent misuse.</p>
 </p>
-<center><img src="/images/send-locked-tokens-users8.png" style="margin:0px 0px 20px 0px; z-index:11;" width="400px" ></img></center>
+<center><img src="/images/send-locked-tokens-users8.png" style="margin:0px 0px 20px 0px; z-index:11;" width="40%" ></img></center>
 </div>
 <br>
 </div>

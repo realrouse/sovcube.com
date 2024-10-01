@@ -468,6 +468,12 @@ margin-top:0px;
         font-size: 18px;
         margin: 20px 20px;
     }
+
+.tagline-body {
+font-size:10pt;
+}
+
+
 }
 
 @media screen and (max-width: 768px) {
@@ -524,6 +530,12 @@ margin-top:0px;
     #sovCubeChart {
         height: 300px; /* Adjusted chart height for smaller screens */
     }
+
+.tagline-body {
+font-size:10pt;
+}
+
+
 }
 
 @media screen and (max-width: 480px) {
@@ -563,5 +575,9 @@ margin-top:0px;
     #sovCubeChart {
         height: 250px; /* Further reduced chart height */
     }
+
+.tagline-body {
+font-size:10pt;
 }
 
+}
