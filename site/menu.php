@@ -16,3 +16,29 @@
 	<a href="/account/index.php" class="menu-item">My Account</a>
 </div>
 
+
+    <!-- Hamburger icon -->
+    <div class="menu-toggle" id="menu-toggle">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+    </div>
+
+    <!-- Mobile menu -->
+    <nav class="mobile-menu" id="mobile-menu">
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+
+    <script>
+        // Toggle the menu and account-header visibility
+        document.getElementById("menu-toggle").addEventListener("click", function() {
+            document.getElementById("menu").classList.toggle("active");
+            document.querySelector(".account-header").classList.toggle("active");
+            this.classList.toggle("active");
+        });
+    </script>

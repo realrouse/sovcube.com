@@ -1117,3 +1117,310 @@ width:100%;
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Mobile phones (max-width: 600px) */
+@media screen and (max-width: 600px) {
+    .tooltip-icon {
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        font-size: 12pt;
+    }
+
+    #txProgressPopup {
+        width: 90%;
+        padding: 10px;
+    }
+
+    #txProgressPopup .loader {
+        width: 40px;
+        height: 40px;
+    }
+
+    #txProgressPopup .message {
+        font-size: 14px;
+    }
+
+    .newTxPopup {
+        font-size: 9pt;
+    }
+
+    .modal-table td {
+        padding: 3px;
+        font-size: 9pt;
+    }
+
+    .modal-title {
+        font-size: 14pt;
+    }
+
+    .modal-body {
+        font-size: 9pt;
+    }
+
+    .modal-footer .btn {
+        font-size: 9pt;
+        padding: 8px 15px;
+    }
+
+    .button {
+        font-size: 12pt;
+        padding: 8px 15px;
+    }
+
+    #container {
+        max-width: 100%;
+        padding: 5px;
+    }
+
+    #acceptIncomingContainer {
+        width: 90%;
+        bottom: 10px;
+        right: 10px;
+        padding: 10px;
+    }
+
+    #acceptIncomingContainer p {
+        font-size: 12pt;
+    }
+
+    #acceptIncomingButton, #claimRewardsReserveButton {
+        font-size: 7pt;
+        padding: 8px 15px;
+    }
+
+    #fieldContainer {
+        width: 95%;
+        padding: 5px;
+    }
+
+    textarea {
+        width: 90%;
+    }
+
+    .radio-buttons label {
+        font-size: 12pt;
+        padding: 5px 10px;
+    }
+
+    #contractInfoContainer {
+        width: 95%;
+        padding: 10px;
+    }
+
+    #contract1InfoSection, #contract2InfoSection {
+        padding: 10px;
+    }
+}
+
+/* Tablets (601px to 768px) */
+@media screen and (min-width: 601px) and (max-width: 768px) {
+    .tooltip-icon {
+        width: 25px;
+        height: 25px;
+        line-height: 25px;
+        font-size: 13pt;
+    }
+
+    #txProgressPopup {
+        width: 80%;
+        padding: 15px;
+    }
+
+    #txProgressPopup .loader {
+        width: 45px;
+        height: 45px;
+    }
+
+    #txProgressPopup .message {
+        font-size: 15px;
+    }
+
+    .newTxPopup {
+        font-size: 10pt;
+    }
+
+    .modal-table td {
+        padding: 4px;
+        font-size: 10pt;
+    }
+
+    .modal-title {
+        font-size: 15pt;
+    }
+
+    .modal-body {
+        font-size: 10pt;
+    }
+
+    .modal-footer .btn {
+        font-size: 10pt;
+        padding: 9px 18px;
+    }
+
+    .button {
+        font-size: 13pt;
+        padding: 9px 18px;
+    }
+
+    #container {
+        max-width: 90%;
+        padding: 8px;
+    }
+
+    #acceptIncomingContainer {
+        width: 80%;
+        bottom: 15px;
+        right: 15px;
+        padding: 12px;
+    }
+
+    #acceptIncomingContainer p {
+        font-size: 13pt;
+    }
+
+    #acceptIncomingButton, #claimRewardsReserveButton {
+        font-size: 8pt;
+        padding: 9px 18px;
+    }
+
+    #fieldContainer {
+        width: 90%;
+        padding: 8px;
+    }
+
+    textarea {
+        width: 85%;
+    }
+
+    .radio-buttons label {
+        font-size: 13pt;
+        padding: 6px 12px;
+    }
+
+    #contractInfoContainer {
+        width: 90%;
+        padding: 12px;
+    }
+
+    #contract1InfoSection, #contract2InfoSection {
+        padding: 12px;
+    }
+}
+
+/* Large tablets and small laptops (769px to 1024px) */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    .tooltip-icon {
+        width: 28px;
+        height: 28px;
+        line-height: 28px;
+        font-size: 14pt;
+    }
+
+    #txProgressPopup {
+        width: 75%;
+        padding: 18px;
+    }
+
+    #txProgressPopup .loader {
+        width: 48px;
+        height: 48px;
+    }
+
+    #txProgressPopup .message {
+        font-size: 16px;
+    }
+
+    .newTxPopup {
+        font-size: 10.5pt;
+    }
+
+    .modal-table td {
+        padding: 5px;
+        font-size: 11pt;
+    }
+
+    .modal-title {
+        font-size: 16pt;
+    }
+
+    .modal-body {
+        font-size: 11pt;
+    }
+
+    .modal-footer .btn {
+        font-size: 11pt;
+        padding: 10px 20px;
+    }
+
+    .button {
+        font-size: 14pt;
+        padding: 10px 20px;
+    }
+
+    #container {
+        max-width: 85%;
+        padding: 10px;
+    }
+
+    #acceptIncomingContainer {
+        width: 75%;
+        bottom: 20px;
+        right: 20px;
+        padding: 15px;
+    }
+
+    #acceptIncomingContainer p {
+        font-size: 14pt;
+    }
+
+    #acceptIncomingButton, #claimRewardsReserveButton {
+        font-size: 9pt;
+        padding: 10px 20px;
+    }
+
+    #fieldContainer {
+        width: 85%;
+        padding: 10px;
+    }
+
+    textarea {
+        width: 80%;
+    }
+
+    .radio-buttons label {
+        font-size: 14pt;
+        padding: 7px 14px;
+    }
+
+    #contractInfoContainer {
+        width: 85%;
+        padding: 15px;
+    }
+
+    #contract1InfoSection, #contract2InfoSection {
+        padding: 15px;
+    }
+}
+

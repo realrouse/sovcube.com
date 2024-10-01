@@ -269,36 +269,191 @@ border-radius:10px;
 
 
 
-/* Responsive Design */
-@media screen and (max-width: 768px) {
-  
 
-    .body-container, .text-container, section {
-        width: 95%; /* Full width for all containers */
-        margin-top: 0px; /* Uniform top margin */
-	padding:0px;
-	margin-left:2%;
-	margin-right:0px;
-	
+
+
+
+
+
+
+
+
+
+
+/* Mobile phones (max-width: 600px) */
+@media screen and (max-width: 600px) {
+    .per1000bsov {
+        font-size: 7pt;
     }
 
-
-    /* Optionally, adjust font sizes for smaller screens */
-    h1, h2, h3, h4, h5, h6, p {
-       /* font-size: smaller;*/
-
+    .stats-container {
+        padding: 10px;
+        margin: 5px;
+        min-width: 100%;
     }
-h2, h3 {
-margin-left:56%;
-text-align:center;
-transform: translateX(-50%);
-font-size:17pt;
+
+    .rewards-progress-container {
+        padding: 10px;
+    }
+
+    .rewards-progress-bar {
+        height: 30px;
+    }
+
+    .rewards-container {
+        width: 100%;
+    }
+
+    .rewards {
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+
+    .rewards h2 {
+        font-size: 16px;
+    }
+
+    .rewards p {
+        font-size: 12px;
+    }
+
+    .brand-name {
+        font-size: 28pt;
+    }
+
+    .body-container {
+        width: 90%;
+        margin-top: 50px;
+    }
+
+    .text-container {
+        padding: 20px;
+        width: 90%;
+        margin-top: 50px;
+        margin-bottom: 20px;
+    }
+
+    .launch-button {
+        padding: 15px 30px;
+        font-size: 16px;
+    }
 }
 
-.body-container::before {
-width:100%;
+/* Tablets (601px to 768px) */
+@media screen and (min-width: 601px) and (max-width: 768px) {
+    .per1000bsov {
+        font-size: 8pt;
+    }
+
+    .stats-container {
+        padding: 15px;
+        margin: 10px;
+        min-width: 100%;
+    }
+
+    .rewards-progress-container {
+        padding: 12px;
+    }
+
+    .rewards-progress-bar {
+        height: 35px;
+    }
+
+    .rewards-container {
+        width: 90%;
+    }
+
+    .rewards {
+        padding: 12px;
+        margin-bottom: 8px;
+    }
+
+    .rewards h2 {
+        font-size: 18px;
+    }
+
+    .rewards p {
+        font-size: 13px;
+    }
+
+    .brand-name {
+        font-size: 32pt;
+    }
+
+    .body-container {
+        width: 90%;
+        margin-top: 75px;
+    }
+
+    .text-container {
+        padding: 25px;
+        width: 80%;
+        margin-top: 75px;
+        margin-bottom: 30px;
+    }
+
+    .launch-button {
+        padding: 18px 35px;
+        font-size: 18px;
+    }
 }
 
+/* Large tablets and small laptops (769px to 1024px) */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    .per1000bsov {
+        font-size: 8pt;
+    }
 
+    .stats-container {
+        padding: 20px;
+        margin: 10px;
+        min-width: 100%;
+    }
 
+    .rewards-progress-container {
+        padding: 15px;
+    }
+
+    .rewards-progress-bar {
+        height: 40px;
+    }
+
+    .rewards-container {
+        width: 85%;
+    }
+
+    .rewards {
+        padding: 15px;
+        margin-bottom: 10px;
+    }
+
+    .rewards h2 {
+        font-size: 20px;
+    }
+
+    .rewards p {
+        font-size: 14px;
+    }
+
+    .brand-name {
+        font-size: 36pt;
+    }
+
+    .body-container {
+        width: 85%;
+        margin-top: 90px;
+    }
+
+    .text-container {
+        padding: 30px;
+        width: 75%;
+        margin-top: 90px;
+        margin-bottom: 40px;
+    }
+
+    .launch-button {
+        padding: 20px 40px;
+        font-size: 20px;
+    }
 }
+

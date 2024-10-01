@@ -137,36 +137,108 @@ z-index:3;
 
 
 
-/* Responsive Design */
-@media screen and (max-width: 768px) {
-  
 
-    .body-container, .text-container, section {
-        width: 95%; /* Full width for all containers */
-        margin-top: 0px; /* Uniform top margin */
-	padding:0px;
-	margin-left:2%;
-	margin-right:0px;
-	
+
+
+
+
+
+
+
+
+/* Mobile phones (max-width: 600px) */
+@media screen and (max-width: 600px) {
+    ul {
+        padding-left: 10px;
     }
 
+    .body-container {
+        width: 100%;
+        margin-top: 50px;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
 
-    /* Optionally, adjust font sizes for smaller screens */
+    .text-container {
+        width: 90%;
+        padding: 15px;
+        margin: auto;
+    }
+
     h1, h2, h3, h4, h5, h6, p {
-       /* font-size: smaller;*/
-
+        font-size: 14px;
+        margin-left: 5px;
+        margin-right: 5px;
     }
-h1 {
-margin-left:56%;
-text-align:center;
-transform: translateX(-50%);
-font-size:17pt;
+
+    h1 {
+        font-size: 18pt;
+        margin-left: 50%;
+        transform: translateX(-50%);
+    }
 }
 
-.body-container::before {
-width:100%;
+/* Tablets (601px to 768px) */
+@media screen and (min-width: 601px) and (max-width: 768px) {
+    ul {
+        padding-left: 20px;
+    }
+
+    .body-container {
+        width: 90%;
+        margin-top: 75px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .text-container {
+        width: 85%;
+        padding: 20px;
+        margin: auto;
+    }
+
+    h1, h2, h3, h4, h5, h6, p {
+        font-size: 16px;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    h1 {
+        font-size: 20pt;
+        margin-left: 50%;
+        transform: translateX(-50%);
+    }
 }
 
+/* Large tablets and small laptops (769px to 1024px) */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    ul {
+        padding-left: 30px;
+    }
 
+    .body-container {
+        width: 85%;
+        margin-top: 90px;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
 
+    .text-container {
+        width: 80%;
+        padding: 25px;
+        margin: auto;
+    }
+
+    h1, h2, h3, h4, h5, h6, p {
+        font-size: 18px;
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+
+    h1 {
+        font-size: 22pt;
+        margin-left: 50%;
+        transform: translateX(-50%);
+    }
 }
+

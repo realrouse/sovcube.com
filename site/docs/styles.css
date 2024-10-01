@@ -232,64 +232,174 @@ color:white;
         background-color: #254A75; /* Set your desired highlight color */
     }
 
-/* Responsive Design */
-@media screen and (max-width: 768px) {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Mobile phones (max-width: 600px) */
+@media screen and (max-width: 600px) {
+    .what-is-sovcube p {
+        font-size: 12pt;
+    }
+
+    .what-is-sovcube h2 { 
+        font-size: 28pt;
+    }
+
+    .body-container {
+        width: 100%;
+        margin-top: 50px;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    .text-container {
+        width: 90%;
+        padding: 15px;
+        margin: auto;
+    }
+
+    section, .table-section {
+        padding: 10px;
+        margin: 15px;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        font-size: 18px;
+    }
+
     .toc-container {
-        top: 50px;
-        left: 6%;
-	
-        width: 95%;
-        border-radius: 0;
-        text-align: center;
-        position:relative;
-margin-top:0px;
-margin:0;
+        width: 100%;
+        left: 0;
+        top: auto;
+        position: relative;
+        padding: 10px;
+        margin-bottom: 20px;
     }
 
-    .body-container, .text-container, section {
-        width: 95%; /* Full width for all containers */
-        margin-top: 0px; /* Uniform top margin */
-	padding:0px;
-	margin-left:0px;
-	margin-right:0px;
-	
+    .toc {
+        font-size: 10pt;
     }
 
-    section {
-        margin: 15px; /* Smaller margins */
-        padding: 15px; /* Adjust padding if needed */
-	scroll-margin-top: 10px;
+    #contract-1 table, #contract-2 table, #rewardreserve table {
+        font-size: 0.8em;
+    }
+}
+
+/* Tablets (601px to 768px) */
+@media screen and (min-width: 601px) and (max-width: 768px) {
+    .what-is-sovcube p {
+        font-size: 14pt;
     }
 
-    /* Optionally, adjust font sizes for smaller screens */
-    h1, h2, h3, h4, h5, h6, p {
-       /* font-size: smaller;*/
-
+    .what-is-sovcube h2 { 
+        font-size: 34pt;
     }
-h1 {
-margin-left:56%;
-text-align:center;
-transform: translateX(-50%);
-font-size:17pt;
+
+    .body-container {
+        width: 90%;
+        margin-top: 75px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .text-container {
+        width: 85%;
+        padding: 20px;
+        margin: auto;
+    }
+
+    section, .table-section {
+        padding: 15px;
+        margin: 20px;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        font-size: 20px;
+    }
+
+    .toc-container {
+        width: 90%;
+        left: 5%;
+        top: auto;
+        position: relative;
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+
+    .toc {
+        font-size: 10.5pt;
+    }
+
+    #contract-1 table, #contract-2 table, #rewardreserve table {
+        font-size: 0.85em;
+    }
 }
 
-.responsive-iframe {
-    position: relative;
-    padding-bottom: 56.25%; /* Aspect ratio */
-    height: 0;
-    overflow: hidden;
-    margin-bottom: 20px; /* Adjust as needed */
+/* Large tablets and small laptops (769px to 1024px) */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    .what-is-sovcube p {
+        font-size: 15pt;
+    }
+
+    .what-is-sovcube h2 { 
+        font-size: 36pt;
+    }
+
+    .body-container {
+        width: 85%;
+        margin-top: 90px;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .text-container {
+        width: 80%;
+        padding: 25px;
+        margin: auto;
+    }
+
+    section, .table-section {
+        padding: 20px;
+        margin: 25px;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        font-size: 22px;
+    }
+
+    .toc-container {
+        width: 85%;
+        left: 5%;
+        top: auto;
+        position: relative;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .toc {
+        font-size: 11pt;
+    }
+
+    #contract-1 table, #contract-2 table, #rewardreserve table {
+        font-size: 0.9em;
+    }
 }
 
-.responsive-iframe iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
 
 
 
-}
 
