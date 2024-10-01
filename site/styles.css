@@ -443,7 +443,7 @@ line-height:1.6;
 /* Responsive Design */
 @media screen and (max-width: 1024px) {
     .body-container, .text-container {
-        width: 90%;
+        width: 100%;
         margin-top: 50px;
         padding: 20px;
     }
@@ -471,7 +471,7 @@ line-height:1.6;
 
 @media screen and (max-width: 768px) {
     .body-container, .text-container {
-        width: 95%; /* Full width for small screens */
+        width: 100%; /* Full width for small screens */
         margin-top: 0px;
         padding: 10px;
     }
