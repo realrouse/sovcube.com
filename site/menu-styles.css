@@ -166,6 +166,7 @@ border-radius:10px
         width: 100%;
         text-align: center;
 	top:100px;
+	background-color:rgba(0, 0, 0, 0.60);
     }
 
     .menu-item-img img {
@@ -196,6 +197,7 @@ width:100%;
     .account-header {
         width: 220px;
 	top:100px;
+	background-color:rgba(0, 0, 0, 0.60);
     }
 
     .menu-item-img img {
@@ -229,6 +231,7 @@ width:100%;
     .account-header {
         width: 240px;
 	top:100px;
+	background-color:rgba(0, 0, 0, 0.60);
     }
 
     .menu-item-img img {
