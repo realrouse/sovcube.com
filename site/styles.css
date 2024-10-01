@@ -1,3 +1,7 @@
+.locked-tokens-img {
+
+	width:55%;
+}
 
 .tech-cube-img {
     box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
@@ -477,6 +481,13 @@ margin-top:0px;
 font-size:12pt;
 }
 
+.locked-tokens-img {
+
+        width:85%;
+}
+
+
+
 
 }
 
@@ -540,6 +551,12 @@ margin-top:0px;
 font-size:9pt;
 }
 
+.locked-tokens-img {
+
+        width:85%;
+}
+
+
 
 }
 
@@ -584,6 +601,12 @@ margin-top:0px;
 
 .tagline-body {
 font-size:9pt;
+}
+
+
+.locked-tokens-img {
+
+        width:85%;
 }
 
 }

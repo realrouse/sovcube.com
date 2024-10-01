@@ -2,8 +2,8 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SovCube - Timelock Rewards</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>SovCube - Treasury</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="/styles-fonts.css">
 <link rel="icon" href="/images/favicon-logo.png" type="image/x-icon">

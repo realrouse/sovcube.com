@@ -235,7 +235,7 @@ color:white;
 /* Responsive Design */
 @media screen and (max-width: 768px) {
     .toc-container {
-        top: 0;
+        top: 50px;
         left: 6%;
 	
         width: 95%;

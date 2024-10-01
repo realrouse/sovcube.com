@@ -259,7 +259,7 @@ if ($contract2Data) {
 
 <p>Your timelocked tokens aren't just locked away—they're flexible. Use them to make payments, send gifts, or offer donations, with an additional 100-day lock period applied to the recipient's address to prevent misuse.</p>
 </p>
-<center><img src="/images/send-locked-tokens-users8.png" style="margin:0px 0px 20px 0px; z-index:11;" width="40%" ></img></center>
+<center><img src="/images/send-locked-tokens-users8.png" style="margin:0px 0px 20px 0px; z-index:11;" class="locked-tokens-img" ></img></center>
 </div>
 <br>
 </div>
