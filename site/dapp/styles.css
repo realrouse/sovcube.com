@@ -1,4 +1,355 @@
+
+
 /*styles.css*/
+
+
+/* Tooltip Icon Style */
+.tooltip-icon {
+    display: inline-block;
+    width: 30px; /* Adjust size as needed */
+    height: 30px; /* Adjust size as needed */
+    line-height: 30px; /* Center text vertically */
+    text-align: center; /* Center text horizontally */
+    background-color: white; /* Background color */
+    color: black; /* Text color */
+    font-size: 15pt; /* Font size */
+    font-weight: bold; /* Bold text */
+    border-radius: 50%; /* Circular shape */
+    text-decoration: none; /* Remove underline */
+    position: relative;
+    cursor: pointer;
+    border: 2px solid black; /* Optional: Add a border */
+}
+
+/* Optional: Hover effect */
+.tooltip-icon:hover {
+    background-color: gold; /* Change background on hover */
+    color: black; /* Ensure text is visible */
+}
+
+/*
+.tooltip-icon[data-toggle="tooltip"]::after {
+    content: attr(title);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: black;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+    font-size: 10pt;
+    z-index: 9999;
+}
+*/
+
+.tooltip-icon:hover::after {
+    opacity: 1;
+    visibility: visible;
+}
+
+
+
+
+/* Highlighted notification styling */
+.highlightedNotification {
+    background-color: #444; /* A slightly lighter background for the highlighted notification */
+    border: 1px solid black; /* A yellow border to highlight the notification */
+}
+
+.highlightedNotification strong {
+    font-size: 1em;
+    color: white; /* Yellow text color for the title */
+}
+
+.highlightedNotification .closePopup {
+    color: #F8B128; /* Yellow color for the close button */
+}
+
+
+
+/* Add this CSS to your stylesheet */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Updated styles to match the site's design */
+#txProgressPopup {
+  display: none; /* Hidden by default */
+  position: fixed;
+  z-index: 999;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  background-color: #1d1d1d; /* Dark background */
+  border-radius: 10px;
+  border: 1px solid #2c2c2c; /* Subtle border matching the theme */
+  box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  color: #ffffff; /* White text */
+}
+
+#txProgressPopup .loader {
+  margin: 20px auto;
+  border: 6px solid #3d3d3d; /* Lighter gray for the background of the loader */
+  border-top: 6px solid #3498db; /* Blue color for the loader */
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1.5s linear infinite;
+  
+}
+
+
+
+#txProgressPopup .message {
+  font-size: 16px;
+  margin-top: 10px;
+  color: #dddddd; /* Slightly lighter text for contrast */
+}
+
+/* Optional: Add a close button if needed */
+#txProgressPopup .close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+
+
+#notificationsContainer {
+    position: fixed;
+    right: 5px;
+    top: 245px;
+    width: 270px;
+    z-index: 0;
+    padding:30px;
+}
+
+/* Notification popup styling with text truncation */
+.newTxPopup {
+    background-color: rgba(50, 50, 50, 0.9);
+    color: #f1f1f1;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    position: relative;
+    font-family: 'Arial', sans-serif;
+    font-size: 10pt;
+    transition: all 0.3s ease-in-out;
+    opacity: 0;
+    transform: translateX(50%);
+    animation: slideIn 0.5s forwards;
+  /*  white-space: nowrap;*/
+    overflow: hidden;     
+    text-overflow: ellipsis; 
+    max-width: 100%;      /* Ensure it does not exceed the container's width */
+}
+
+/* Close button styling remains the same */
+.newTxPopup .closePopup {
+    background-color: #ff4c4c;
+    color: #fff;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border-radius: 50%;
+    font-weight: bold;
+    font-size: 12px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.newTxPopup .closePopup:hover {
+    background-color: #e60000;
+}
+
+/* Notification slide-in animation remains the same */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(50%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Clear All button styling remains the same */
+#clearAllBtn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    margin-top: 15px;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'Arial', sans-serif;
+    border-radius: 5px;
+    width: 100%;
+    transition: background-color 0.3s ease-in-out;
+    display:none;
+}
+
+#clearAllBtn:hover {
+    background-color: #0056b3;
+}
+
+
+
+
+.modal-table {
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-collapse: collapse;
+    color: white;
+}
+
+.modal-table td {
+    padding: 5px;
+    border-bottom: 1px solid #444;
+}
+
+.modal-table td:first-child {
+    text-align: left;
+    width: 60%;
+}
+
+.modal-table td:last-child {
+    text-align: right;
+    width: 40%;
+}
+
+
+
+#confirmationModal {
+    display: none;
+}
+
+
+/* Modal Backdrop */
+.modal-fade {
+    z-index: 1040 !important;
+    background-color: rgba(0, 0, 0, 0.7); /* Darker background to match the page */
+}
+
+/* Modal Content */
+
+.modal-content {
+    background-color: #262626; /* Dark background to match your theme */
+    color: white; /* White text for readability */
+    border-radius: 10px; /* Smooth rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Slight shadow for depth */
+    border: 1px solid #004F8B; /* Border color to match buttons */
+
+    left: 30.25%;
+    position: fixed;
+    top: 10%;
+    z-index: 50; /* Ensure it’s above the overlay */
+}
+
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.75); /* Dark semi-transparent background */
+    z-index: 40; /* Should be behind the modal but above other content */
+}
+
+
+/* Modal Header */
+.modal-header {
+    border-bottom: 1px solid #004F8B; /* Border at the bottom to separate sections */
+}
+
+.modal-title {
+    font-size: 15pt; /* Consistent font size */
+    font-weight: bold; /* Bold text */
+    color: #F8B128; /* Same color as buttons for consistency */
+    text-shadow: 1px 1px 2px #000; /* Subtle text shadow */
+}
+
+/* Close Button */
+.modal-header .close {
+    color: white; /* Close button color */
+    opacity: 1;
+}
+
+.modal-header .close:hover {
+    color: #FDC860; /* Hover color */
+}
+
+/* Modal Body */
+.modal-body {
+    font-size: 10pt; /* Match text size */
+    color: #A2A2A2; /* Slightly lighter gray for text */
+    text-align: center; /* Centered text */
+}
+
+/* Modal Footer */
+.modal-footer {
+    border-top: 1px solid #004F8B; /* Border at the top to separate sections */
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Modal Buttons */
+.modal-footer .btn {
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 10pt;
+    font-weight: bold;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.modal-footer .btn-secondary {
+    background-color: #6c757d; /* Default Bootstrap gray */
+    color: white;
+}
+
+.modal-footer .btn-secondary:hover {
+    background-color: #5a6268; /* Darker on hover */
+}
+
+.modal-footer .btn-primary {
+    background-color: #004F8B; /* Match your primary button color */
+    color: white;
+    border-color: #004F8B;
+}
+
+.modal-footer .btn-primary:hover {
+    background-color: #0073CF; /* Hover color matching other buttons */
+}
+
+
+
+
+
+.connected-to {
+padding:15px;
+background-color:rgba(50, 50, 50, 0.3);
+border-radius:10px;
+
+}
 
 #withdraw2Button {
 font-size:8pt;
@@ -168,10 +519,54 @@ color:yellow;
     flex-basis: 50%; /* Each takes half of the space in the second line container */
 
 }
-
 #incomingAccountContainer {
 text-align:center;
 }
+
+#acceptIncomingContainer {
+    display: none; /* Initially hidden */
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #2c2c2c;
+    color: #ffeb3b;
+    padding: 15px;
+    border-radius: 8px;
+    z-index: 0;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.7);
+    border: 1px solid #ffeb3b;
+    transform: translateX(100%); /* Hidden off-screen initially */
+    transition: transform 0.5s ease-in-out; /* Smooth slide-in effect */
+
+}
+
+#acceptIncomingContainer.visible {
+    display: block;
+    transform: translateX(0); /* Slide in */
+}
+
+#acceptIncomingContainer p {
+    margin: 0 0 10px 0; /* Space between the text and the button */
+    font-size: 14pt; /* Text size */
+    color: #ffffff; /* White text color for better readability */
+    font-weight: bold; /* Bold text to match the header and other prominent elements */
+}
+
+#acceptIncomingContainer button {
+    padding: 10px 20px;
+    background-color: #007bff; /* Button color matching the 'Review Timelock' button */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12pt; /* Adjust the button text size */
+    color: white; /* White text color to match other buttons */
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+#acceptIncomingContainer button:hover {
+    background-color: #0056b3; /* Slightly darker on hover to match other buttons */
+}
+
 
 #regularAccountContainer {
 
@@ -202,13 +597,13 @@ border: 1px solid orange; /* Thick blue border */
 
 .contract-info-style p{
 margin:0;
-font-size:9pt;
+font-size:12pt;
 }
 
 .contract-info-style h3 { 
     font-weight: bold;
     color: #4a90e2; /* Adds a blue color */
-    font-size: 12pt; /* Increases the font size */
+    font-size: 18pt; /* Increases the font size */
     text-shadow: 1px 1px 2px #000000; /* Adds a subtle shadow for depth */
     margin-bottom: 8px; /* Adds space below the heading */
     text-align: center; /* Centers the text */
@@ -235,7 +630,7 @@ color:white;
 }
 
 #regularAccount p, #regularAccount h3, #regularAccount1 p, #regularAccount1 h3 {
-font-size:1.2em;
+/*font-size:1.2em;*/
 text-align:center;
 }
 
@@ -292,9 +687,9 @@ body {
 
 }
 
-
+/*
 .connectWalletTextClass {
-background-color: #004F8B;
+background-color: #111;
 font-size: 15pt;
 font-weight:bold;
 margin-bottom:20px;
@@ -304,7 +699,12 @@ padding-bottom: 15px;
 display: block;
  -webkit-animation: fadeIn 0.5s;
     animation: fadeIn 0.5s;
+    width:400px;
+    padding:50px;
+    border-radius:5px;
+    margin-left:32.5%;
 }
+*/
 
 /* Tooltip container */
 .tooltip {
@@ -427,7 +827,8 @@ color:white;
     margin-top:10px;
     transform: translateX(-50%);
     background-color: #262626;
-    border: 1px solid #004F8B;
+   /* border: 1px solid #004F8B;*/
+    border: 1px solid #3a3a3a;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
     padding: 10px;
     border-radius: 5px;
@@ -449,10 +850,10 @@ color:white;
 }
 
 textarea {
-    width: 60%;
-    height: 30px;
+    width: 70%;
+    height: 50px;
     margin-bottom: 0px;
-    font-size:6pt;
+    font-size:8pt;
     border-radius: 5px;
     padding:5px;
  -webkit-animation: fadeIn 0.5s;
@@ -494,16 +895,16 @@ font-size:9pt;
 
 
 #contractSelect {
-    font-size: 15pt;
+    font-size: 10pt;
     color: white; /* Text color */
-    background-color: #004F8B; /* Background color */
+    background-color: #262626; /* Background color */
     border: none;
     padding: 10px;
     border-radius: 5px;
     -webkit-appearance: none; /* Removes default styling for select on Webkit browsers */
     -moz-appearance: none; /* Removes default styling for select on Mozilla browsers */
    appearance: none;
-    width: 300px;
+    width: 150px;
     text-align:center;
     margin-left:50%;
     transform: translateX(-50%);
@@ -644,7 +1045,8 @@ border-radius: 5px;
     margin-left:50%; /* Adjust as needed */
     transform: translateX(-50%);
     background-color: #262626;
-    border: 1px solid #004F8B;
+ /*   border: 1px solid #004F8B;*/
+    border: 1px solid #3a3a3a;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
     padding-bottom: 0px;
     padding-top:5px;
@@ -683,8 +1085,9 @@ display:none;
 
 #yourTokensText {
 color: #2CB723;
-font-size:11pt;
+font-size:14pt;
 font-weight:regular;
+margin-bottom:35px;
  -webkit-animation: fadeIn 0.25s;
     animation: fadeIn 0.25s;
 }
@@ -693,10 +1096,15 @@ font-weight:regular;
 color: #2CB723;
 font-size:14pt;
 font-weight:regular;
-margin-bottom:15px;
+margin-bottom:35px;
  -webkit-animation: fadeIn 0.25s;
     animation: fadeIn 0.25s;
 }
+
+.globalLockTimeText {
+margin-top:20px;
+}
+
 
 
 /* Responsive Design - Phone */
@@ -708,4 +1116,311 @@ width:100%;
 
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Mobile phones (max-width: 600px) */
+@media screen and (max-width: 600px) {
+    .tooltip-icon {
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        font-size: 12pt;
+    }
+
+    #txProgressPopup {
+        width: 90%;
+        padding: 10px;
+    }
+
+    #txProgressPopup .loader {
+        width: 40px;
+        height: 40px;
+    }
+
+    #txProgressPopup .message {
+        font-size: 14px;
+    }
+
+    .newTxPopup {
+        font-size: 9pt;
+    }
+
+    .modal-table td {
+        padding: 3px;
+        font-size: 9pt;
+    }
+
+    .modal-title {
+        font-size: 14pt;
+    }
+
+    .modal-body {
+        font-size: 9pt;
+    }
+
+    .modal-footer .btn {
+        font-size: 9pt;
+        padding: 8px 15px;
+    }
+
+    .button {
+        font-size: 12pt;
+        padding: 8px 15px;
+    }
+
+    #container {
+        max-width: 100%;
+        padding: 5px;
+    }
+
+    #acceptIncomingContainer {
+        width: 90%;
+        bottom: 10px;
+        right: 10px;
+        padding: 10px;
+    }
+
+    #acceptIncomingContainer p {
+        font-size: 12pt;
+    }
+
+    #acceptIncomingButton, #claimRewardsReserveButton {
+        font-size: 7pt;
+        padding: 8px 15px;
+    }
+
+    #fieldContainer {
+        width: 95%;
+        padding: 5px;
+    }
+
+    textarea {
+        width: 90%;
+    }
+
+    .radio-buttons label {
+        font-size: 12pt;
+        padding: 5px 10px;
+    }
+
+    #contractInfoContainer {
+        width: 95%;
+        padding: 10px;
+    }
+
+    #contract1InfoSection, #contract2InfoSection {
+        padding: 10px;
+    }
+}
+
+/* Tablets (601px to 768px) */
+@media screen and (min-width: 601px) and (max-width: 768px) {
+    .tooltip-icon {
+        width: 25px;
+        height: 25px;
+        line-height: 25px;
+        font-size: 13pt;
+    }
+
+    #txProgressPopup {
+        width: 80%;
+        padding: 15px;
+    }
+
+    #txProgressPopup .loader {
+        width: 45px;
+        height: 45px;
+    }
+
+    #txProgressPopup .message {
+        font-size: 15px;
+    }
+
+    .newTxPopup {
+        font-size: 10pt;
+    }
+
+    .modal-table td {
+        padding: 4px;
+        font-size: 10pt;
+    }
+
+    .modal-title {
+        font-size: 15pt;
+    }
+
+    .modal-body {
+        font-size: 10pt;
+    }
+
+    .modal-footer .btn {
+        font-size: 10pt;
+        padding: 9px 18px;
+    }
+
+    .button {
+        font-size: 13pt;
+        padding: 9px 18px;
+    }
+
+    #container {
+        max-width: 90%;
+        padding: 8px;
+    }
+
+    #acceptIncomingContainer {
+        width: 80%;
+        bottom: 15px;
+        right: 15px;
+        padding: 12px;
+    }
+
+    #acceptIncomingContainer p {
+        font-size: 13pt;
+    }
+
+    #acceptIncomingButton, #claimRewardsReserveButton {
+        font-size: 8pt;
+        padding: 9px 18px;
+    }
+
+    #fieldContainer {
+        width: 90%;
+        padding: 8px;
+    }
+
+    textarea {
+        width: 85%;
+    }
+
+    .radio-buttons label {
+        font-size: 13pt;
+        padding: 6px 12px;
+    }
+
+    #contractInfoContainer {
+        width: 90%;
+        padding: 12px;
+    }
+
+    #contract1InfoSection, #contract2InfoSection {
+        padding: 12px;
+    }
+}
+
+/* Large tablets and small laptops (769px to 1024px) */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    .tooltip-icon {
+        width: 28px;
+        height: 28px;
+        line-height: 28px;
+        font-size: 14pt;
+    }
+
+    #txProgressPopup {
+        width: 75%;
+        padding: 18px;
+    }
+
+    #txProgressPopup .loader {
+        width: 48px;
+        height: 48px;
+    }
+
+    #txProgressPopup .message {
+        font-size: 16px;
+    }
+
+    .newTxPopup {
+        font-size: 10.5pt;
+    }
+
+    .modal-table td {
+        padding: 5px;
+        font-size: 11pt;
+    }
+
+    .modal-title {
+        font-size: 16pt;
+    }
+
+    .modal-body {
+        font-size: 11pt;
+    }
+
+    .modal-footer .btn {
+        font-size: 11pt;
+        padding: 10px 20px;
+    }
+
+    .button {
+        font-size: 14pt;
+        padding: 10px 20px;
+    }
+
+    #container {
+        max-width: 85%;
+        padding: 10px;
+    }
+
+    #acceptIncomingContainer {
+        width: 75%;
+        bottom: 20px;
+        right: 20px;
+        padding: 15px;
+    }
+
+    #acceptIncomingContainer p {
+        font-size: 14pt;
+    }
+
+    #acceptIncomingButton, #claimRewardsReserveButton {
+        font-size: 9pt;
+        padding: 10px 20px;
+    }
+
+    #fieldContainer {
+        width: 85%;
+        padding: 10px;
+    }
+
+    textarea {
+        width: 80%;
+    }
+
+    .radio-buttons label {
+        font-size: 14pt;
+        padding: 7px 14px;
+    }
+
+    #contractInfoContainer {
+        width: 85%;
+        padding: 15px;
+    }
+
+    #contract1InfoSection, #contract2InfoSection {
+        padding: 15px;
+    }
+}
 

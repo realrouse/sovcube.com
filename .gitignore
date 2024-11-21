@@ -7,3 +7,4 @@ site/config.php
 node_modules
 contracts/trash
 site/tag.php
+site/dapp/config.js

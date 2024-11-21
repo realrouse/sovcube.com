@@ -115,12 +115,80 @@ async function fetchContract2Info(account) {
 }
 
 
+
+function updateAcceptIncomingContainer(untakenIncomingTokens) {
+    const acceptIncomingContainer = document.getElementById('acceptIncomingContainer');
+
+    if (parseFloat(untakenIncomingTokens) > 0) {
+        document.getElementById('unclaimedTokens').innerText = `${untakenIncomingTokens} BSOV`;
+        if (!acceptIncomingContainer.classList.contains('visible')) {
+            acceptIncomingContainer.style.display = 'block'; // Ensure it's visible for animation
+            setTimeout(() => {
+                acceptIncomingContainer.classList.add('visible'); // Slide in
+            }, 10); // Small delay to trigger transition
+        }
+    } else {
+        if (acceptIncomingContainer.classList.contains('visible')) {
+            acceptIncomingContainer.classList.remove('visible'); // Slide out
+            setTimeout(() => {
+                acceptIncomingContainer.style.display = 'none'; // Hide after the slide-out animation
+            }, 500); // Duration should match the CSS transition duration
+        }
+    }
+}
+
+
+
+async function checkUntakenIncomingTokens() {
+    try {
+        // Check if the account is connected
+        if (!selectedAccount) {
+            console.error("No account connected");
+            return;
+        }
+
+        // Proceed with the balance check if the account is connected
+        const account = selectedAccount;
+        const { untakenIncomingTokens } = await getContract2TimelockedTokens(account);
+
+        // Update the container with the untaken incoming tokens
+        updateAcceptIncomingContainer((Number(untakenIncomingTokens) / 100000000).toFixed(2));
+    } catch (error) {
+        console.error("Error checking untaken incoming tokens:", error);
+    }
+}
+
+
+
+/*
+async function checkUntakenIncomingTokens() {
+    try {
+        const account = selectedAccount; // Ensure you have the correct selectedAccount context
+        const { untakenIncomingTokens } = await getContract2TimelockedTokens(account); // Fetch the latest token balance
+
+        updateAcceptIncomingContainer((Number(untakenIncomingTokens) / 100000000).toFixed(2)); // Adjust decimal places accordingly
+    } catch (error) {
+        console.error("Error checking untaken incoming tokens:", error);
+    }
+}
+*/
+
+// Check balance every 2 seconds
+setInterval(checkUntakenIncomingTokens, 2000);
+
+
+
+
 function updateContract2Details(tokensLocked, tokensIncomingAccount, untakenIncomingTokens, formattedTimeLeft, formattedIncomingAccountLockTime, unlockTime, withdrawRate, timeLeftInSeconds, incomingAccountLockTimeInSeconds) {
 	
 	const mainContractInfoElement = document.getElementById('mainContractInfo');
     mainContractInfoElement.innerHTML = `
 <p id="contractDescription"><b>Withdrawal Rate:</b> ${withdrawRate} tokens/week</p>
         `;
+
+	const acceptIncomingAccount = document.getElementById('acceptIncomingAccount');
+acceptIncomingAccount.innerHTML = `<p>You have received<br><b>Untaken Incoming Tokens:</b><br> <span id="unclaimedTokens">${untakenIncomingTokens} BSOV</span></p>`;
+
 
 /* DEPRECATED
 	const rewardsAccountElement = document.getElementById('rewardsAccount');
@@ -135,7 +203,7 @@ if (timeLeftInSeconds > 0) {
     regularAccountElement.innerHTML = `
         <h3>Regular Account</h3>
         <p><b>Your Timelocked Tokens:</b><br><span id="yourTokensTextRegular">${tokensLocked} BSOV</span></p>
-        <p style="margin-top:10px;"><b>Global Lock Time:<br><span id="regularUnlockTime">${formattedTimeLeft}</span></p>
+        <p class="globalLockTimeText"><b>Global Lock Time:</b><br><span id="regularUnlockTime">${formattedTimeLeft}</span></p>
     `;
 
 }
@@ -144,7 +212,7 @@ if (timeLeftInSeconds === 0) {
     regularAccountElement.innerHTML = `
         <h3>Regular Account</h3>
         <p><b>Your Timelocked Tokens:</b><br><span id="yourTokensTextRegular">${tokensLocked} BSOV</span></p>
-        <p style="margin-top:10px;"><b>Global Lock Time:</b><br><span id="regularUnlockTime" style="color:green;">Unlocked!</span></p>
+        <p class="globalLockTimeText"><b>Global Lock Time:</b><br><span id="regularUnlockTime" style="color:green;">Unlocked!</span></p>
     `;
 }
 
@@ -156,8 +224,7 @@ if (incomingAccountLockTimeInSeconds > 0) {
     incomingTokensAccountElement.innerHTML = `
         <h3>Incoming Account</h3>
         <p><b>Your Timelocked Tokens:</b><br> <span id="yourTokensText">${tokensIncomingAccount} BSOV</span></p>
-        <p><b>Lock Time:</b><br> <span id="incomingUnlockTime">${formattedIncomingAccountLockTime}</span></p>
-        <p style="margin-top:10px;"><b>Untaken Incoming Tokens:</b><br> <span id="unclaimedTokens">${untakenIncomingTokens} BSOV</span></p>
+        <p class="globalLockTimeText"><b>Lock Time:</b><br> <span id="incomingUnlockTime">${formattedIncomingAccountLockTime}</span></p>
     `;
 
    }
@@ -168,8 +235,7 @@ else if (parseFloat(tokensIncomingAccount) == 0)  {
     incomingTokensAccountElement.innerHTML = `
         <h3>Incoming Account</h3>
         <p><b>Your Timelocked Tokens:</b><br> <span id="yourTokensText">${tokensIncomingAccount} BSOV</span></p>
-        <p><b>Lock Time:</b><br> <span id="incomingUnlockTime" style="font-size:8pt;">Accept Incoming Tokens to reset the Lock Time.</span></p>
-        <p style="margin-top:10px;"><b>Untaken Incoming Tokens:</b><br> <span id="unclaimedTokens">${untakenIncomingTokens} BSOV</span></p>
+        <p class="globalLockTimeText"><b>Lock Time:</b><br> <span id="incomingUnlockTime" style="font-size:8pt;">Accept Incoming Tokens to reset the Lock Time.</span></p>
     `;
 
 
@@ -180,8 +246,7 @@ else if (incomingAccountLockTimeInSeconds == 0) {
     incomingTokensAccountElement.innerHTML = `
         <h3>Incoming Account</h3>
         <p><b>Your Timelocked Tokens:</b><br> <span id="yourTokensText">${tokensIncomingAccount} BSOV</span></p>
-        <p style="margin-top:10px;"><b>Lock Time:</b><br><span id="incomingUnlockTime" style="color:green;">Unlocked!</span></p>
-	<p style="margin-top:10px;"><b>Untaken Incoming Tokens:</b><br> <span id="unclaimedTokens">${untakenIncomingTokens} BSOV</span></p>
+        <p class="globalLockTimeText"><b>Lock Time:</b><br><span id="incomingUnlockTime" style="color:green;">Unlocked!</span></p>
     `;
 }
 

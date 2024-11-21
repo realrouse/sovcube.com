@@ -4,6 +4,44 @@ body {
     position: relative; /* Add this to position the wrapper relative to the body */
 }
 
+/*
+.connectWalletTextClass {
+background-color: #111;
+font-size: 15pt;
+font-weight:bold;
+margin-bottom:20px;
+margin-top: 20px;
+padding-top: 20px;
+padding-bottom: 15px;
+display: block;
+ -webkit-animation: fadeIn 0.5s;
+    animation: fadeIn 0.5s;
+    width:400px;
+    padding:50px;
+    border-radius:5px;
+    margin-left:36%;
+}
+*/
+
+.connectWalletTextClass {
+   margin:50px auto;
+    
+   /* transform: translateX(-50%);*/
+    background-color: #262626;
+    border: 1px solid #004F8B;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    padding: 50px;
+    border-radius: 5px;
+  position:relative; 
+    color: white;
+    width:400px;
+ -webkit-animation: fadeIn 0.5s;
+    animation: fadeIn 0.5s;
+    display:block;
+    font-size:15pt;
+}
+
+
 .wallet-connect-wrapper {
     position: fixed; /* Position the wrapper absolutely */
     top: 0;   /* Align to the top */
@@ -12,6 +50,7 @@ body {
  -webkit-animation: fadeIn 0.5s;
     animation: fadeIn 0.5s;
     z-index:31;
+    top:80px;    
 }
 
 
@@ -29,7 +68,6 @@ body {
     white-space: nowrap;
  -webkit-animation: fadeIn 0.5s;
     animation: fadeIn 0.5s;
-    
 }
 
 .connect-button:hover {
@@ -37,9 +75,9 @@ body {
 }
 
 .connect-status {
-    margin-top: 10px;
+    margin-top: 30px;
     color: green;
-    font-size:8pt;
+    font-size:9pt;
  -webkit-animation: fadeIn 0.5s;
     animation: fadeIn 0.5s;
     

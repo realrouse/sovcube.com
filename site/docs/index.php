@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
     <title>SovCube - Docs & Help</title>
 <link rel="stylesheet" href="/docs/styles.css">
@@ -53,7 +53,8 @@ error_reporting(E_ALL);
 	<li><a href="#getting-started">Getting Started with Metamask, SovCube & BSOV Token</a></li>
        
    <li><a href="#features">dApp Features</a>
-<ul>        <li><a href="#time-locking">Time-Locking Tokens</a></li>
+<ul>        <li><a href="#time-locking">Timelocking Tokens</a></li>
+<li><a href="#timelock-rewards">Timelock Rewards</a></li>
 	<li><a href="#locktime">Global Lock Time</a></li>
 	<li><a href="#regularaccount">Regular Account</a></li>
 	<li><a href="#incomingaccount">Incoming Account</a></li>
@@ -209,14 +210,16 @@ error_reporting(E_ALL);
 <section id="what-is-sovcube">
         <div class="what-is-sovcube">        
 <h2>What is SovCube?</h2>
-<p>SovCube offers long-term holders a way to increase their BSOV Token holdings securely over time, with the limitation of gradual withdrawals.</p>             
-<p>We also plan to introduce a future governance function, allowing top timelockers to use their locked tokens as voting power. These timelockers will be able to vote on proposals for allocating funds from a decentralized governance treasury and receive voting rewards.</p>
+<p>SovCube's onboarding phase offers long-term holders a way to increase their BSOV Token holdings securely over time, with the limitation of gradual withdrawals.</p>             
+<p>In the near future, we will introduce a governance function that grants Top Timelockers 1 vote and eligibility for Voting Rewards. These Timelockers will be able to vote on proposals to allocate funds from a decentralized treasury and receive rewards for participating in the voting process.</p>
 <br>
 <section>
+<h2>Order of procedure</h2>
 <p style="color:#F8B128;">1. Timelock your BSOV Tokens, receive Timelock Rewards</p>
-<p style="color:#F8B128;">2. Wait</p>
-<p style="color:#F8B128;">3. Withdraw your tokens and rewards gradually over time</p>
-<p style="color:#F8B128;">4. Vote to spend from decentralized treasury [UPCOMING FEATURE]</p>
+<p style="color:#F8B128;">2. Accept Incoming Tokens from rewards</p>
+<p style="color:#F8B128;">3. Wait until the Global Lock Time has expired.</p>
+<p style="color:#F8B128;">4. Withdraw your tokens and rewards gradually over time</p>
+<p style="color:#F8B128;">5. [UPCOMING FEATURE] Vote to spend from the decentralized treasury if you have become a Top Timelocker</p>
 </section>
 <br>
 <p>Read the documentation and make sure you fully understand what you're undertaking when using the SovCube dApp.</p>
@@ -316,9 +319,17 @@ After the Global Lock Time has expired, new timelockers will receive a 70-day Lo
 </p>
 <p>After the Global Lock Time has expired, old timelockers will receive a 14-day Lock Time before they can withdraw tokens from their Regular Account.  
 </p>
-<h3>Timelock Rewards</h3>
-<p>To receive Timelock Rewards, you will need to timelock tokens into <strong>Contract 2</strong>.</p> 
-<p>There are no incentives to timelock your tokens into Contract 1, since it is an old contract and people have timelocked their tokens voluntarily to show their commitment.</p>
+</section>
+
+<section id="timelock-rewards">
+<h2>Timelock Rewards</h2>
+<p>To receive Timelock Rewards, you will need to timelock tokens into <strong>Contract 2</strong>.</p>
+<p>After you have timelocked tokens the Timelock Rewards are sent to your "Untaken Incoming Account", and you will receive a notification in the dApp. To accept the rewards you will need to click the button "Accept Incoming Tokens" to send the rewards to your "Incoming Account" and start/reset a timer.</p>
+<p style="color:yellow;">NOTICE: The rewards are locked until the Global Lock Time has expired.</p>
+
+<br>
+<p>There are no rewards when you timelock tokens into Contract 1, since it is an old contract where early users have timelocked their tokens voluntarily to show their commitment to BSOV Token.</p>
+
 </section>
 
 <section id="locktime">
@@ -340,7 +351,9 @@ It means that all the users have to wait until the Global Lock Time expires befo
     <h2>Incoming Account</h2>
     <p>
         The "Incoming Account" is where all "Rewards" and "Sent Locked Tokens" end up. If users send you tokens through the "Send Locked Tokens" function, they end up here, and after you click "Accept Untaken Incoming Tokens"  button, they end up here.
-</p><p>Note that when accepting untaken incoming tokens, the Lock Time of the Timelocked Tokens in the "Incoming Tokens Account" is reset to 100 days, regardless of how much time you have left on it. You have to be absolutely sure that you want to reset the Lock Time, so take care when you Accept Untaken Incoming Tokens.
+</p>
+<p><b>Before the Global Lock Time has expired:</b> Note that you cannot withdraw any tokens before the Global Lock Time has expired.</p>
+<p><b>After the Global Lock Time has expired:</b> Note that when accepting untaken incoming tokens, the Lock Time of the Timelocked Tokens in the "Incoming Tokens Account" is reset to 100 days, regardless of how much time you have left on it. You have to be absolutely sure that you want to reset the Lock Time, so take care when you Accept Untaken Incoming Tokens.
    </p>
 </section>
 
@@ -348,18 +361,23 @@ It means that all the users have to wait until the Global Lock Time expires befo
 <!-- Withdrawal Process -->
 <section id="withdrawal">
     <h2>Withdrawal</h2>
-    <p>
-	The "Withdrawal" function enables users to retrieve their locked tokens from either the "Regular Account" or the "Incoming Account" after the Lock Time has expired.
+<p>Retrieve locked tokens back to your wallet.</p>    
+<p>The "Withdrawal" function enables users to retrieve their locked tokens from either the "Regular Account" or the "Incoming Account" after the Lock Time or the Global Lock Time has expired.
  This function provides a seamless way to unlock and access the previously timelocked tokens, making them available for further use, trade or transfer.</p>
 <h3>Withdrawal Rate:</h3>
 When the Lock Time or the Global Lock Time has expired, the users can begin withdrawing their tokens, but they do have to follow the weekly Withdrawal Rate.
-For example, if you timelock 10,000 tokens in Contract 2, which has a 100 tokens/week withdrawal rate; it will take a minimum of 100 weeks to withdraw all those tokens, providing that you withdraw regularly.
+For example, if you timelock 10,000 tokens in Contract 2, which has a 100 tokens/week withdrawal rate; it will take a minimum of 100 weeks to withdraw all those tokens, providing that you withdraw at least every 10 weeks.
 <p>
 <strong>Contract 1</strong> has a weekly withdrawal rate of 1000 tokens.
     </p>
 <p>
-<strong>Contract 2</strong> has a weekly withdrawal rate of 100 tokens, and also has an additional account called "Incoming Account", that shares the same weekly withdrawal rate as the Regular Account. This contract also has a "Withdrawal Halving" which halves the Withdrawal Rate every ~4 years, a countdown that starts after the Global Lock Time has expired. Meaning that in year 2031, the withdrawal rate will halve to 50 BSOV per week, and in year 2035, it will halve to 25 BSOV per week, until it has reached Withdrawal Halving Era number 5, which is capped at 6.25 BSOV.
+<strong>Contract 2</strong> starts with a weekly withdrawal rate of 100 tokens, and also has an additional account called "Incoming Account", that shares the same weekly withdrawal rate as the Regular Account.
 </p>
+<h3>Withdrawal Halving</h3>
+<p>Contract 2 also has a "Withdrawal Halving" which halves the Withdrawal Rate every ~4 years, a countdown that starts after the Global Lock Time has expired. Meaning that in year 2031, the withdrawal rate will halve to 50 BSOV per week, and in year 2035, it will halve to 25 BSOV per week, until it has reached Withdrawal Halving Era number 5, which is capped at 6.25 BSOV.
+</p>
+<h3>Max Withdrawable now</h3>
+<p>Even if the weekly withdrawal rate starts at 100 tokens, you can accumulate them to up to 10 weeks, so you do not need to withdraw every week. You can withdraw every 10 weeks.</p>
 </section>
 
 
@@ -514,7 +532,7 @@ contract2Link.textContent = "NOT DEPLOYED YET";//contract2Address;
             Find quick answers to common questions about SovCube in this FAQ section. 
         </p>
 	<h3>Question: Will I get dividends from timelocking my tokens in SovCube?</h3>
-<p>Yes, we call them Timelock Rewards. If you timelock your BSOV Tokens in Contract 2, you will receive Timelock Rewards. The earliest users will double their BSOV investment.</p>
+<p>Yes, during the onboarding phase we have something called Timelock Rewards. If you timelock your BSOV Tokens in Contract 2, you will receive Timelock Rewards. The earliest users will double their BSOV investment. Also, after the Governance Treasury contract has been deployed, you will be able to qualify as a Top Timelocker and receive Voting Rewards by voting for proposals.</p>
 <h3>Question: Is timelocking the same as staking?</h3>
 <p>
 No, not exactly the same, but similar! With SovCube we timelock and receive Timelock Rewards!
@@ -573,7 +591,7 @@ Join the <a target="_blank" href="https://t.me/SovCube">SovCube Telegram</a> for
 
         <li>
             <strong>User Responsibilities:</strong>
-            <p>Users of the SovCube website and dApp assume all responsibility and risk for the use of the platform. This includes, but is not limited to, any reliance on the information available, the consequences of financial transactions, and interactions with smart contracts deployed on the SovCube blockchain.</p>
+            <p>Users of the SovCube website and dApp assume all responsibility and risk for the use of the platform. This includes, but is not limited to, any reliance on the information available, the consequences of financial transactions, and interactions with smart contracts available through the SovCube website.</p>
         </li>
 
         <li>

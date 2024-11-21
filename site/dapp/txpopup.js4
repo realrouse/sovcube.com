@@ -1,0 +1,210 @@
+// Function to save a transaction to local storage, keyed by the selected account
+
+function saveTransactionToLocalStorage(transaction) {
+    const selectedAccount = window.selectedAccount;  // Access the global selectedAccount
+    if (selectedAccount) {
+        let transactionsKey = `transactions_${selectedAccount}`;
+        let transactions = JSON.parse(localStorage.getItem(transactionsKey)) || [];
+        transactions.push(transaction);
+        localStorage.setItem(transactionsKey, JSON.stringify(transactions));
+    }
+}
+
+// Function to load transactions from local storage for the selected account
+function loadTransactionsFromLocalStorage() {
+    if (selectedAccount) {
+        let transactionsKey = `transactions_${selectedAccount}`;
+        let transactions = JSON.parse(localStorage.getItem(transactionsKey)) || [];
+        return transactions;
+    }
+    return [];
+}
+
+// Function to display stored transactions on the UI
+function displayStoredTransactions() {
+    const notificationsContainer = document.getElementById('notificationsContainer');
+    notificationsContainer.innerHTML = ''; // Clear existing notifications
+
+    const transactions = loadTransactionsFromLocalStorage();
+    transactions.forEach(transaction => {
+        displayTransactionNotification(transaction);
+    });
+}
+
+// Function to display a transaction notification on the UI
+function displayTransactionNotification(transaction) {
+    const notificationsContainer = document.getElementById('notificationsContainer');
+    const notificationElement = document.createElement('div');
+    notificationElement.className = 'newTxPopup';
+    notificationElement.innerHTML = `
+        ${transaction.message}
+        <button class="closePopup">&times;</button>
+    `;
+
+    const closeButton = notificationElement.querySelector('.closePopup');
+    closeButton.addEventListener('click', function () {
+        notificationElement.remove();
+        saveNotificationsToLocalStorage(); // Save the updated state
+    });
+
+    notificationsContainer.appendChild(notificationElement);
+    saveNotificationsToLocalStorage(); // Save the state after displaying a new notification
+}
+
+// Function to save notifications to local storage for the selected account
+function saveNotificationsToLocalStorage() {
+    if (selectedAccount) {
+        const notifications = document.getElementById('notificationsContainer').innerHTML;
+        localStorage.setItem(`notifications_${selectedAccount}`, notifications);
+    }
+}
+
+// Function to load notifications from local storage for the selected account
+function loadNotificationsFromLocalStorage() {
+    if (selectedAccount) {
+        const notifications = localStorage.getItem(`notifications_${selectedAccount}`);
+        if (notifications) {
+            document.getElementById('notificationsContainer').innerHTML = notifications;
+
+            // Reattach event listeners to the close buttons
+            document.querySelectorAll('.closePopup').forEach(button => {
+                button.addEventListener('click', () => {
+                    button.parentElement.remove();
+                    saveNotificationsToLocalStorage(); // Save the state after removing
+                });
+            });
+        }
+    }
+}
+
+// Function to handle new transaction receipts
+function handleNewReceipt(receipt) {
+    const txHash = receipt.transactionHash;
+
+    // Get the connected account
+    const selectedAccount = window.selectedAccount;
+
+    if (!selectedAccount) {
+        console.error("No account connected.");
+        return;
+    }
+
+    // Load user transaction hashes from localStorage specific to the connected account
+    let userTxHashes = JSON.parse(localStorage.getItem(`userTxHashes_${selectedAccount}`)) || [];
+
+    // Check if this transaction was initiated by the user
+    if (!userTxHashes.includes(txHash)) {
+        userTxHashes.push(txHash); // Add hash to avoid duplicates
+        localStorage.setItem(`userTxHashes_${selectedAccount}`, JSON.stringify(userTxHashes));
+    }
+
+    // Known event signatures mapped to human-readable event names
+    const knownEvents = {
+        '0x3221b7fe3821f4c8c07d4e14069c918f7f2591f99108eefc012a6c30d9aea360': 'Sent Locked Tokens to Single',
+        '0xe1e614ba986d8701972a823510b148efa3e3277ac78aa010632c28bbb9b7a06f': 'Sent Locked Tokens to Many',
+        '0x31f1bb92bb5e63f92e40fff3a5c439ac13b48ea63ae132a6d780d66f539f563f': 'Token Timelock',
+        '0x535f68af3a60e4f8e209d604287f835304e7953abb52412305a59b3efd3d8c6f': 'Earned Reward',
+        '0x0f66484f65c6f3440a87ced10d5b3eeb056e259db8a82542d0d28ffa0531be9b': 'Token Withdrawal Regular Account',
+        '0x07d5da32db0e28634cfbc77ec523137fe025fc8c7318ed888d69a292d21cfef8': 'Token Withdrawal Incoming Account',
+        '0x3cea39edb6d4b6c27b47d83065ab4f0681aaace9902bf23b3d05a92019c4e865': 'Accepted Untaken Incoming Tokens',
+        '0x52281bdae4847001e3dc97f408c43fa2f8b5c4438279806255fc5ee00fc5195b': 'Tokens Unfrozen',
+    };
+
+    // Log the receipt for debugging
+    console.log("Processing transaction receipt:", receipt);
+
+    // Iterate through logs and generate event notifications
+    if (receipt.logs) {
+        receipt.logs.forEach(log => {
+            const eventSignature = log.topics[0];
+
+            // Log the event signature
+            console.log("Event Signature:", eventSignature);
+
+            const eventName = knownEvents[eventSignature];
+
+            // Log the event name or lack thereof
+            console.log("Event Name:", eventName);
+
+            if (eventName) {
+                let amount;
+
+                // Decode the data field based on the event
+                if (
+                    eventName === 'Sent Locked Tokens to Single' || 
+                    eventName === 'Earned Reward' || 
+                    eventName === 'Accepted Untaken Incoming Tokens'
+                ) {
+                    const decoded = web3.eth.abi.decodeParameters(['uint256'], log.data);
+                    amount = parseInt(decoded[0]) / 100000000; // Convert from the smallest unit (assumes 8 decimals)
+                } else if (
+                    eventName === 'Token Timelock' || 
+                    eventName === 'Token Withdrawal Regular Account' || 
+                    eventName === 'Token Withdrawal Incoming Account' || 
+                    eventName === 'Tokens Unfrozen'
+                ) {
+                    const decoded = web3.eth.abi.decodeParameters(['uint256', 'uint256'], log.data);
+                    amount = parseInt(decoded[0]) / 100000000; // Convert from the smallest unit (assumes 8 decimals)
+                } else if (eventName === 'Sent Locked Tokens to Many') {
+                    const decoded = web3.eth.abi.decodeParameters(['address[]', 'uint256[]'], log.data);
+                    const receivers = decoded[0];
+                    const amounts = decoded[1];
+
+                    receivers.forEach((receiver, index) => {
+                        const amount = parseInt(amounts[index]) / 100000000; 
+                        createNotificationPopup({ event: `${eventName} to ${receiver}`, amount: parseFloat(amount).toFixed(2) });
+                    });
+                    return;
+                }
+
+                amount = parseFloat(amount).toFixed(2);
+                const transaction = { message: `${eventName}: ${amount}` };
+
+                saveTransactionToLocalStorage(transaction);
+                displayTransactionNotification(transaction);
+            }
+        });
+    } else {
+        console.error("No logs found in the receipt.");
+    }
+
+    saveNotificationsToLocalStorage();
+}
+
+// Function to monitor console for transaction receipts
+function monitorConsoleForReceipts() {
+    const originalConsoleLog = console.log;
+    console.log = function(...args) {
+        originalConsoleLog.apply(console, args);
+
+        // Check if the console message contains a transaction receipt
+        if (args[0] && typeof args[0] === 'string' && args[0].includes('Transaction receipt:')) {
+            const receipt = args[1]; // Assuming receipt is the second argument in the console log
+            if (receipt && receipt.transactionHash) {
+                handleNewReceipt(receipt);
+            }
+        }
+    };
+}
+
+// Function to add a "Clear All" button
+function addClearAllButton() {
+    const clearAllBtn = document.getElementById('clearAllBtn');
+    clearAllBtn.addEventListener('click', () => {
+        const notificationContainer = document.getElementById('notificationsContainer');
+        notificationContainer.innerHTML = ''; // Clear all notifications
+        clearAllBtn.style.display = 'none';
+        saveNotificationsToLocalStorage(); // Save the state after clearing
+    });
+}
+
+// Start monitoring the console for receipts
+monitorConsoleForReceipts();
+
+// Load notifications from localStorage when the page loads
+window.addEventListener('load', () => {
+    loadNotificationsFromLocalStorage();
+    displayStoredTransactions();
+    addClearAllButton();
+});
+

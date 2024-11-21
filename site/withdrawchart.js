@@ -1,0 +1,204 @@
+// JavaScript for rendering the chart with vertical lines
+const globalLockTime = 1000 / 365;  // Approx. 2.74 years
+const halvingInterval = 1500 / 365;  // Approx. 4.11 years
+const halvingEras = 4;  // Number of halving periods
+const totalYears = 30;  // Total time span in years
+const weeksPerYear = 52;  // Approximate number of weeks in a year
+
+// Adjusted withdrawal rates per week for each era, scaled to a year
+const withdrawalRatePerEra = [
+    100 * weeksPerYear,  // First era: 100 BSOV per week
+    50 * weeksPerYear,   // Second era: 50 BSOV per week
+    25 * weeksPerYear,   // Third era: 25 BSOV per week
+    12.5 * weeksPerYear  // Fourth era: 12.5 BSOV per week
+];
+
+const labels = [];
+const data = [];
+let cumulativeWithdrawal = 0;
+
+for (let year = 0; year <= totalYears; year += 1) {
+  labels.push(year.toFixed(1));
+
+  if (year < globalLockTime) {
+    data.push(cumulativeWithdrawal);  // No withdrawal during the lock period
+  } else {
+    // Determine the current era
+    const era = Math.floor((year - globalLockTime) / halvingInterval);
+    const rate = withdrawalRatePerEra[Math.min(era, withdrawalRatePerEra.length - 1)];
+    
+    // Accumulate withdrawal for each year
+    cumulativeWithdrawal += rate;
+    data.push(cumulativeWithdrawal);
+  }
+}
+
+const ctx = document.getElementById('sovCubeChart').getContext('2d');
+const sovCubeChart = new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: labels,
+    datasets: [
+      {
+        label: 'Cumulative Withdrawn BSOV',
+        data: data,
+        borderColor: 'lime',
+        borderWidth: 4,
+        fill: false,
+        tension: 0,  // Straight line
+        pointRadius: 3,  // Show data points
+        pointBackgroundColor: 'lime',  // Color of the data points
+      },
+      {
+        label: 'Global Lock Expiry',
+        data: [],  // No data, just for legend
+        borderColor: 'cyan',
+        borderWidth: 2.5,
+        borderDash: [10, 5],
+        fill: false,
+        tension: 0,
+        pointRadius: 0,  // No points
+      },
+      {
+        label: 'Halving Events',
+        data: [],  // No data, just for legend
+        borderColor: 'orange',
+        borderWidth: 2.5,
+        borderDash: [10, 5],
+        fill: false,
+        tension: 0,
+        pointRadius: 0,  // No points
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,  // Allow the chart to take up the full width of the container
+    scales: {
+      x: {
+        type: 'linear',  // Ensure x-axis is interpreted as linear
+        title: {
+          display: true,
+          text: 'Years since contract deployment',
+          color: 'white',
+          font: {
+            size: 14
+          }
+        },
+        min: 0,  // Start x-axis at 0
+        max: totalYears,  // Ensure x-axis goes up to 30
+        ticks: {
+          color: 'white',
+          font: {
+            size: 12
+          },
+          stepSize: 2,  // Use even numbers for the ticks
+          maxTicksLimit: 16  // Limit the number of ticks shown to avoid clutter
+        },
+        grid: {
+          color: 'gray'
+        }
+      },
+      y: {
+        title: {
+          display: true,
+          text: 'Cumulative Withdrawn BSOV',
+          color: 'white',
+          font: {
+            size: 14
+          }
+        },
+        min: 0,  // Start y-axis at 0
+        max: 50000,  // End y-axis at 50,000
+        ticks: {
+          color: 'white',
+          font: {
+            size: 12
+          },
+          stepSize: 5000,  // Set step size to 5000
+        },
+        grid: {
+          color: 'gray'
+        }
+      }
+    },
+    plugins: {
+      legend: {
+        display: true,
+        position: 'top',
+        align: 'center',
+        labels: {
+          color: 'white',
+          font: {
+            size: 12
+          },
+          padding: 20
+        },
+        onClick: null  // Disable toggling for legend items
+      },
+      tooltip: {
+        enabled: true,
+        backgroundColor: '#333',
+        titleColor: '#fff',
+        bodyColor: '#fff',
+        borderColor: 'gray',
+        borderWidth: 1,
+        callbacks: {
+          label: function(context) {
+            return `Year ${context.label}: ${context.raw.toFixed(2)} BSOV`;
+          }
+        }
+      },
+      annotation: {
+        annotations: {
+          globalLock: {
+            type: 'line',
+            scaleID: 'x',
+            value: globalLockTime.toFixed(1),  // Position at approx 2.74 years
+            borderColor: 'cyan',
+            borderWidth: 2.5,
+            borderDash: [10, 5],
+            label: {
+              content: 'Global Lock Expiry',
+              enabled: true,
+              position: 'start',
+              backgroundColor: 'cyan',
+              color: 'white',
+              font: {
+                size: 14
+              }
+            }
+          },
+          ...Array.from({ length: halvingEras }, (_, i) => ({
+            type: 'line',
+            scaleID: 'x',
+            value: (globalLockTime + halvingInterval * (i + 1)).toFixed(1),
+            borderColor: 'orange',
+            borderWidth: 2.5,
+            borderDash: [10, 5],
+            label: {
+              content: `Halving ${i + 1}`,
+              enabled: true,
+              position: 'start',
+              backgroundColor: 'orange',
+              color: 'white',
+              font: {
+                size: 14
+              }
+            }
+          }))
+        }
+      }
+    },
+    elements: {
+      line: {
+        tension: 0 // Ensures the line directly corresponds to the data points
+      },
+      point: {
+        radius: 3, // Data points are visible
+        backgroundColor: 'lime'
+      }
+    }
+  }
+});
+

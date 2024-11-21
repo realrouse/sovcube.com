@@ -24,17 +24,17 @@ if (web3) {
     
 }
 
-function calculateNextWithdrawalTime2(lastWithdrawalTimestamp) {
+function calculateNextWithdrawalTime(nextWithdrawalTimestamp) {
     // Get the current timestamp in seconds
     const currentTimestamp = Math.floor(Date.now() / 1000);
 
     // Calculate the time elapsed since the last withdrawal
-    const elapsedTime = currentTimestamp - lastWithdrawalTimestamp;
-
+    const timeRemaining = nextWithdrawalTimestamp - currentTimestamp;
+    const timeRemainingFormatted = timeRemaining;
     // Calculate the remaining time until the next 7-day interval
-    const remainingTime = (7 * 24 * 60 * 60) - (elapsedTime % (7 * 24 * 60 * 60));
 
-    return remainingTime;
+    return timeRemainingFormatted;
+	console.log('Time Remaining: ' + timeRemainingFormatted);
 }
 
 
@@ -58,13 +58,14 @@ async function getContract2TimelockedTokens(account) {
     const untakenIncomingTokens = await contract2.methods.getBalanceUntakenIncomingAccount(account).call();
     const timelockedTokens = await contract2.methods.getBalanceRegularAccount(account).call();
     const incomingAccountBalance = await contract2.methods.getBalanceIncomingAccount(account).call();
-const nextWithdrawal2IncomingInSeconds = await contract2.methods.getLastWithdrawalIncomingAccount(account).call();
-const nextWithdrawal2RegularInSeconds = await contract2.methods.getLastWithdrawalRegularAccount(account).call();
+const nextWithdrawal2IncomingInSeconds = await contract2.methods.getNextWithdrawalIncomingAccount(account).call();
+const nextWithdrawal2RegularInSeconds = await contract2.methods.getNextWithdrawalRegularAccount(account).call();
+	console.log('nextWithdrawal2RegularInSeconds' + nextWithdrawal2RegularInSeconds);
 
 let timeLeftInSeconds, incomingAccountLockTimeInSeconds;
 
           try {
-            timeLeftInSeconds = await contract2.methods.getTimeLeftRegularAccount().call();
+            timeLeftInSeconds = await contract2.methods.getGlobalTimeLeftRegularAccount().call();
         } catch (error) {
            // console.error("Time Left Error:", error.message);
 

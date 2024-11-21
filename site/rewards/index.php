@@ -2,7 +2,8 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <title>SovCube - Timelock Rewards</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="/styles-fonts.css">
@@ -23,7 +24,7 @@
             <h1 class="brand-name">Timelock Rewards</h1>
             <h2>Be Early To Maximize Your Rewards</h2>
 
-            <p>Welcome to SovCube Timelock Rewards! We're inviting the community to participate in a unique event that will last for years, where early users have the chance to double their <a href="https://bsovtoken.com" target="_blank">BSOV token</a> holdings. Here's how you can be a part of it:</p>
+            <p>Welcome to SovCube Timelock Rewards! We're inviting the community to participate in a unique onboarding phase that will last for years, where early users have the chance to double their <a href="https://bsovtoken.com" target="_blank">BSOV token</a> holdings. Here's how you can be a part of it:</p>
 <div class="stats-container">
 <div id="roiDisplay">
     <h4>Receive <span id="roiPercentage">[Loading...]</span>% ROI of your investment if you timelock tokens in the current tier</h4>
@@ -33,7 +34,8 @@
             <div class="button-container"> 
                 <p>Time-lock your BSOV Tokens in <b><span style="color:orange;">Contract 2</span></b> to be eligible for Timelock Rewards. Click the button below to access the web3 dApp and start timelocking your BSOV Tokens!</p>
 	<button onclick="window.location.href='/dapp/index.php'" class="launch-button">Receive Timelock Rewards - Launch dApp!</button>
-            </div>
+<p style="color:yellow;">NOTICE: The rewards you receive will be locked until the Global Lock Time has expired. Read the <a target="_blank" href="/docs/index.php#timelock-rewards">Docs & Help</a> for more info.</p>	    
+</div>
 </div>
 
 
@@ -60,7 +62,7 @@
 <p>This progress bar above represents the total timelocked tokens from all users. The red markers indicate progress towards the next tier, achieved every time all our users timelock 150,000 BSOV tokens in total.</p>
 <div class="stats-container">
 <div id="totalTimelockedDisplayElement" class="stats-container">
-    <h3>Total Timelocked Tokens Eligible for Rewards:</h3>
+    <h3>Total Timelocked Tokens by Users:</h3>
     <p id="totalTimelockedAmount">Loading...</p>
 </div>
 
@@ -70,7 +72,7 @@
 </div>
 
 <div id="rewardsLeftDisplay" class="stats-container">
-    <h3>Reward Tokens Remaining:</h3>
+    <h3>Rewards Remaining:</h3>
     <p id="rewardsLeft">Loading...</p>
 </div>
 
@@ -132,7 +134,7 @@
 
 
 
-            <p>Join the SovCube Timelock Rewards System, lock in your BSOV, and be part of this rewarding journey. The sooner you participate, the higher your potential reward. Let’s time-lock and boost our holdings together!</p>
+            <p>Join the SovCube Timelock Rewards System, lock in your BSOV, and be part of this rewarding journey. The sooner you participate, the higher your potential reward.</p>
         </div>
     
 </div>

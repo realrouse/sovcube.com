@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
     pragma solidity ^0.8.20;
 
+
 // Welcome to Sovcube's TimeLock & Rewards Contract
 // https://SovCube.com
 // 
@@ -10,10 +11,10 @@
 // YOU HAVE TO MAKE A CALL TO THE CONTRACT TO BE ABLE TO TIMELOCK & WITHDRAW!!!
 //
 // *** Accounts ***
-// All users have two different main accounts: A Regular Account and an Incoming Account.
-// When users timelock BSOV tokens, the tokens are sent to their Regular Account.
-// When users receive Timelock Rewards, and when users receive Sent Locked Tokens, the tokens are sent to their Incoming Account.
-// Before receiving the tokens to their Incoming Account, they have to Accept Incoming Tokens first which resets/starts their Lock Time.
+// All users have two accounts: A Regular Account and an Incoming Account.
+// When users timelock BSOV tokens, the tokens are sent to this contract and are assigned to the user's Regular Account.
+// When users receive Timelock Rewards and Sent Locked Tokens, the tokens are assigned to the user's Incoming Account.
+// Before receiving the tokens to their Incoming Account, they have to Accept Incoming Tokens first which resets/starts a 100 day Lock Time.
 // The two accounts have individual Lock Time countdowns, but they have the same weekly Withdrawal Rate that starts at 100 tokens.
 //
 // *** Timelock ***
@@ -44,7 +45,7 @@
 // After the Global Lock Time of 1000 days has expired, users can begin withdrawing tokens
 // from their "Regular Account" and "Incoming Account"
 // with a rate limit to prevent all holders from withdrawing all tokens and selling at the same time,
-// and to enforce skin-in-the-game to all users.
+// and to enforce skin-in-the-game for all users.
 // The withdrawal limit is 100 BSOV per week, per user. A user can wait and accumulate their Max Withdrawal Amount to 1000, which takes 10 weeks,
 // which means that to withdraw the maximum amount possible, they will need to withdraw at least every 10 weeks.
 //
@@ -69,6 +70,7 @@
 //
 // Note that BSOV has 1% burn on transfer, so 1% of your BSOV will burn when timelocking and 1% will burn when withdrawing.
 
+
   // import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v5.0.2/contracts/utils/ReentrancyGuard.sol";
   import "./ReentrancyGuard.sol";
 
@@ -85,27 +87,27 @@
     }
 
 
-    contract TimelockAndRewardsContract is ReentrancyGuard {
+    contract TimelockAndRewards is ReentrancyGuard {
         
         ERC20Interface tokenContract;
 
 // Customizable constants if you ever wish to deploy this contract with different parameters
-        uint256 constant TOKEN_PRECISION = 100000000; // Number of decimals in BSOV Token (8)
-        uint256 constant GLOBAL_LOCK_EXPIRATION_TIME = 1000 days; // A global countdown that unlocks timelocked tokens in all user's Regular Accounts when it expires. 
-        uint256 constant MAX_WITHDRAWAL_PERIODS = 10; // The user can accumulate withdrawals for a maximum number of periods.
-        uint256 constant TIME_BETWEEN_WITHDRAWALS = 7 days; // The user has to wait this amount of time to withdraw periodWithdrawalAmount
-        uint256 constant RESET_TIME_LEFT_INCOMING_ACCOUNT = 100 days; // Whenever a user takes untaken incoming tokens, the timer will reset to this amount of time.
-        uint256 constant WITHDRAWAL_HALVING_ERA_DURATION = 1500 days; // Amount of days until the periodWithdrawalAmount halves - only happens after the inital lockExpiration.
-        uint256 constant MAX_WITHDRAWAL_HALVING_ERAS = 5; // Max amount of withdrawal halving eras
-        uint256 constant NEW_USER_LOCK_TIME = 70 days; // Set the duration that new timelockers need to wait before withdrawing their tokens. To penalize multiple wallets, and enforce skin-in-the-game. 
-        uint256 constant OLD_USER_LOCK_TIME = 14 days; // Set the duration that old timelockers need to wait before withdrawing their tokens, if they decide to timelock again. - To prevent immediate withdrawal.
-        uint256 constant MAX_TIMELOCK_AMOUNT = 145000 * TOKEN_PRECISION; // Max amount of tokens to timelock in a single tx - Must be lower than NEXT_TIER_THRESHOLD 
-        uint256 constant TOTAL_REWARDS_SEEDED = 300000 * TOKEN_PRECISION; // Total amount of tokens intended to be seeded for rewards
-        uint256 constant NEXT_TIER_THRESHOLD = 150000 * TOKEN_PRECISION; // The amount of tokens to be timelocked to trigger the next Global Tier. Must be higher than MAX_TIMELOCK_AMOUNT
+        uint256 public constant TOKEN_PRECISION = 100000000; // Number of decimals in BSOV Token (8)
+        uint256 public constant GLOBAL_LOCK_EXPIRATION_TIME = 1000 days; // A global countdown that unlocks timelocked tokens in all user's Regular Accounts when it expires. 
+        uint256 public constant MAX_WITHDRAWAL_PERIODS = 10; // The user can accumulate withdrawals for a maximum number of periods.
+        uint256 public constant TIME_BETWEEN_WITHDRAWALS = 7 days; // The user has to wait this amount of time to withdraw periodWithdrawalAmount
+        uint256 public constant RESET_TIME_LEFT_INCOMING_ACCOUNT = 100 days; // Whenever a user takes untaken incoming tokens, the timer will reset to this amount of time.
+        uint256 public constant WITHDRAWAL_HALVING_ERA_DURATION = 1500 days; // Amount of days until the periodWithdrawalAmount halves - only happens after the inital lockExpiration.
+        uint256 public constant MAX_WITHDRAWAL_HALVING_ERAS = 5; // Max amount of withdrawal halving eras
+        uint256 public constant NEW_USER_LOCK_TIME = 70 days; // Set the duration that new timelockers need to wait before withdrawing their tokens. To penalize multiple wallets, and enforce skin-in-the-game. 
+        uint256 public constant OLD_USER_LOCK_TIME = 14 days; // Set the duration that old timelockers need to wait before withdrawing their tokens, if they decide to timelock again. - To prevent immediate withdrawal.
+        uint256 public constant MAX_TIMELOCK_AMOUNT = 145000 * TOKEN_PRECISION; // Max amount of tokens to timelock in a single tx - Must be lower than NEXT_TIER_THRESHOLD 
+        uint256 public constant TOTAL_REWARDS_SEEDED = 300000 * TOKEN_PRECISION; // Total amount of tokens intended to be seeded for rewards
+        uint256 public constant NEXT_TIER_THRESHOLD = 150000 * TOKEN_PRECISION; // The amount of tokens to be timelocked to trigger the next Global Tier. Must be higher than MAX_TIMELOCK_AMOUNT
 
 // Set in the constructor
         uint256 public periodWithdrawalAmount; // The user can withdraw this amount of tokens per withdrawal period.
-        uint256 globalLockExpirationDateRegularAccount; // Timestamp of the day of contract deployment + GLOBAL_LOCK_EXPIRATION_TIME
+        uint256 public globalLockExpirationDateRegularAccount; // Timestamp of the day of contract deployment + GLOBAL_LOCK_EXPIRATION_TIME
         uint256 public deploymentTimestamp; // Timestamp created the day of contract deployment
 
 // Withdrawal halving variables
@@ -114,8 +116,10 @@
 
 // Stats that apply to totals and globals
         uint256 public currentGlobalTier; // The current global tier. The reward ratio for each tier is defined in getRewardRatioForTier.
-        uint256 public totalCumulativeTimelocked; // Amount of tokens that have ever been timelocked, disregarding withdrawals.
-        uint256 public totalCurrentlyTimelocked; // Amount of tokens that are currently timelocked
+        uint256 public totalCumulativeTimelockedByUsers; // Amount of tokens that have ever been timelocked by users, disregarding withdrawals.
+        uint256 public totalCurrentlyTimelocked; // Amount of tokens that are currently timelocked, including both regular and incoming accounts, and remaining rewards
+        uint256 public totalCurrentlyTimelockedRegularAccount; // Amount of tokens that are currently timelocked in Regular Accounts
+        uint256 public totalCurrentlyTimelockedIncomingAccount; // Amount of tokens that are currently timelocked in Incoming Accounts
         uint256 public totalRewardsEarned; // Total amount of rewards that have been earned across all users.
         uint256 public totalRewardsSeeded; // Total Rewards Seeded by deployer of this contract.
 
@@ -244,6 +248,7 @@
             
                 // If sender is not this contract, meaning a normal user initiates timelock, then calculate and send Timelock Rewards
                 if (_sender != address(this)) {
+
                     calculateAndSendRewardsAfterTimelock(_sender, _adjustedValue);
                 }
         }
@@ -253,33 +258,34 @@
             require(amountTimelocked <= MAX_TIMELOCK_AMOUNT, "Cannot timelock more than 145,000 tokens in a single transaction");
 
             // Read balances and totals once and create temporary variables in memory
-            uint256 totalRewards = totalRewardsEarned;
-            uint256 currentTier = currentGlobalTier;
-            uint256 totalCumulative = totalCumulativeTimelocked;
+            uint256 _totalRewardsEarned = totalRewardsEarned;
+            uint256 _currentGlobalTier = currentGlobalTier;
+            uint256 _totalCumulativeTimelockedByUsers = totalCumulativeTimelockedByUsers;
 
             // Update balances and totals in memory
-            totalCumulative += amountTimelocked;
+            _totalCumulativeTimelockedByUsers += amountTimelocked;
             
             // Update totals to storage
-            totalCumulativeTimelocked = totalCumulative;
+            totalCumulativeTimelockedByUsers = _totalCumulativeTimelockedByUsers;
+            totalCurrentlyTimelockedRegularAccount += amountTimelocked;
 
                 // If total rewards earned has reached 300,000 tokens, no more rewards will be calculated or sent
-                if (totalRewards >= totalRewardsSeeded) {
+                if (_totalRewardsEarned >= totalRewardsSeeded) {
                     return;
                 }
 
             uint256 newlyEarnedRewards = 0;
-            uint256 nextTierThreshold = currentTier * NEXT_TIER_THRESHOLD;
+            uint256 nextTierThreshold = _currentGlobalTier * NEXT_TIER_THRESHOLD;
                     
                     // Check if total cumulative timelocked amount is below the threshold for the next tier or if the current tier is the highest (tier 10)
-                if (totalCumulative < nextTierThreshold || currentTier == 10) {
-                    uint256 rewardRatio = getRewardRatioForTier(currentTier);
+                if (_totalCumulativeTimelockedByUsers < nextTierThreshold || _currentGlobalTier == 10) {
+                    uint256 rewardRatio = getRewardRatioForTier(_currentGlobalTier);
                     newlyEarnedRewards = amountTimelocked * rewardRatio / TOKEN_PRECISION;
                 } else {
                     
                     // Calculate rewards for the current tier and adjust for any amount that exceeds the current tier threshold
-                    uint256 amountInCurrentTier = nextTierThreshold - (totalCumulative - amountTimelocked);
-                    uint256 rewardRatioCurrent = getRewardRatioForTier(currentTier);
+                    uint256 amountInCurrentTier = nextTierThreshold - (_totalCumulativeTimelockedByUsers - amountTimelocked);
+                    uint256 rewardRatioCurrent = getRewardRatioForTier(_currentGlobalTier);
                     newlyEarnedRewards = amountInCurrentTier * rewardRatioCurrent / TOKEN_PRECISION;
                     
                     // Move to the next tier and calculate rewards for the remaining amount in the next tier
@@ -290,12 +296,13 @@
 
                 }
                     // Ensure that total rewards earned does not exceed 300,000 tokens
-                if (totalRewards + newlyEarnedRewards > totalRewardsSeeded) {
-                newlyEarnedRewards = totalRewardsSeeded - totalRewards;
+                if (_totalRewardsEarned + newlyEarnedRewards > totalRewardsSeeded) {
+                newlyEarnedRewards = totalRewardsSeeded - _totalRewardsEarned;
                 }
 
             // Update totals
             totalRewardsEarned += newlyEarnedRewards;
+            totalCurrentlyTimelockedIncomingAccount += newlyEarnedRewards;
 
             // Send earned rewards to user's Incoming Account and deduct from Rewards Reserve
             balanceRegularAccount[address(this)] -= newlyEarnedRewards;
@@ -307,10 +314,14 @@
 // Send locked tokens to a single address
         function sendLockedTokensToSingle(address _receiver, uint256 _amount) public nonReentrant {
             uint256 senderBalance = balanceRegularAccount[msg.sender];
-            require(senderBalance >= _amount, "Insufficient timelocked balance. You have to timelock tokens before sending timelocked tokens.");
+            require(senderBalance >= _amount, "Insufficient timelocked balance in Regular Account. You have to timelock tokens before sending timelocked tokens.");
 
             // Update the sender's balance
             balanceRegularAccount[msg.sender] = senderBalance - _amount;
+
+            // Update global totals for Regular and Incoming Accounts
+            totalCurrentlyTimelockedRegularAccount -= _amount;
+            totalCurrentlyTimelockedIncomingAccount += _amount;
 
             // Update the receiver's balance
             balanceUntakenIncomingAccount[_receiver] += _amount;
@@ -355,6 +366,8 @@
             uint256 senderBalance = balanceRegularAccount[msg.sender];
             require(senderBalance >= totalAmount, "Insufficient timelocked balance. You have to timelock tokens before sending timelocked tokens.");
             balanceRegularAccount[msg.sender] -= totalAmount;
+            totalCurrentlyTimelockedRegularAccount -= totalAmount;
+            totalCurrentlyTimelockedIncomingAccount += totalAmount;
 
             // Write the accumulated amounts to storage
             for (uint256 i = 0; i < uniqueCount; i++) {
@@ -403,6 +416,7 @@
 
             balanceRegularAccount[msg.sender] = senderBalance - _amount;
             totalCurrentlyTimelocked -= _amount;
+            totalCurrentlyTimelockedRegularAccount -= _amount;
             lastWithdrawalRegularAccount[msg.sender] = block.timestamp;
 
             require(ERC20Interface(tokenContract).transfer(msg.sender, _amount), "Withdrawal: Transfer failed");
@@ -421,7 +435,8 @@
             require(_amount <= maxWithdrawable, "Exceeds max allowable withdrawal amount based on elapsed time");
 
             balanceIncomingAccount[msg.sender] = senderBalance - _amount;
-            totalCurrentlyTimelocked -= _amount; 
+            totalCurrentlyTimelocked -= _amount;
+            totalCurrentlyTimelockedIncomingAccount -= _amount; 
             lastWithdrawalIncomingAccount[msg.sender] = block.timestamp;
 
             require(ERC20Interface(tokenContract).transfer(msg.sender, _amount), "Withdrawal: Transfer failed");
@@ -452,6 +467,7 @@
                 balanceRegularAccount[msg.sender] -= amountToWithdrawFromRegular;
                 lastWithdrawalRegularAccount[msg.sender] = block.timestamp;
                 totalCurrentlyTimelocked -= amountToWithdrawFromRegular;
+                totalCurrentlyTimelockedRegularAccount -= amountToWithdrawFromRegular;
                 require(ERC20Interface(tokenContract).transfer(msg.sender, amountToWithdrawFromRegular), "Withdrawal from regular account: Transfer failed");
                 emit TokenWithdrawalRegularAccount(msg.sender, amountToWithdrawFromRegular, block.timestamp);
             }
@@ -460,6 +476,7 @@
                 balanceIncomingAccount[msg.sender] -= amountToWithdrawFromIncoming;
                 lastWithdrawalIncomingAccount[msg.sender] = block.timestamp;
                 totalCurrentlyTimelocked -= amountToWithdrawFromIncoming;
+                totalCurrentlyTimelockedIncomingAccount -= amountToWithdrawFromIncoming;
                 require(ERC20Interface(tokenContract).transfer(msg.sender, amountToWithdrawFromIncoming), "Withdrawal from incoming account: Transfer failed");
                 emit TokenWithdrawalIncomingAccount(msg.sender, amountToWithdrawFromIncoming, block.timestamp);
             }
@@ -672,3 +689,4 @@
 
 
     }
+

@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <title>SovCube - My Account</title>
 
 
@@ -29,7 +29,7 @@
 <?php include $_SERVER['DOCUMENT_ROOT'] . '/menu.php'; ?>
 <?php include $_SERVER['DOCUMENT_ROOT'] . '/connect.php'; ?>
 <h1 class="dapp-heading">My Account</h1>
-<p id="connectYourWalletText"><span class="connectWalletTextClass">Connect your wallet to continue.<br></span>Use a browser like <a href="https://brave.com" target="_blank">Brave Browser</a> or Google Chrome and download the <a href="https://metamask.io/download/" target="_blank">Metamask wallet extension</a> to be able to connect.<br><br><span style="color:red;">Strongly Recommended to read up at <a href="/docs" target="_blank">Docs & Help</a> before you timelock any tokens.</span></p>
+<p id="connectYourWalletText"><span class="connectWalletTextClass">Connect your wallet to continue.<br></span>Use a browser like <a href="https://brave.com" target="_blank">Brave Browser</a> or Google Chrome and download the <a href="https://metamask.io/download/" target="_blank">Metamask wallet extension</a> to be able to connect.<br><br><span style="color:yellow;">Strongly Recommended to read up at <a href="/docs" target="_blank">Docs & Help</a> before you timelock any tokens.</span></p>
     <div id="container">
        <p>Info and stats about your accounts.</p>
 </div>
@@ -80,7 +80,7 @@ document.getElementById('clearError').addEventListener('click', function() {
                 <div id="regularAccount1">
                     <h3>Regular Account</h3>
                     <p><b>Your Timelocked Tokens:</b><br><span id="yourTokensTextRegular">${tokensLocked} BSOV</span></p>
-                    <p style="margin-top:10px;"><b>Lock Time:</b><br><span id="regularUnlockTime">${timeLeftOutput}</span></p>
+                    <p style="margin-top:10px;"><b>Global Lock Time:</b><br><span id="regularUnlockTime">${timeLeftOutput}</span></p>
 		    <p style="margin-top:10px;"><b>Time to next withdrawal:</b><br><span id="nextWithdrawal1Regular">${nextWithdrawal1RegularOutput}</span></p>
 		    </div>
 		    </div>
@@ -102,6 +102,7 @@ document.getElementById('clearError').addEventListener('click', function() {
         </thead>
         <tbody id="transactionTableBody1"></tbody>
     </table>
+<button id="loadMoreBtn_transactionTableBody1" class="load-more-btn" onclick="loadMoreTransactions(contract1Address, 'transactionTableBody1', '/dapp/contract1.abi', 'regular')">Load the next 50 transactions</button>
 </div>
 </div>
 
@@ -133,7 +134,7 @@ document.getElementById('clearError').addEventListener('click', function() {
                 <div id="regularAccount">
                     <h3>Regular Account</h3>
                     <p><b>Your Timelocked Tokens:</b><br><span id="yourTokensTextRegular">${tokensLocked} BSOV</span></p>
-                    <p style="margin-top:10px;"><b>Lock Time:</b><br><span id="regularUnlockTime">${timeLeftOutput}</span></p>
+                    <p style="margin-top:10px;"><b>Global Lock Time:</b><br><span id="regularUnlockTime">${timeLeftOutput}</span></p>
 		    <p style="margin-top:10px;"><b>Time to next withdrawal:</b><br><span id="nextWithdrawal2Regular">${nextWithdrawal2RegularOutput}</span></p>
 		    </div>
 </div>
@@ -176,6 +177,7 @@ document.getElementById('clearError').addEventListener('click', function() {
         </thead>
         <tbody id="transactionTableBody2"></tbody>
     </table>
+<button id="loadMoreBtn_transactionTableBody2" class="load-more-btn" onclick="loadMoreTransactions(contract2Address, 'transactionTableBody2', '/dapp/contract2.abi', 'regular')">Load the next 50 transactions</button>
 </div>
 
 
@@ -191,6 +193,7 @@ document.getElementById('clearError').addEventListener('click', function() {
         </thead>
         <tbody id="transactionTableBody2Incoming"></tbody>
     </table>
+<button id="loadMoreBtn_transactionTableBody2Incoming" class="load-more-btn" onclick="loadMoreTransactions(contract2Address, 'transactionTableBody2Incoming', '/dapp/contract2.abi', 'incoming')">Load the next 50 transactions</button>
 </div>
 </div>
 

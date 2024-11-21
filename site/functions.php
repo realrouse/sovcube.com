@@ -18,7 +18,7 @@ function formatBigInt($value) {
 
 function timelockLeaderboard($tableName) {
 
-$timelockRewardReserveContractAddress = "0x0aFBe6c7E55cC0D501A13d2336130065B7d9F14a"; // insert Timelock Reward Reserve Contract Address here
+$timelockRewardReserveContractAddress = "0xF16588A3dc7cBD4f67B887243643f21A2Ad24df9"; // insert Timelock Reward Reserve Contract Address here
  	global $conn, $giveawayReserveContractAddress;
 // echo "POST Address inside function: " . $giveawayReserveContractAddress . "<br>";
 
@@ -116,6 +116,80 @@ function getTotalTimelockedValue($tableName) {
         return null;
     }
 }
+
+
+
+
+
+
+// Function to fetch data from stats_token
+function get_stats_token_data($conn) {
+    $sql = "SELECT * FROM stats_token WHERE id = 1";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $burnPercent = $row['burnPercent'];
+        $name = $row['name'];
+        $totalSupply = $row['totalSupply'];
+        $decimals = $row['decimals'];
+        $_totalSupply = $row['_totalSupply'];
+        $maxSupplyForEra = $row['maxSupplyForEra'];
+        $tokensMinted = $row['tokensMinted'];
+        $balanceOfBurntTokens = $row['balanceOfBurntTokens'];
+        $owner = $row['owner'];
+        $symbol = $row['symbol'];
+        $newOwner = $row['newOwner'];
+
+        return compact('burnPercent', 'name', 'totalSupply', 'decimals', '_totalSupply', 'maxSupplyForEra', 'tokensMinted', 'balanceOfBurntTokens', 'owner', 'symbol', 'newOwner');
+    } else {
+        return null;
+    }
+}
+
+// Function to fetch data from stats_contract1
+function get_stats_contract1_data($conn) {
+    $sql = "SELECT * FROM stats_contract1 WHERE id = 1";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $getTimeLeft = $row['getTimeLeft'];
+
+        return compact('getTimeLeft');
+    } else {
+        return null;
+    }
+}
+
+// Function to fetch data from stats_contract2
+function get_stats_contract2_data($conn) {
+    $sql = "SELECT * FROM stats_contract2 WHERE id = 1";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $currentGlobalTier = $row['currentGlobalTier'];
+        $deploymentTimestamp = $row['deploymentTimestamp'];
+        $getGlobalTimeLeftRegularAccount = $row['getGlobalTimeLeftRegularAccount'];
+        $getTimestampOfNextWithdrawalHalving = $row['getTimestampOfNextWithdrawalHalving'];
+        $globalLockExpirationDateRegularAccount = $row['globalLockExpirationDateRegularAccount'];
+        $isContractSeeded = $row['isContractSeeded'];
+        $lastWithdrawalHalving = $row['lastWithdrawalHalving'];
+        $owner = $row['owner'];
+        $periodWithdrawalAmount = $row['periodWithdrawalAmount'];
+        $totalCumulativeTimelocked = $row['totalCumulativeTimelocked'];
+        $totalCurrentlyTimelocked = $row['totalCurrentlyTimelocked'];
+        $totalRewardsEarned = $row['totalRewardsEarned'];
+        $totalRewardsSeeded = $row['totalRewardsSeeded'];
+        $withdrawalHalvingEra = $row['withdrawalHalvingEra'];
+
+        return compact('currentGlobalTier', 'deploymentTimestamp', 'getGlobalTimeLeftRegularAccount', 'getTimestampOfNextWithdrawalHalving', 'globalLockExpirationDateRegularAccount', 'isContractSeeded', 'lastWithdrawalHalving', 'owner', 'periodWithdrawalAmount', 'totalCumulativeTimelocked', 'totalCurrentlyTimelocked', 'totalRewardsEarned', 'totalRewardsSeeded', 'withdrawalHalvingEra');
+    } else {
+        return null;
+    }
+}
+
 
 
 

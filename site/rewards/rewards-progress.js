@@ -1,7 +1,7 @@
 // rewards-progress.js
 
 let contract2;
-
+/*
 // Check if MetaMask is installed
 if (typeof window.ethereum !== 'undefined') {
     console.log('MetaMask is installed!');
@@ -10,6 +10,21 @@ if (typeof window.ethereum !== 'undefined') {
     console.log('MetaMask is not installed. Please consider installing it: https://metamask.io/download.html');
 	alert ('You need to install Metamask to read the updated data. Please consider installing it: https://metamask.io/download.html');
 }
+*/
+
+// Check if MetaMask is installed
+if (typeof window.ethereum !== 'undefined') {
+    console.log('MetaMask is installed!');
+    web3 = new Web3(window.ethereum);
+} else if (typeof Web3 !== 'undefined') {
+    console.log('MetaMask is not installed. Falling back to Infura.');
+    console.log('MetaMask is not installed. Please consider installing it: https://metamask.io/download.html');
+    web3 = new Web3(new Web3.providers.HttpProvider(infuraUrl));
+} else {
+    console.error('Web3 not detected and no fallback available.');
+    alert('You need to install MetaMask or use a browser that supports Web3.');
+}
+
 
 
 if (web3) {
@@ -152,7 +167,7 @@ async function fetchAndUpdateProgressBar() {
     }
 
     try {
-        const totalTimelocked = await contract2.methods.totalCumulativeTimelocked().call();
+        const totalTimelocked = await contract2.methods.totalCumulativeTimelockedByUsers().call();
         const totalEligibleAmount = await contract2.methods.totalRewardsEarned().call();
         
         updateProgressBar(totalTimelocked, totalEligibleAmount);

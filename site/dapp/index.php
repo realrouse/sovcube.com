@@ -1,8 +1,10 @@
+<!-- index.php -->
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <title>SovCube - dApp</title>
 
 
@@ -28,18 +30,31 @@
 <body>
 <?php include $_SERVER['DOCUMENT_ROOT'] . '/menu.php'; ?>
 <?php include $_SERVER['DOCUMENT_ROOT'] . '/connect.php'; ?>
+
+<div id="notificationsContainer"></div>
+    <!-- Transaction notifications will be added here -->
+  <!--  <button id="clearAllBtn" style="display: none;">Clear All</button>-->
+
+<div id="txProgressPopup">
+<button class="close-btn" onclick="hideTxProgressPopup()">×</button>
+  <div class="loader"></div>
+  <div class="message">Processing your transaction...</div>
+</div>
+
+
+
 <h1 class="dapp-heading">SovCube Timelocking dApp</h1>
-<p id="connectYourWalletText"><span class="connectWalletTextClass">Connect your wallet to continue.<br></span>Use a browser like <a href="https://brave.com" target="_blank">Brave Browser</a> or Google Chrome and download the <a href="https://metamask.io/download/" target="_blank">Metamask wallet extension</a> to be able to connect.<br><br><span style="color:red;">Strongly Recommended to read up at <a href="/docs" target="_blank">Docs & Help</a> before you timelock any tokens.</span></p>
+<p id="connectYourWalletText"><span class="connectWalletTextClass">Connect your wallet to continue.<br></span>Use a browser like <a href="https://brave.com" target="_blank">Brave Browser</a> or Google Chrome and download the <a href="https://metamask.io/download/" target="_blank">Metamask wallet extension</a> to be able to connect.<br><br><span style="color:yellow;">Strongly Recommended to read up at <a href="/docs" target="_blank">Docs & Help</a> before you timelock any tokens.</span></p>
     <div id="container">
         <div class="contract-selection" style="display: none;">
             <select id="contractSelect" class="contractSelect">
 		<option value="select">Select Contract &#x21B4</option>
                 <option value="contract1" style="color:gray;" >Contract 1 (old)</option>
-                <option value="contract2">Contract 2 &#127873; (new!)</option>
+                <option value="contract2" selected>Contract 2 (new!)</option>
             </select>
         </div>
 
-<p id="contract-explanation">Only compatible with Ethereum (ETH) mainnet.
+<p id="contract-explanation" style="display:none;">Only compatible with Ethereum (ETH) mainnet.
 <br><br>To begin using the SovCube dApp you have to select a contract to interact with. The contracts have different parameters, and you should read the documentation before you timelock your tokens.
 <br><br><span style="color:#F8B128">To get Timelock Rewards, you will need to timelock <a href="https://bsovtoken.com" target="_blank">BSOV Tokens</a> using <strong>Contract 2</strong>
 <br></span>
@@ -76,7 +91,7 @@ $(document).ready(function(){
     </div>
     <input type="number" id="amount1" placeholder="Amount of BSOV">
     <p id="timelockedtokens1">0 BSOV will be timelocked. 0 BSOV will be burnt.</p>
-    <p id="withdrawaltime1">Lock Time: 0 years, then 0 years at a withdrawal rate of 1000 tokens/week.</p>
+   <!-- <p id="withdrawaltime1">Lock Time: 0 years, then 0 years at a withdrawal rate of 1000 tokens/week.</p>-->
 
 <script>
     // Function to update the text
@@ -95,15 +110,15 @@ const lockYears = Number(lockTimeLeftInSeconds) / Number(secondsInYear); // Conv
 
 
           //  document.getElementById('withdrawaltime1').textContent = "Time to Withdraw: " + weeks.toFixed(0) + " weeks (" + years.toFixed(2) + " years)";
-	document.getElementById('withdrawaltime1').textContent = "Lock Time: " + lockYears.toFixed(2) + " years, then " + years.toFixed(2) + " years at a withdrawal rate of 1000 tokens/week.";       
+	//document.getElementById('withdrawaltime1').textContent = "Lock Time: " + lockYears.toFixed(2) + " years, then " + years.toFixed(2) + " years at a withdrawal rate of 1000 tokens/week.";       
       
         } catch (error) {
            // console.error('Error:', error);
        if (error.message.includes("future is here") || error.message.includes("Tokens are unlocked")) {
-                document.getElementById('withdrawaltime1').textContent = "Lock Time: " + years.toFixed(2) + " years at a withdrawal rate of 100 tokens/week.";
+         //       document.getElementById('withdrawaltime1').textContent = "Lock Time: " + years.toFixed(2) + " years at a withdrawal rate of 100 tokens/week.";
               //  document.getElementById('withdrawaltime2').style.color = 'green';
             } else {
-                document.getElementById('withdrawaltime1').textContent = "Error fetching data";
+            //    document.getElementById('withdrawaltime1').textContent = "Error fetching data";
             }
 	}    
     }
@@ -115,7 +130,7 @@ const lockYears = Number(lockTimeLeftInSeconds) / Number(secondsInYear); // Conv
 </script>
 
 <!-- Contract 1 - Timelock and Withdraw Buttons -->
-<button class="button" id="timelock1Button">Timelock Now</button>
+<button class="button" id="timelock1Button">Review Timelock</button>
 <button class="button" id="withdraw1Button">Withdraw Now</button>
 
 
@@ -126,8 +141,8 @@ const lockYears = Number(lockTimeLeftInSeconds) / Number(secondsInYear); // Conv
         <div id="contract2Details" class="contract-details" style="display: none;">
             
             <div class="radio-buttons">
-                <input type="radio" id="timelock2" name="contract2Action" value="timelock">
-                <label for="timelock2" style="outline-color:orange; box-shadow: 0 0 10px 1px orange;" data-toggle="tooltip" title="Lock your tokens into your 'Regular Account' until the Global Lock Time expires, and receive Timelock Rewards!">Timelock</label>
+                <input type="radio" id="timelock2" name="contract2Action" value="timelock" checked>
+                <label for="timelock2" style="" data-toggle="tooltip" title="Lock your tokens into your 'Regular Account' until the Global Lock Time expires, and receive Timelock Rewards!">Timelock</label>
                 <input type="radio" id="withdraw2" name="contract2Action" value="withdraw">
                 <label for="withdraw2" data-toggle="tooltip" title="Retrieve your timelocked tokens after the Lock Time has expired, adhering to the weekly Withdrawal Rate limits.">Withdraw</label>
                 <input type="radio" id="sendlocked" name="contract2Action" value="sendlocked">
@@ -136,8 +151,8 @@ const lockYears = Number(lockTimeLeftInSeconds) / Number(secondsInYear); // Conv
             <input type="number" id="amount2" placeholder="Amount of BSOV">
 
     <p id="timelockedtokens2">0 BSOV will be timelocked. 0 BSOV will be burnt.</p>
-    <p id="withdrawaltime2">Lock Time: 0 years, then 0 years at a withdrawal rate of 100 tokens/week.</p>
-    <span id="timelockRewardCalculation">You will be eligible for 0 BSOV in Timelock Rewards!</span>
+   <!-- <p id="withdrawaltime2">Lock Time: 0 years, then 0 years at a withdrawal rate of 100 tokens/week.</p-->
+    <span id="timelockRewardCalculation">You will receive 0 BSOV in Timelock Rewards!</span>
 <p id="advanceTierMessage">Tier</p>
 <!--<script>
     // Function to update the text
@@ -243,7 +258,7 @@ const lockYears = Number(lockTimeLeftInSeconds) / Number(secondsInYear); // Conv
         var amount = parseFloat(document.getElementById('amount2').value);
         if (isNaN(amount) || amount <= 0) {
             document.getElementById('timelockedtokens2').textContent = "Invalid amount.";
-            document.getElementById('withdrawaltime2').textContent = "";
+            //document.getElementById('withdrawaltime2').textContent = "";
             return;
         }
 
@@ -269,18 +284,18 @@ const lockYears = Number(lockTimeLeftInSeconds) / Number(secondsInYear); // Conv
             const withdrawalRateMessage = `Current withdrawal rate is ${currentRate.toFixed(6)} tokens/week.`;
 
             if (lockTimeLeftInSeconds > 0) {
-                document.getElementById('withdrawaltime2').textContent = `Initial Lock for ${initialLockTimeLeftInYears.toFixed(2)} years. Withdrawals continue for approximately ${years.toFixed(2)} years, considering Withdrawal Halving Eras.`;
+               // document.getElementById('withdrawaltime2').textContent = `Initial Lock for ${initialLockTimeLeftInYears.toFixed(2)} years. Withdrawals continue for approximately ${years.toFixed(2)} years, considering Withdrawal Halving Eras.`;
             } else {
-                document.getElementById('withdrawaltime2').textContent = `Initial Lock for ${initialLockTimeLeftInYears.toFixed(2)} years. Withdrawals continue for approximately ${years.toFixed(2)} years, considering Withdrawal Halving Eras.`;
+               // document.getElementById('withdrawaltime2').textContent = `Initial Lock for ${initialLockTimeLeftInYears.toFixed(2)} years. Withdrawals continue for approximately ${years.toFixed(2)} years, considering Withdrawal Halving Eras.`;
             }
         } catch (error) {
             if (error.message.includes("Tokens are unlocked")) {
                 const halvingEra = await contract2.methods.withdrawalHalvingEra().call();
                 const daysPassed = calculateWithdrawalTime(timelocked, 0, Number(halvingEra)); // No initial lock time left, explicitly converting BigInt to Number
                 const years = daysPassed / 365;
-                document.getElementById('withdrawaltime2').textContent = "Lock Time: " + years.toFixed(2) + " years considering halving periods.";
+                //document.getElementById('withdrawaltime2').textContent = "Lock Time: " + years.toFixed(2) + " years considering Withdrawal Halving Eras";
             } else {
-                document.getElementById('withdrawaltime2').textContent = "Error fetching data";
+                //document.getElementById('withdrawaltime2').textContent = "Error fetching data";
             }
         }
     }
@@ -383,7 +398,7 @@ const lockYears = Number(lockTimeLeftInSeconds) / Number(secondsInYear); // Conv
             <textarea id="ethAddresses" spellcheck="false" placeholder="Enter ETH addresses to send timelocked tokens to (one address per line)"></textarea>
 	    <textarea id="sendLockedAmounts" spellcheck="false"  placeholder="Enter BSOV amounts (one amount per line)"></textarea>
           <!-- Contract 2 - Timelock, Withdraw, and Send Locked Tokens Buttons -->
-<button class="button" id="timelock2Button">Timelock Now</button>
+<button class="button" id="timelock2Button">Review Timelock</button>
 <button class="button" id="withdraw2Button">Withdraw from Selected Account</button>
 <button class="button" id="withdrawAll2Button">Withdraw All</button>
 <button class="button" id="sendLocked2Button">Send Locked Tokens Now</button>
@@ -403,6 +418,35 @@ document.getElementById('clearError').addEventListener('click', function() {
 });
 
 </script>
+
+
+<!-- Confirmation Modal -->
+<div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+<div class="modal-overlay"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{modalTitle}}</h5>
+      <!--  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+      </div>
+      <div class="modal-body">
+        {{modalBody}}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="cancelAction" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" id="confirmAction">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="acceptIncomingContainer">
+<div id="acceptIncomingAccount"></div>
+<button id="acceptIncomingButton" data-toggle="tooltip" title="Accepting Untaken Incoming Tokens will either start or reset the lock period of any existing timelocked balance in your 'Incoming Account' to a full 100 days. This will not affect the lock period of your Regular Account.">Accept Incoming Tokens</button>
+</div>
+
+
 
 
 <div id="contractInfoContainer">
@@ -425,10 +469,9 @@ document.getElementById('clearError').addEventListener('click', function() {
 		</div>
 
 	      <div class="contract-info-style" id="incomingAccountContainer">
-               <div id="incomingTokensAccount">   
-	      </div>	
-	              <button id="acceptIncomingButton" data-toggle="tooltip" title="Accepting Untaken Incoming Tokens will either start or reset the lock period of any existing timelocked balance in your 'Incoming Account' to a full 100 days. This will not affect the lock period of your Regular Account.">Accept Untaken Incoming Tokens</button>
-		</div>
+               <div id="incomingTokensAccount">
+                </div>
+              </div>
 	</div>
 
 <!--	      <div class="contract-info-style" id="rewardsAccountContainer">
@@ -449,6 +492,17 @@ document.getElementById('clearError').addEventListener('click', function() {
     <p class="terms">Everything on this site is provided "as-is" and SovCube.com has no responsibilities. Everything you do and see on this website is 100% your responsibility. Read more at <a target="_blank" href="/docs/index.php/#legal">Legal - Terms</a></p>
  <a href="#" id="toggleTerms" class="toggle-terms">Disclaimer</a>
 </div>
+
+
+
+
+
+
+
+
+
+
+
 <script>
 document.getElementById('toggleTerms').addEventListener('click', function(event) {
     event.preventDefault(); // Prevent default anchor behavior
@@ -474,7 +528,7 @@ document.getElementById('toggleTerms').addEventListener('click', function(event)
 <script src="/dapp/app.js"></script>
 <script src="/dapp/contract1-calls.js"> </script>
 <script src="/dapp/contract2-calls.js"> </script>
-
+<script src="/dapp/txpopup.js"></script>
 
  
    
